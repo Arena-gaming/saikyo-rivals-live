@@ -4,533 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saikyo Rivals — Coming Soon</title>
-<meta name="description" content="Saikyo Rivals is a new skill-based competitive gaming platform. Compete. Prove. Be the strongest. Sign up to be notified at launch.">
+<meta name="description" content="Saikyo Rivals is a competitive gaming platform built around verified skill. Compete. Prove. Be the strongest.">
 <link rel="canonical" href="https://saikyo-rivals.com/">
-
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Saikyo Rivals — Coming Soon">
-<meta property="og:description" content="Compete. Prove. Be the strongest. A new skill-based competitive gaming platform, launching soon.">
+<meta property="og:description" content="Compete. Prove. Be the strongest. Saikyo Rivals is launching soon.">
 <meta property="og:image" content="https://saikyo-rivals.com/hero-bg.jpg">
 <meta property="og:url" content="https://saikyo-rivals.com/">
-
-<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Saikyo Rivals — Coming Soon">
-<meta name="twitter:description" content="Compete. Prove. Be the strongest. A new skill-based competitive gaming platform, launching soon.">
+<meta name="twitter:description" content="Compete. Prove. Be the strongest. Saikyo Rivals is launching soon.">
 <meta name="twitter:image" content="https://saikyo-rivals.com/hero-bg.jpg">
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23050505%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 fill=%22%23E31B2E%22 font-family=%22sans-serif%22>最</text></svg>">
-
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23030405%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 fill=%22%23E31B2E%22 font-family=%22sans-serif%22>最</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#050505;
-    --bg2:#0A0A0A;
-    --surface:#111214;
-    --red:#E31B2E;
-    --red-accent:#FF1E2D;
-    --white:#F5F5F5;
-    --muted:#9A9A9F;
-    --muted2:#c7c7cb;
-    --cyan:#5FD6E8;
-    --border:#242426;
-  }
-
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;overflow-x:hidden;}
-  body{
-    background:var(--bg);
-    color:var(--white);
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  img{max-width:100%;}
-  a{color:inherit;text-decoration:none;}
-
-  /* ---------- NAV ---------- */
-  .nav{
-    position:relative;
-    z-index:30;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:24px;
-    padding:20px clamp(20px,4vw,56px);
-    background:var(--bg);
-  }
-  .logo-lockup{ display:flex; align-items:center; gap:12px; }
-  .logo-text{ display:flex; flex-direction:column; line-height:1.02; font-family:'Orbitron',sans-serif; font-weight:800; font-size:18px; letter-spacing:0.02em; }
-  .logo-text .saikyo{color:var(--white);}
-  .logo-text .rivals{color:var(--red); margin-top:2px;}
-  .logo-mark{
-    display:flex; flex-direction:column; align-items:center;
-    font-family:'Noto Sans JP',sans-serif; font-weight:700; font-size:12px; line-height:1.2;
-    color:var(--white); opacity:0.9;
-  }
-  .logo-mark span:last-child{ color:var(--red); }
-
-  .nav-links{ display:flex; align-items:center; gap:clamp(18px,2.6vw,36px); }
-  .nav-links a{
-    font-family:'Inter',sans-serif; font-weight:600; font-size:12.5px; letter-spacing:0.12em;
-    text-transform:uppercase; color:var(--muted2); padding-bottom:6px; border-bottom:2px solid transparent;
-    white-space:nowrap;
-  }
-  .nav-links a.active{ color:var(--red); border-bottom-color:var(--red); }
-  .nav-links a:hover{ color:var(--white); }
-
-  .nav-social{ display:flex; align-items:center; gap:18px; flex:0 0 auto; }
-  .nav-social a{ color:var(--white); opacity:0.85; display:flex; }
-  .nav-social a:hover{ opacity:1; color:var(--red-accent); }
-  .nav-social svg{ width:18px; height:18px; }
-
-  @media (max-width:980px){
-    .nav-links{ display:none; }
-  }
-
-  /* ---------- HERO SPLIT ---------- */
-  .hero-split{
-    position:relative;
-    display:flex;
-    align-items:stretch;
-    min-height:calc(100svh - 86px);
-  }
-  @media (max-width:900px){
-    .hero-split{ flex-direction:column; min-height:auto; }
-  }
-
-  .hero-left{
-    position:relative;
-    flex:1 1 46%;
-    max-width:640px;
-    padding:32px clamp(20px,4vw,64px) 56px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    background:var(--bg);
-    overflow:hidden;
-    z-index:2;
-  }
-  @media (max-width:900px){
-    .hero-left{ max-width:none; padding:40px 24px 44px; }
-  }
-
-  .side-kanji{
-    position:absolute;
-    left:12px;
-    writing-mode:vertical-rl;
-    text-orientation:upright;
-    font-family:'Noto Sans JP',sans-serif;
-    font-weight:700;
-    color:rgba(227,27,46,0.14);
-    letter-spacing:0.12em;
-    pointer-events:none;
-    user-select:none;
-    z-index:0;
-  }
-  .side-kanji.k1{ top:8%; font-size:22px; }
-  .side-kanji.k2{ top:24%; font-size:40px; color:rgba(227,27,46,0.10); }
-  @media (max-width:900px){ .side-kanji{ display:none; } }
-
-  .kicker{
-    position:relative;
-    font-family:'Noto Sans JP','Inter',sans-serif;
-    color:var(--red-accent);
-    font-size:15px;
-    letter-spacing:0.1em;
-    margin:0 0 10px;
-  }
-  .wordmark2{
-    position:relative;
-    margin:4px 0 20px;
-    width:clamp(280px,34vw,480px);
-    max-width:100%;
-    height:auto;
-    display:block;
-  }
-
-  .tagline2{
-    font-family:'Inter',sans-serif;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    font-size:clamp(14px,1.3vw,17px);
-    color:var(--white);
-    margin:0 0 16px;
-  }
-  .coming-soon{
-    font-family:'Inter',sans-serif;
-    font-weight:700;
-    letter-spacing:0.4em;
-    color:var(--red-accent);
-    font-size:clamp(13px,1.2vw,15px);
-    margin:0 0 16px;
-    text-transform:uppercase;
-  }
-  .lead{
-    color:var(--muted);
-    font-size:15px;
-    line-height:1.6;
-    max-width:440px;
-    margin:0 0 26px;
-  }
-
-  .notify-form{
-    display:flex;
-    gap:10px;
-    max-width:440px;
-    flex-wrap:wrap;
-  }
-  .notify-form input[type="email"]{
-    flex:1 1 220px;
-    background:rgba(17,18,20,0.75);
-    border:1px solid var(--border);
-    color:var(--white);
-    padding:14px 16px;
-    font-size:14px;
-    font-family:'Inter',sans-serif;
-    border-radius:2px;
-    outline:none;
-  }
-  .notify-form input[type="email"]::placeholder{color:var(--muted);}
-  .notify-form input[type="email"]:focus{
-    border-color:var(--red);
-    box-shadow:0 0 0 1px var(--red), 0 0 16px rgba(227,27,46,0.25);
-  }
-  .notify-btn{
-    background:transparent;
-    border:1px solid var(--red);
-    color:var(--white);
-    font-family:'Orbitron',sans-serif;
-    font-weight:700;
-    letter-spacing:0.08em;
-    font-size:13px;
-    padding:14px 22px;
-    border-radius:2px;
-    cursor:pointer;
-    transition:box-shadow 0.2s ease, background-color 0.2s ease;
-    white-space:nowrap;
-  }
-  .notify-btn:hover,.notify-btn:focus-visible{
-    background:rgba(227,27,46,0.12);
-    box-shadow:0 0 18px rgba(227,27,46,0.4);
-  }
-
-  .hero-social{ display:flex; align-items:center; gap:18px; margin:22px 0 0; }
-  .hero-social a{ color:var(--white); opacity:0.8; display:flex; }
-  .hero-social a:hover{ opacity:1; color:var(--red-accent); }
-  .hero-social svg{ width:17px; height:17px; }
-
-  .form-note{
-    color:var(--muted);
-    font-size:12px;
-    margin:16px 0 0;
-    max-width:440px;
-    opacity:0.8;
-  }
-  .form-note a{ color:var(--muted); text-decoration:underline; }
-  .form-success{
-    display:none;
-    color:var(--white);
-    font-size:14px;
-    margin-top:14px;
-    border-left:2px solid var(--red);
-    padding-left:12px;
-  }
-  .form-success.show{display:block;}
-
-  /* ---------- HERO RIGHT (photo) ---------- */
-  .hero-right{
-    position:relative;
-    flex:1 1 54%;
-    min-height:340px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    z-index:1;
-  }
-  .hero-right::-webkit-scrollbar{ display:none; }
-  .hero-photo-wrap{
-    position:relative;
-    height:100%;
-    min-height:340px;
-    width:100%;
-    min-width:100%;
-  }
-  @media (max-width:900px){
-    .hero-right{ height:56vh; min-height:420px; }
-    .hero-photo-wrap{ min-width:150%; }
-  }
-  .hero-photo{
-    height:100%;
-    width:100%;
-    min-width:100%;
-    object-fit:cover;
-    object-position:56% 32%;
-    display:block;
-  }
-  .hero-right-scrim{
-    position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(90deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0) 18%, rgba(5,5,5,0) 78%, rgba(5,5,5,0.35) 100%),
-               linear-gradient(180deg, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0) 30%, rgba(5,5,5,0.05) 70%, rgba(5,5,5,0.55) 100%);
-  }
-
-  .rain{
-    position:absolute; inset:0; pointer-events:none; opacity:0.3;
-    background-image:
-      repeating-linear-gradient(100deg, rgba(200,210,255,0.0) 0px, rgba(200,210,255,0.10) 1px, rgba(200,210,255,0.0) 2px, rgba(200,210,255,0.0) 42px),
-      repeating-linear-gradient(98deg, rgba(200,210,255,0.0) 0px, rgba(200,210,255,0.07) 1px, rgba(200,210,255,0.0) 2px, rgba(200,210,255,0.0) 27px);
-    background-size:200% 200%;
-    animation:rainfall 0.65s linear infinite;
-  }
-  @keyframes rainfall{
-    0%{background-position:0% 0%, 0% 0%;}
-    100%{background-position:-6% 100%, -4% 100%;}
-  }
-  .flicker{ position:absolute; pointer-events:none; border-radius:50%; }
-  .flicker-1{ right:10%; top:14%; width:180px; height:180px; background:radial-gradient(circle, rgba(227,27,46,0.22) 0%, rgba(227,27,46,0) 70%); animation:flick1 6.4s ease-in-out infinite; }
-  @keyframes flick1{ 0%,100%{opacity:0.9;} 4%{opacity:0.3;} 6%{opacity:0.9;} 7%{opacity:0.4;} 9%{opacity:0.9;} 60%{opacity:0.9;} 62%{opacity:0.5;} 64%{opacity:0.9;} }
-
-  /* ---------- PILLARS ---------- */
-  .pillars{
-    position:relative;
-    background:var(--bg2);
-    padding:clamp(40px,6vw,60px) clamp(20px,4vw,56px);
-    overflow:hidden;
-  }
-  .pillars-divider{
-    height:2px;
-    background:linear-gradient(90deg, rgba(227,27,46,0) 0%, rgba(227,27,46,0.9) 50%, rgba(227,27,46,0) 100%);
-    box-shadow:0 0 18px rgba(227,27,46,0.55);
-  }
-  .pillars-watermark{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    font-family:'Noto Sans JP',sans-serif;
-    font-weight:700;
-    color:rgba(227,27,46,0.06);
-    font-size:150px;
-    letter-spacing:0.1em;
-    pointer-events:none;
-    user-select:none;
-    line-height:1;
-  }
-  .pillars-watermark.left{ left:-10px; writing-mode:vertical-rl; }
-  .pillars-watermark.right{ right:-10px; writing-mode:vertical-rl; }
-  @media (max-width:900px){ .pillars-watermark{ display:none; } }
-
-  .pillars-grid{
-    position:relative;
-    max-width:1180px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:36px;
-  }
-  .pillar{
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:8px 12px;
-  }
-  .pillar-icon{
-    width:34px;
-    height:34px;
-    color:var(--red);
-    margin-bottom:16px;
-  }
-  .pillar h3{
-    font-family:'Orbitron',sans-serif;
-    font-size:14px;
-    letter-spacing:0.08em;
-    margin:0 0 10px;
-    color:var(--white);
-  }
-  .pillar p{
-    font-size:13.5px;
-    line-height:1.55;
-    color:var(--muted);
-    margin:0;
-    max-width:220px;
-  }
-
-  @media (max-width:820px){
-    .pillars-grid{grid-template-columns:repeat(2,1fr);gap:32px 20px;}
-  }
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    background:var(--bg);
-    padding:26px clamp(20px,4vw,56px) 34px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:12px;
-    border-top:1px solid var(--border);
-  }
-  .footer-logo{
-    font-family:'Orbitron',sans-serif;
-    font-weight:800;
-    font-size:14px;
-    letter-spacing:0.05em;
-  }
-  .footer-logo .saikyo{color:var(--white);}
-  .footer-logo .rivals{color:var(--red);}
-  .footer-meta{
-    color:var(--muted);
-    font-size:12px;
-  }
-  .footer-meta a{ color:var(--muted); }
-
-  @media (prefers-reduced-motion: reduce){
-    .rain,.flicker-1{animation:none !important;}
-    .rain{opacity:0.18;}
-  }
-  body.tab-hidden .rain, body.tab-hidden .flicker-1{ animation-play-state:paused; }
-
-  @media (max-width:640px){
-    .flicker-1{display:none;}
-    .rain{opacity:0.2;}
-  }
+:root{--ink:#030405;--ink2:#08090b;--surface:rgba(11,12,15,.78);--white:#f5f5f5;--muted:#9a9ba0;--red:#e31b2e;--red2:#ff1e2d;--cyan:#66d7e8;--border:rgba(255,255,255,.11);--max:1500px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--ink);color:var(--white)}body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}.shell{min-height:100svh;position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(180deg,#050607,#020304 78%)}
+.bg{position:absolute;inset:0;z-index:-5;background-image:linear-gradient(90deg,rgba(3,4,5,.98) 0%,rgba(3,4,5,.82) 28%,rgba(3,4,5,.34) 55%,rgba(3,4,5,.14) 72%,rgba(3,4,5,.45) 100%),linear-gradient(180deg,rgba(3,4,5,.08),rgba(3,4,5,.28) 60%,rgba(3,4,5,.78)),url('hero-bg.jpg');background-size:cover;background-position:center 37%;transform:scale(1.015)}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 77% 31%,rgba(227,27,46,.18),transparent 24%),radial-gradient(circle at 17% 48%,rgba(65,173,207,.11),transparent 22%);mix-blend-mode:screen}.rain,.rain2{position:absolute;inset:-18%;z-index:-2;pointer-events:none;background-image:repeating-linear-gradient(105deg,transparent 0 18px,rgba(204,231,238,.16) 19px,transparent 20px 39px);transform:rotate(-5deg);animation:rain 1.35s linear infinite;mix-blend-mode:screen}.rain{opacity:.13;background-size:100% 250px}.rain2{opacity:.08;background-size:100% 360px;animation-duration:.9s}.mist{position:absolute;z-index:-3;width:58vw;height:17vh;border-radius:50%;filter:blur(55px);opacity:.14;background:linear-gradient(90deg,transparent,rgba(185,210,219,.48),transparent);left:-7vw;bottom:17vh;animation:mist 15s ease-in-out infinite alternate}.reflection{position:absolute;left:0;right:0;bottom:-4vh;height:30vh;z-index:-1;background:linear-gradient(90deg,transparent 5%,rgba(227,27,46,.13) 24%,transparent 43%,rgba(95,211,232,.08) 64%,transparent 84%),repeating-linear-gradient(90deg,transparent 0 9%,rgba(255,255,255,.02) 9.15% 9.35%,transparent 9.5% 18%);filter:blur(3px);transform:perspective(560px) rotateX(67deg);transform-origin:bottom;opacity:.58;animation:reflection 7s ease-in-out infinite alternate}.flicker{position:absolute;right:12%;top:16%;width:220px;height:220px;z-index:-1;background:radial-gradient(circle,rgba(227,27,46,.18),transparent 70%);animation:flicker 7s ease-in-out infinite}
+.header{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,4vw,64px);border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(2,3,4,.94),rgba(2,3,4,.68));backdrop-filter:blur(18px);position:relative;z-index:20}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:.98rem}.slash{width:10px;height:36px;background:var(--red);box-shadow:0 0 22px rgba(227,27,46,.65);transform:skew(-10deg)}.brand strong{color:white}.brand span:last-child{color:var(--red)}.nav-note{font-size:.7rem;color:#b8b8bd;letter-spacing:.18em;text-transform:uppercase;font-weight:800}.main{min-height:calc(100svh - 78px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.65fr);align-items:center;gap:70px;width:min(calc(100% - 48px),var(--max));margin:0 auto;padding:64px 0 72px;position:relative;z-index:2}.copy{max-width:840px}.eyebrow{margin:0 0 16px;color:var(--red2);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:900}.jp{margin:0 0 14px;font-family:'Noto Sans JP',sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.28em;color:#d8d9dc}.wordmark{width:min(530px,78vw);display:block;margin:0 0 22px;filter:drop-shadow(0 8px 28px rgba(0,0,0,.38))}.headline{font-size:clamp(3.3rem,6.7vw,7rem);line-height:.9;letter-spacing:-.035em;font-weight:900;text-transform:uppercase;margin:0 0 24px;max-width:880px;text-shadow:0 10px 45px rgba(0,0,0,.65)}.headline .red{display:block;color:var(--red);text-shadow:0 0 32px rgba(227,27,46,.22)}.lead{max-width:700px;margin:0;color:#c0c1c5;font-size:clamp(1rem,1.5vw,1.17rem);line-height:1.65}.launch{margin-top:30px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.form{display:flex;gap:10px;flex-wrap:wrap;width:min(100%,600px)}.form input{flex:1 1 260px;min-height:52px;padding:14px 16px;background:rgba(8,9,12,.78);border:1px solid rgba(255,255,255,.16);color:white;outline:none;backdrop-filter:blur(14px)}.form input:focus{border-color:rgba(227,27,46,.72);box-shadow:0 0 0 3px rgba(227,27,46,.08)}.form button{min-height:52px;padding:0 22px;border:1px solid var(--red);background:var(--red);color:white;text-transform:uppercase;font-weight:900;letter-spacing:.09em;font-size:.77rem;cursor:pointer;box-shadow:0 0 26px rgba(227,27,46,.16)}.form button:hover{background:var(--red2);border-color:var(--red2)}.note{font-size:.72rem;color:#8d8e93;margin:12px 0 0;max-width:620px}.success{display:none;margin:14px 0 0;padding-left:12px;border-left:2px solid var(--red);color:#d6d7da;font-size:.82rem}.success.show{display:block}
+.panel{justify-self:end;width:min(100%,520px);position:relative;padding:34px 32px 30px;background:linear-gradient(180deg,rgba(11,12,15,.73),rgba(5,6,8,.88));border:1px solid rgba(227,27,46,.38);clip-path:polygon(0 0,94% 0,100% 8%,100% 100%,7% 100%,0 91%);box-shadow:0 30px 90px rgba(0,0,0,.46),0 0 50px rgba(227,27,46,.05);backdrop-filter:blur(18px)}.panel::before{content:"";position:absolute;left:0;top:0;width:82px;height:3px;background:var(--red);box-shadow:0 0 18px var(--red)}.live{display:inline-flex;align-items:center;gap:8px;padding:6px 9px;border:1px solid rgba(227,27,46,.44);background:rgba(227,27,46,.08);font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900}.live i{width:6px;height:6px;border-radius:50%;background:var(--red2);box-shadow:0 0 10px var(--red2);animation:pulse 2.2s ease-in-out infinite}.panel h2{font-size:clamp(2rem,3.3vw,3.2rem);line-height:.96;text-transform:uppercase;margin:22px 0 12px;letter-spacing:-.02em}.panel p{color:#a8a9ae;line-height:1.55}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.08);margin-top:22px}.grid div{background:rgba(8,9,11,.84);padding:18px}.grid strong{display:block;font-size:1.03rem;letter-spacing:.02em}.grid span{display:block;margin-top:2px;color:#777a80;font-size:.66rem;text-transform:uppercase;letter-spacing:.11em}.footer-line{position:absolute;left:clamp(22px,4vw,64px);right:clamp(22px,4vw,64px);bottom:22px;display:flex;justify-content:space-between;gap:20px;color:#74767c;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;z-index:3}.footer-line strong{color:#d8d9dc}.footer-line .r{color:var(--red)}
+@keyframes rain{from{transform:translateY(-110px) rotate(-5deg)}to{transform:translateY(110px) rotate(-5deg)}}@keyframes mist{from{transform:translate3d(-2vw,0,0)}to{transform:translate3d(6vw,-1vh,0)}}@keyframes reflection{from{transform:perspective(560px) rotateX(67deg) translateX(-1%)}to{transform:perspective(560px) rotateX(67deg) translateX(1.5%)}}@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}@keyframes flicker{0%,100%,7%,9%,61%,65%{opacity:.9}5%,8%,63%{opacity:.32}}
+@media(max-width:980px){.main{grid-template-columns:1fr;gap:34px;padding:52px 0 104px}.panel{justify-self:start;max-width:650px}.bg{background-position:62% center}.footer-line{position:relative;left:auto;right:auto;bottom:auto;width:min(calc(100% - 48px),var(--max));margin:-72px auto 0;padding-bottom:24px}.nav-note{display:none}}
+@media(max-width:640px){.header{height:68px}.brand{font-size:.84rem}.slash{height:31px}.main{width:min(calc(100% - 28px),var(--max));min-height:calc(100svh - 68px);padding-top:40px}.headline{font-size:clamp(3rem,15vw,4.7rem)}.panel{padding:28px 22px}.grid{grid-template-columns:1fr 1fr}.footer-line{width:min(calc(100% - 28px),var(--max));flex-direction:column;gap:6px}.bg{background-position:66% center}}
+@media(prefers-reduced-motion:reduce){.rain,.rain2,.mist,.reflection,.flicker,.live i{animation:none}}
 </style>
 </head>
 <body>
+<div class="shell">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="rain" aria-hidden="true"></div>
+  <div class="rain2" aria-hidden="true"></div>
+  <div class="mist" aria-hidden="true"></div>
+  <div class="reflection" aria-hidden="true"></div>
+  <div class="flicker" aria-hidden="true"></div>
 
-<nav class="nav">
-  <div class="logo-lockup">
-    <div class="logo-text"><span class="saikyo">SAIKYO</span><span class="rivals">RIVALS</span></div>
-    <div class="logo-mark"><span>最</span><span>強</span></div>
-  </div>
-  <div class="nav-links">
-    <a href="#top" class="active">Home</a>
-    <a href="#about">About</a>
-    <a href="#features">Features</a>
-    <a href="#games">Games</a>
-    <a href="#roadmap">Roadmap</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <div class="nav-social">
-    <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.331c-1.182 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/></svg></a>
-    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg></a>
-    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></a>
-  </div>
-</nav>
+  <header class="header">
+    <a class="brand" href="/" aria-label="Saikyo Rivals home"><span class="slash" aria-hidden="true"></span><strong>SAIKYO</strong><span>RIVALS</span></a>
+    <div class="nav-note">The arena is forming</div>
+  </header>
 
-<div class="hero-split" id="top">
-  <div class="hero-left">
-    <div class="side-kanji k1">最高</div>
-    <div class="side-kanji k2">最</div>
-    <p class="kicker">最強のライバル</p>
-    <h1 style="margin:0;padding:0;">
-      <img class="wordmark2" src="wordmark.png" alt="Saikyo Rivals" width="526" height="293">
-    </h1>
-    <p class="tagline2">COMPETE. PROVE. BE THE STRONGEST.</p>
-    <p class="coming-soon">COMING SOON</p>
-    <p class="lead">Saikyo Rivals is the next generation competitive platform. Real players. Real stakes. Real glory.</p>
+  <main class="main">
+    <section class="copy">
+      <p class="eyebrow">Coming soon · Early access</p>
+      <p class="jp">最強 · THE STRONGEST</p>
+      <img class="wordmark" src="wordmark.png" alt="Saikyo Rivals">
+      <h1 class="headline">COMPETE. PROVE.<span class="red">BE THE STRONGEST.</span></h1>
+      <p class="lead">A new competitive gaming platform where verified performance decides who rises. Enter competitions. Face rivals. Earn your place.</p>
+      <div class="launch">
+        <form class="form" id="notifyForm">
+          <input id="emailInput" type="email" autocomplete="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit">Notify me</button>
+        </form>
+      </div>
+      <p class="note">Join the launch list for early-access and launch updates. No spam.</p>
+      <p class="success" id="formSuccess">Thanks — your mail app should now be open with a message ready to send. If it didn't open, email arenagaminguk1@gmail.com.</p>
+    </section>
 
-    <form class="notify-form" id="notifyForm">
-      <label for="emailInput" style="position:absolute;left:-9999px;">Email address</label>
-      <input type="email" id="emailInput" name="email" placeholder="Enter your email" required autocomplete="email">
-      <button type="submit" class="notify-btn">NOTIFY ME</button>
-    </form>
+    <aside class="panel" aria-label="Saikyo Rivals platform principles">
+      <span class="live"><i aria-hidden="true"></i> Arena protocol online</span>
+      <p class="eyebrow" style="margin-top:24px">Built for earned results</p>
+      <h2>EVERY RESULT HAS TO BE EARNED.</h2>
+      <p>Official game data is the authority. Saikyo Rivals owns the competition; supported games supply the verified result.</p>
+      <div class="grid">
+        <div><strong>SKILL</strong><span>Not chance</span></div>
+        <div><strong>VERIFIED</strong><span>Official data</span></div>
+        <div><strong>RANKED</strong><span>Clear standings</span></div>
+        <div><strong>MULTI-GAME</strong><span>Built to expand</span></div>
+      </div>
+    </aside>
+  </main>
 
-    <div class="hero-social">
-      <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.331c-1.182 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/></svg></a>
-      <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg></a>
-      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-      <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></a>
-    </div>
-
-    <p class="form-note">We'll only use this to email you about the Saikyo Rivals launch — no spam.</p>
-    <p class="form-success" id="formSuccess">Thanks — your mail app should now be open with a message ready to send. If it didn't open, email us directly at <a href="mailto:arenagaminguk1@gmail.com">arenagaminguk1@gmail.com</a>.</p>
-  </div>
-
-  <div class="hero-right">
-    <div class="hero-photo-wrap">
-      <img class="hero-photo" src="hero-bg.jpg" alt="A silhouetted ronin figure stands in a rain-soaked Neo-Tokyo street, lit by red and cyan neon signage.">
-      <div class="hero-right-scrim"></div>
-      <div class="rain" aria-hidden="true"></div>
-      <div class="flicker flicker-1" aria-hidden="true"></div>
-    </div>
-  </div>
+  <div class="footer-line"><span><strong>SAIKYO</strong> <span class="r">RIVALS</span></span><span>Compete. Prove. Be the strongest.</span><span>&copy; <span id="year"></span></span></div>
 </div>
-
-<section class="pillars" id="features">
-  <div class="pillars-divider"></div>
-  <div class="pillars-watermark left">最強</div>
-  <div class="pillars-watermark right">武士道</div>
-  <div class="pillars-grid" style="margin-top:44px;">
-    <div class="pillar">
-      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11M4 4l3 1 1-3M20 4l-3 1-1-3M4 20l3-1 1 3M20 20l-3-1-1 3"/></svg>
-      <h3>COMPETE</h3>
-      <p>Enter tournaments and challenges across top games.</p>
-    </div>
-    <div class="pillar">
-      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4h10v4a5 5 0 01-10 0V4z"/><path d="M7 5H4a3 3 0 003 3M17 5h3a3 3 0 01-3 3"/><path d="M12 13v4M9 21h6M10 17h4v4h-4z"/></svg>
-      <h3>WIN</h3>
-      <p>Climb the ranks and earn epic rewards.</p>
-    </div>
-    <div class="pillar">
-      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3 2.2-5 5-5s5 2 5 5M14 20c0-2.4 1.7-4.2 4-4.2s4 1.8 4 4.2"/></svg>
-      <h3>RIVAL</h3>
-      <p>Face the best players. No excuses.</p>
-    </div>
-    <div class="pillar">
-      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6.5h20M3.5 9.5h17"/><path d="M7 9.5v10M17 9.5v10"/></svg>
-      <h3>BECOME SAIKYO</h3>
-      <p>Only one can be the strongest.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo"><span class="saikyo">SAIKYO</span> <span class="rivals">RIVALS</span></div>
-  <div class="footer-meta">&copy; <span id="year"></span> Saikyo Rivals. All rights reserved.</div>
-</footer>
-
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  var form = document.getElementById('notifyForm');
-  var success = document.getElementById('formSuccess');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var email = document.getElementById('emailInput').value.trim();
-    if(!email){ return; }
-    var subject = encodeURIComponent('Saikyo Rivals — notify me at launch');
-    var body = encodeURIComponent('Please notify this address when Saikyo Rivals launches:\n\n' + email);
-    var mailto = 'mailto:arenagaminguk1@gmail.com?subject=' + subject + '&body=' + body;
-    window.location.href = mailto;
-    success.classList.add('show');
-    form.querySelector('input').value = '';
-  });
-
-  document.addEventListener('visibilitychange', function(){
-    document.body.classList.toggle('tab-hidden', document.hidden);
-  });
-
-  function centerHeroBg(){
-    var scroller = document.querySelector('.hero-right');
-    if(!scroller) return;
-    var max = scroller.scrollWidth - scroller.clientWidth;
-    if(max > 0){ scroller.scrollLeft = max * 0.5; }
-  }
-  var heroImg = document.querySelector('.hero-photo');
-  if(heroImg){
-    if(heroImg.complete && heroImg.naturalWidth){ centerHeroBg(); }
-    else { heroImg.addEventListener('load', centerHeroBg); }
-  }
-  window.addEventListener('resize', centerHeroBg);
+document.getElementById('year').textContent=new Date().getFullYear();
+var form=document.getElementById('notifyForm');var success=document.getElementById('formSuccess');
+form.addEventListener('submit',function(e){e.preventDefault();var email=document.getElementById('emailInput').value.trim();if(!email)return;var subject=encodeURIComponent('Saikyo Rivals — notify me at launch');var body=encodeURIComponent('Please notify this address when Saikyo Rivals launches:\n\n'+email);window.location.href='mailto:arenagaminguk1@gmail.com?subject='+subject+'&body='+body;success.classList.add('show');form.reset();});
+document.addEventListener('visibilitychange',function(){document.body.classList.toggle('tab-hidden',document.hidden);});
 </script>
-
 </body>
 </html>

@@ -24,18 +24,18 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
 
 <style>
   :root{
     --bg:#050505;
     --bg2:#0A0A0A;
     --surface:#111214;
-    --surface2:#171719;
     --red:#E31B2E;
     --red-accent:#FF1E2D;
     --white:#F5F5F5;
     --muted:#9A9A9F;
+    --muted2:#c7c7cb;
     --cyan:#5FD6E8;
     --border:#242426;
   }
@@ -50,212 +50,136 @@
     overflow-x:hidden;
   }
   img{max-width:100%;}
-  a{color:inherit;}
-
-  .heading{
-    font-family:'Orbitron','Inter',sans-serif;
-    text-transform:uppercase;
-    letter-spacing:0.03em;
-  }
+  a{color:inherit;text-decoration:none;}
 
   /* ---------- NAV ---------- */
   .nav{
     position:relative;
-    z-index:20;
+    z-index:30;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:22px clamp(20px,4vw,56px);
+    gap:24px;
+    padding:20px clamp(20px,4vw,56px);
+    background:var(--bg);
   }
-  .logo{
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-    font-family:'Orbitron',sans-serif;
-    font-weight:800;
-    font-size:20px;
-    letter-spacing:0.06em;
+  .logo-lockup{ display:flex; align-items:center; gap:12px; }
+  .logo-text{ display:flex; flex-direction:column; line-height:1.02; font-family:'Orbitron',sans-serif; font-weight:800; font-size:18px; letter-spacing:0.02em; }
+  .logo-text .saikyo{color:var(--white);}
+  .logo-text .rivals{color:var(--red); margin-top:2px;}
+  .logo-mark{
+    display:flex; flex-direction:column; align-items:center;
+    font-family:'Noto Sans JP',sans-serif; font-weight:700; font-size:12px; line-height:1.2;
+    color:var(--white); opacity:0.9;
   }
-  .logo .saikyo{color:var(--white);}
-  .logo .rivals{color:var(--red);}
-  .logo .mark{
-    font-family:'Noto Sans JP','Inter',sans-serif;
-    color:var(--red);
-    font-size:15px;
-    font-weight:700;
-    opacity:0.85;
-    margin-left:2px;
+  .logo-mark span:last-child{ color:var(--red); }
+
+  .nav-links{ display:flex; align-items:center; gap:clamp(18px,2.6vw,36px); }
+  .nav-links a{
+    font-family:'Inter',sans-serif; font-weight:600; font-size:12.5px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--muted2); padding-bottom:6px; border-bottom:2px solid transparent;
+    white-space:nowrap;
+  }
+  .nav-links a.active{ color:var(--red); border-bottom-color:var(--red); }
+  .nav-links a:hover{ color:var(--white); }
+
+  .nav-social{ display:flex; align-items:center; gap:18px; flex:0 0 auto; }
+  .nav-social a{ color:var(--white); opacity:0.85; display:flex; }
+  .nav-social a:hover{ opacity:1; color:var(--red-accent); }
+  .nav-social svg{ width:18px; height:18px; }
+
+  @media (max-width:980px){
+    .nav-links{ display:none; }
   }
 
-  /* ---------- HERO ---------- */
-  .hero{
+  /* ---------- HERO SPLIT ---------- */
+  .hero-split{
     position:relative;
-    min-height:100svh;
+    display:flex;
+    align-items:stretch;
+    min-height:calc(100svh - 86px);
+  }
+  @media (max-width:900px){
+    .hero-split{ flex-direction:column; min-height:auto; }
+  }
+
+  .hero-left{
+    position:relative;
+    flex:1 1 46%;
+    max-width:640px;
+    padding:32px clamp(20px,4vw,64px) 56px;
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
+    justify-content:center;
+    background:var(--bg);
     overflow:hidden;
+    z-index:2;
   }
-  .hero-bg-scroll{
+  @media (max-width:900px){
+    .hero-left{ max-width:none; padding:40px 24px 44px; }
+  }
+
+  .side-kanji{
     position:absolute;
-    inset:0;
+    left:12px;
+    writing-mode:vertical-rl;
+    text-orientation:upright;
+    font-family:'Noto Sans JP',sans-serif;
+    font-weight:700;
+    color:rgba(227,27,46,0.14);
+    letter-spacing:0.12em;
+    pointer-events:none;
+    user-select:none;
     z-index:0;
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    background:linear-gradient(180deg, #0a0a0a 0%, #050505 60%, #000 100%);
   }
-  .hero-bg-scroll::-webkit-scrollbar{ display:none; }
-  .hero-bg-img{
-    height:100%;
-    width:auto;
-    max-width:none;
-    min-width:100%;
-    object-fit:cover;
-    display:block;
-  }
-  .hero-glow{
-    position:absolute;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    background-image:radial-gradient(ellipse at 30% 20%, rgba(227,27,46,0.25), transparent 60%), radial-gradient(ellipse at 80% 60%, rgba(95,214,232,0.12), transparent 55%);
-  }
-  .hero-scrim{
-    position:absolute;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    background:
-      linear-gradient(90deg, rgba(5,5,5,0.97) 0%, rgba(5,5,5,0.86) 28%, rgba(5,5,5,0.35) 58%, rgba(5,5,5,0.15) 78%, rgba(5,5,5,0.35) 100%),
-      linear-gradient(180deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.05) 20%, rgba(5,5,5,0.05) 55%, rgba(5,5,5,0.9) 100%);
-  }
+  .side-kanji.k1{ top:8%; font-size:22px; }
+  .side-kanji.k2{ top:24%; font-size:40px; color:rgba(227,27,46,0.10); }
+  @media (max-width:900px){ .side-kanji{ display:none; } }
 
-  /* rain layer - lightweight CSS, layered repeating gradients animated via background-position */
-  .rain{
-    position:absolute;
-    inset:0;
-    z-index:2;
-    pointer-events:none;
-    opacity:0.35;
-    background-image:
-      repeating-linear-gradient(100deg, rgba(200,210,255,0.0) 0px, rgba(200,210,255,0.10) 1px, rgba(200,210,255,0.0) 2px, rgba(200,210,255,0.0) 42px),
-      repeating-linear-gradient(98deg, rgba(200,210,255,0.0) 0px, rgba(200,210,255,0.07) 1px, rgba(200,210,255,0.0) 2px, rgba(200,210,255,0.0) 27px);
-    background-size:200% 200%;
-    animation:rainfall 0.65s linear infinite;
-  }
-  @keyframes rainfall{
-    0%{background-position:0% 0%, 0% 0%;}
-    100%{background-position:-6% 100%, -4% 100%;}
-  }
-
-  /* soft drifting mist */
-  .mist{
-    position:absolute;
-    left:-10%;
-    bottom:-5%;
-    width:70%;
-    height:45%;
-    z-index:2;
-    pointer-events:none;
-    background:radial-gradient(ellipse at center, rgba(120,60,70,0.16) 0%, rgba(120,60,70,0) 70%);
-    filter:blur(18px);
-    animation:mistdrift 26s ease-in-out infinite;
-  }
-  @keyframes mistdrift{
-    0%,100%{ transform:translateX(0) translateY(0); opacity:0.55; }
-    50%{ transform:translateX(6%) translateY(-3%); opacity:0.8; }
-  }
-
-  /* isolated neon flicker glow, irregular */
-  .flicker{
-    position:absolute;
-    z-index:2;
-    pointer-events:none;
-    border-radius:50%;
-  }
-  .flicker-1{
-    right:6%;
-    top:18%;
-    width:180px;
-    height:180px;
-    background:radial-gradient(circle, rgba(227,27,46,0.22) 0%, rgba(227,27,46,0) 70%);
-    animation:flick1 6.4s ease-in-out infinite;
-  }
-  .flicker-2{
-    right:22%;
-    top:38%;
-    width:120px;
-    height:120px;
-    background:radial-gradient(circle, rgba(95,214,232,0.14) 0%, rgba(95,214,232,0) 70%);
-    animation:flick2 9.1s ease-in-out infinite;
-  }
-  @keyframes flick1{
-    0%,100%{opacity:0.9;}
-    4%{opacity:0.3;}
-    6%{opacity:0.9;}
-    7%{opacity:0.4;}
-    9%{opacity:0.9;}
-    60%{opacity:0.9;}
-    62%{opacity:0.5;}
-    64%{opacity:0.9;}
-  }
-  @keyframes flick2{
-    0%,100%{opacity:0.7;}
-    30%{opacity:0.7;}
-    31%{opacity:0.2;}
-    33%{opacity:0.7;}
-    80%{opacity:0.7;}
-    81%{opacity:0.35;}
-    83%{opacity:0.7;}
-  }
-
-  .hero-content{
-    position:relative;
-    z-index:5;
-    width:100%;
-    min-width:0;
-    padding:0 clamp(20px,4vw,56px) clamp(48px,8vh,96px);
-    max-width:720px;
-  }
   .kicker{
+    position:relative;
     font-family:'Noto Sans JP','Inter',sans-serif;
     color:var(--red-accent);
     font-size:15px;
-    letter-spacing:0.08em;
-    margin:0 0 14px;
+    letter-spacing:0.1em;
+    margin:0 0 10px;
   }
-  .wordmark{
-    margin:0;
-    line-height:0.92;
-    font-size:clamp(46px,9vw,104px);
-    font-weight:900;
-    font-family:'Orbitron',sans-serif;
+  .wordmark2{
+    position:relative;
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    line-height:0.86;
+    font-size:clamp(48px,6.4vw,88px);
+    letter-spacing:0.005em;
+    margin:0 0 20px;
   }
-  .wordmark .line1{display:block;color:var(--white);}
-  .wordmark .line2{display:block;color:var(--red);}
-  .tagline{
-    font-family:'Orbitron',sans-serif;
-    font-weight:700;
-    letter-spacing:0.04em;
-    font-size:clamp(14px,1.6vw,18px);
+  .wordmark2 span{ display:block; transform:skewX(-6deg); transform-origin:left bottom; }
+  .wordmark2 .l1{ color:var(--white); text-shadow:2px 2px 0 rgba(0,0,0,0.35); }
+  .wordmark2 .l2{ color:var(--red); margin-top:-4px; text-shadow:2px 2px 0 rgba(0,0,0,0.35); }
+
+  .tagline2{
+    font-family:'Inter',sans-serif;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-size:clamp(14px,1.3vw,17px);
     color:var(--white);
-    margin:20px 0 6px;
+    margin:0 0 16px;
   }
   .coming-soon{
-    font-family:'Orbitron',sans-serif;
+    font-family:'Inter',sans-serif;
     font-weight:700;
-    letter-spacing:0.35em;
+    letter-spacing:0.4em;
     color:var(--red-accent);
-    font-size:clamp(13px,1.4vw,16px);
-    margin:14px 0 10px;
+    font-size:clamp(13px,1.2vw,15px);
+    margin:0 0 16px;
+    text-transform:uppercase;
   }
   .lead{
     color:var(--muted);
     font-size:15px;
     line-height:1.6;
-    max-width:480px;
+    max-width:440px;
     margin:0 0 26px;
   }
 
@@ -299,11 +223,18 @@
     background:rgba(227,27,46,0.12);
     box-shadow:0 0 18px rgba(227,27,46,0.4);
   }
+
+  .hero-social{ display:flex; align-items:center; gap:18px; margin:22px 0 0; }
+  .hero-social a{ color:var(--white); opacity:0.8; display:flex; }
+  .hero-social a:hover{ opacity:1; color:var(--red-accent); }
+  .hero-social svg{ width:17px; height:17px; }
+
   .form-note{
     color:var(--muted);
     font-size:12px;
-    margin:12px 0 0;
+    margin:16px 0 0;
     max-width:440px;
+    opacity:0.8;
   }
   .form-note a{ color:var(--muted); text-decoration:underline; }
   .form-success{
@@ -316,49 +247,126 @@
   }
   .form-success.show{display:block;}
 
+  /* ---------- HERO RIGHT (photo) ---------- */
+  .hero-right{
+    position:relative;
+    flex:1 1 54%;
+    min-height:340px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    z-index:1;
+  }
+  .hero-right::-webkit-scrollbar{ display:none; }
+  .hero-photo-wrap{
+    position:relative;
+    height:100%;
+    min-height:340px;
+    width:100%;
+    min-width:100%;
+  }
+  @media (max-width:900px){
+    .hero-right{ height:56vh; min-height:420px; }
+    .hero-photo-wrap{ min-width:150%; }
+  }
+  .hero-photo{
+    height:100%;
+    width:100%;
+    min-width:100%;
+    object-fit:cover;
+    object-position:56% 32%;
+    display:block;
+  }
+  .hero-right-scrim{
+    position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(90deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0) 18%, rgba(5,5,5,0) 78%, rgba(5,5,5,0.35) 100%),
+               linear-gradient(180deg, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0) 30%, rgba(5,5,5,0.05) 70%, rgba(5,5,5,0.55) 100%);
+  }
+
+  .rain{
+    position:absolute; inset:0; pointer-events:none; opacity:0.3;
+    background-image:
+      repeating-linear-gradient(100deg, rgba(200,210,255,0.0) 0px, rgba(200,210,255,0.10) 1px, rgba(200,210,255,0.0) 2px, rgba(200,210,255,0.0) 42px),
+      repeating-linear-gradient(98deg, rgba(200,210,255,0.0) 0px, rgba(200,210,255,0.07) 1px, rgba(200,210,255,0.0) 2px, rgba(200,210,255,0.0) 27px);
+    background-size:200% 200%;
+    animation:rainfall 0.65s linear infinite;
+  }
+  @keyframes rainfall{
+    0%{background-position:0% 0%, 0% 0%;}
+    100%{background-position:-6% 100%, -4% 100%;}
+  }
+  .flicker{ position:absolute; pointer-events:none; border-radius:50%; }
+  .flicker-1{ right:10%; top:14%; width:180px; height:180px; background:radial-gradient(circle, rgba(227,27,46,0.22) 0%, rgba(227,27,46,0) 70%); animation:flick1 6.4s ease-in-out infinite; }
+  @keyframes flick1{ 0%,100%{opacity:0.9;} 4%{opacity:0.3;} 6%{opacity:0.9;} 7%{opacity:0.4;} 9%{opacity:0.9;} 60%{opacity:0.9;} 62%{opacity:0.5;} 64%{opacity:0.9;} }
+
   /* ---------- PILLARS ---------- */
   .pillars{
     position:relative;
     background:var(--bg2);
-    border-top:1px solid rgba(227,27,46,0.35);
-    padding:clamp(36px,6vw,56px) clamp(20px,4vw,56px);
+    padding:clamp(40px,6vw,60px) clamp(20px,4vw,56px);
+    overflow:hidden;
   }
+  .pillars-divider{
+    height:2px;
+    background:linear-gradient(90deg, rgba(227,27,46,0) 0%, rgba(227,27,46,0.9) 50%, rgba(227,27,46,0) 100%);
+    box-shadow:0 0 18px rgba(227,27,46,0.55);
+  }
+  .pillars-watermark{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    font-family:'Noto Sans JP',sans-serif;
+    font-weight:700;
+    color:rgba(227,27,46,0.06);
+    font-size:150px;
+    letter-spacing:0.1em;
+    pointer-events:none;
+    user-select:none;
+    line-height:1;
+  }
+  .pillars-watermark.left{ left:-10px; writing-mode:vertical-rl; }
+  .pillars-watermark.right{ right:-10px; writing-mode:vertical-rl; }
+  @media (max-width:900px){ .pillars-watermark{ display:none; } }
+
   .pillars-grid{
+    position:relative;
     max-width:1180px;
     margin:0 auto;
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:0;
+    gap:36px;
   }
   .pillar{
-    padding:18px 22px;
-    border-left:1px solid var(--border);
-    text-align:left;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:8px 12px;
   }
-  .pillar:first-child{border-left:none;}
   .pillar-icon{
-    width:26px;
-    height:26px;
+    width:34px;
+    height:34px;
     color:var(--red);
-    margin-bottom:14px;
+    margin-bottom:16px;
   }
   .pillar h3{
     font-family:'Orbitron',sans-serif;
     font-size:14px;
-    letter-spacing:0.06em;
-    margin:0 0 8px;
+    letter-spacing:0.08em;
+    margin:0 0 10px;
     color:var(--white);
   }
   .pillar p{
-    font-size:13px;
+    font-size:13.5px;
     line-height:1.55;
     color:var(--muted);
     margin:0;
+    max-width:220px;
   }
 
   @media (max-width:820px){
-    .pillars-grid{grid-template-columns:repeat(2,1fr);gap:24px 0;}
-    .pillar{border-left:none;padding:0 18px;}
+    .pillars-grid{grid-template-columns:repeat(2,1fr);gap:32px 20px;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -387,80 +395,101 @@
   .footer-meta a{ color:var(--muted); }
 
   @media (prefers-reduced-motion: reduce){
-    .rain,.mist,.flicker-1,.flicker-2{animation:none !important;}
+    .rain,.flicker-1{animation:none !important;}
     .rain{opacity:0.18;}
   }
-
-  body.tab-hidden .rain,
-  body.tab-hidden .mist,
-  body.tab-hidden .flicker-1,
-  body.tab-hidden .flicker-2{
-    animation-play-state:paused;
-  }
+  body.tab-hidden .rain, body.tab-hidden .flicker-1{ animation-play-state:paused; }
 
   @media (max-width:640px){
-    .mist,.flicker-2{display:none;}
-    .rain{opacity:0.22;}
+    .flicker-1{display:none;}
+    .rain{opacity:0.2;}
   }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-bg-scroll" id="heroBgScroll">
-    <img class="hero-bg-img" src="hero-bg.jpg" alt="A silhouetted ronin figure stands in a rain-soaked Neo-Tokyo street, lit by red and cyan neon signage. Scroll sideways to see more of the street." draggable="false">
+<nav class="nav">
+  <div class="logo-lockup">
+    <div class="logo-text"><span class="saikyo">SAIKYO</span><span class="rivals">RIVALS</span></div>
+    <div class="logo-mark"><span>最</span><span>強</span></div>
   </div>
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="hero-scrim"></div>
-  <div class="rain" aria-hidden="true"></div>
-  <div class="mist" aria-hidden="true"></div>
-  <div class="flicker flicker-1" aria-hidden="true"></div>
-  <div class="flicker flicker-2" aria-hidden="true"></div>
+  <div class="nav-links">
+    <a href="#top" class="active">Home</a>
+    <a href="#about">About</a>
+    <a href="#features">Features</a>
+    <a href="#games">Games</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-social">
+    <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.331c-1.182 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/></svg></a>
+    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg></a>
+    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></a>
+  </div>
+</nav>
 
-  <nav class="nav">
-    <div class="logo">
-      <span class="saikyo">SAIKYO</span><span class="rivals">RIVALS</span><span class="mark">最強</span>
-    </div>
-  </nav>
-
-  <div class="hero-content">
+<div class="hero-split" id="top">
+  <div class="hero-left">
+    <div class="side-kanji k1">最高</div>
+    <div class="side-kanji k2">最</div>
     <p class="kicker">最強のライバル</p>
-    <h1 class="wordmark">
-      <span class="line1">SAIKYO</span><span class="line2">RIVALS</span>
+    <h1 class="wordmark2">
+      <span class="l1">SAIKYO</span><span class="l2">RIVALS</span>
     </h1>
-    <p class="tagline">COMPETE. PROVE. BE THE STRONGEST.</p>
+    <p class="tagline2">COMPETE. PROVE. BE THE STRONGEST.</p>
     <p class="coming-soon">COMING SOON</p>
-    <p class="lead">Saikyo Rivals is a new skill-based competitive gaming platform. Real players, verified results, real rewards. Leave your email and we'll let you know the moment we go live.</p>
+    <p class="lead">Saikyo Rivals is the next generation competitive platform. Real players. Real stakes. Real glory.</p>
 
     <form class="notify-form" id="notifyForm">
-      <label for="emailInput" class="visually-hidden" style="position:absolute;left:-9999px;">Email address</label>
+      <label for="emailInput" style="position:absolute;left:-9999px;">Email address</label>
       <input type="email" id="emailInput" name="email" placeholder="Enter your email" required autocomplete="email">
       <button type="submit" class="notify-btn">NOTIFY ME</button>
     </form>
+
+    <div class="hero-social">
+      <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.331c-1.182 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/></svg></a>
+      <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg></a>
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></a>
+    </div>
+
     <p class="form-note">We'll only use this to email you about the Saikyo Rivals launch — no spam.</p>
     <p class="form-success" id="formSuccess">Thanks — your mail app should now be open with a message ready to send. If it didn't open, email us directly at <a href="mailto:arenagaminguk1@gmail.com">arenagaminguk1@gmail.com</a>.</p>
   </div>
+
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <img class="hero-photo" src="hero-bg.jpg" alt="A silhouetted ronin figure stands in a rain-soaked Neo-Tokyo street, lit by red and cyan neon signage.">
+      <div class="hero-right-scrim"></div>
+      <div class="rain" aria-hidden="true"></div>
+      <div class="flicker flicker-1" aria-hidden="true"></div>
+    </div>
+  </div>
 </div>
 
-<section class="pillars">
-  <div class="pillars-grid">
+<section class="pillars" id="features">
+  <div class="pillars-divider"></div>
+  <div class="pillars-watermark left">最強</div>
+  <div class="pillars-watermark right">武士道</div>
+  <div class="pillars-grid" style="margin-top:44px;">
     <div class="pillar">
       <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11M4 4l3 1 1-3M20 4l-3 1-1-3M4 20l3-1 1 3M20 20l-3-1-1 3"/></svg>
       <h3>COMPETE</h3>
-      <p>Enter competitions and challenges across supported games.</p>
+      <p>Enter tournaments and challenges across top games.</p>
     </div>
     <div class="pillar">
       <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4h10v4a5 5 0 01-10 0V4z"/><path d="M7 5H4a3 3 0 003 3M17 5h3a3 3 0 01-3 3"/><path d="M12 13v4M9 21h6M10 17h4v4h-4z"/></svg>
       <h3>WIN</h3>
-      <p>Climb the ranks and earn rewards for verified results.</p>
+      <p>Climb the ranks and earn epic rewards.</p>
     </div>
     <div class="pillar">
       <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3 2.2-5 5-5s5 2 5 5M14 20c0-2.4 1.7-4.2 4-4.2s4 1.8 4 4.2"/></svg>
       <h3>RIVAL</h3>
-      <p>Face the best players. No excuses, no shortcuts.</p>
+      <p>Face the best players. No excuses.</p>
     </div>
     <div class="pillar">
-      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10l8-6 8 6"/><path d="M6 10v9M18 10v9M6 19h12M10 19v-5h4v5"/></svg>
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6.5h20M3.5 9.5h17"/><path d="M7 9.5v10M17 9.5v10"/></svg>
       <h3>BECOME SAIKYO</h3>
       <p>Only one can be the strongest.</p>
     </div>
@@ -489,21 +518,17 @@
     form.querySelector('input').value = '';
   });
 
-  // Pause decorative animation when tab is hidden (performance)
   document.addEventListener('visibilitychange', function(){
     document.body.classList.toggle('tab-hidden', document.hidden);
   });
 
-  // Center the pannable hero background on load (matching the old crop's
-  // framing) so visitors land on the same view, then can swipe/scroll
-  // sideways to see the rest of the street that used to be cropped off.
   function centerHeroBg(){
-    var scroller = document.getElementById('heroBgScroll');
+    var scroller = document.querySelector('.hero-right');
     if(!scroller) return;
     var max = scroller.scrollWidth - scroller.clientWidth;
     if(max > 0){ scroller.scrollLeft = max * 0.5; }
   }
-  var heroImg = document.querySelector('.hero-bg-img');
+  var heroImg = document.querySelector('.hero-photo');
   if(heroImg){
     if(heroImg.complete && heroImg.naturalWidth){ centerHeroBg(); }
     else { heroImg.addEventListener('load', centerHeroBg); }

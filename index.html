@@ -2,88 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Saikyo Rivals — Coming Soon</title>
-<meta name="description" content="Saikyo Rivals is a competitive gaming platform built around verified skill. Compete. Prove. Be the strongest.">
+<meta name="description" content="Saikyo Rivals is the next generation competitive platform. Compete. Prove. Be the strongest.">
 <link rel="canonical" href="https://saikyo-rivals.com/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Saikyo Rivals — Coming Soon">
-<meta property="og:description" content="Compete. Prove. Be the strongest. Saikyo Rivals is launching soon.">
-<meta property="og:image" content="https://saikyo-rivals.com/hero-bg.jpg">
-<meta property="og:url" content="https://saikyo-rivals.com/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Saikyo Rivals — Coming Soon">
-<meta name="twitter:description" content="Compete. Prove. Be the strongest. Saikyo Rivals is launching soon.">
-<meta name="twitter:image" content="https://saikyo-rivals.com/hero-bg.jpg">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23030405%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 fill=%22%23E31B2E%22 font-family=%22sans-serif%22>最</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+<meta property="og:type" content="website"><meta property="og:title" content="Saikyo Rivals — Coming Soon"><meta property="og:description" content="Compete. Prove. Be the strongest."><meta property="og:image" content="https://saikyo-rivals.com/hero-bg.jpg"><meta property="og:url" content="https://saikyo-rivals.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@700;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#030405;--ink2:#08090b;--surface:rgba(11,12,15,.78);--white:#f5f5f5;--muted:#9a9ba0;--red:#e31b2e;--red2:#ff1e2d;--cyan:#66d7e8;--border:rgba(255,255,255,.11);--max:1500px}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--ink);color:var(--white)}body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}.shell{min-height:100svh;position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(180deg,#050607,#020304 78%)}
-.bg{position:absolute;inset:0;z-index:-5;background-image:linear-gradient(90deg,rgba(3,4,5,.98) 0%,rgba(3,4,5,.82) 28%,rgba(3,4,5,.34) 55%,rgba(3,4,5,.14) 72%,rgba(3,4,5,.45) 100%),linear-gradient(180deg,rgba(3,4,5,.08),rgba(3,4,5,.28) 60%,rgba(3,4,5,.78)),url('hero-bg.jpg');background-size:cover;background-position:center 37%;transform:scale(1.015)}
-.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 77% 31%,rgba(227,27,46,.18),transparent 24%),radial-gradient(circle at 17% 48%,rgba(65,173,207,.11),transparent 22%);mix-blend-mode:screen}.rain,.rain2{position:absolute;inset:-18%;z-index:-2;pointer-events:none;background-image:repeating-linear-gradient(105deg,transparent 0 18px,rgba(204,231,238,.16) 19px,transparent 20px 39px);transform:rotate(-5deg);animation:rain 1.35s linear infinite;mix-blend-mode:screen}.rain{opacity:.13;background-size:100% 250px}.rain2{opacity:.08;background-size:100% 360px;animation-duration:.9s}.mist{position:absolute;z-index:-3;width:58vw;height:17vh;border-radius:50%;filter:blur(55px);opacity:.14;background:linear-gradient(90deg,transparent,rgba(185,210,219,.48),transparent);left:-7vw;bottom:17vh;animation:mist 15s ease-in-out infinite alternate}.reflection{position:absolute;left:0;right:0;bottom:-4vh;height:30vh;z-index:-1;background:linear-gradient(90deg,transparent 5%,rgba(227,27,46,.13) 24%,transparent 43%,rgba(95,211,232,.08) 64%,transparent 84%),repeating-linear-gradient(90deg,transparent 0 9%,rgba(255,255,255,.02) 9.15% 9.35%,transparent 9.5% 18%);filter:blur(3px);transform:perspective(560px) rotateX(67deg);transform-origin:bottom;opacity:.58;animation:reflection 7s ease-in-out infinite alternate}.flicker{position:absolute;right:12%;top:16%;width:220px;height:220px;z-index:-1;background:radial-gradient(circle,rgba(227,27,46,.18),transparent 70%);animation:flicker 7s ease-in-out infinite}
-.header{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,4vw,64px);border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(2,3,4,.94),rgba(2,3,4,.68));backdrop-filter:blur(18px);position:relative;z-index:20}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:.98rem}.slash{width:10px;height:36px;background:var(--red);box-shadow:0 0 22px rgba(227,27,46,.65);transform:skew(-10deg)}.brand strong{color:white}.brand span:last-child{color:var(--red)}.nav-note{font-size:.7rem;color:#b8b8bd;letter-spacing:.18em;text-transform:uppercase;font-weight:800}.main{min-height:calc(100svh - 78px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.65fr);align-items:center;gap:70px;width:min(calc(100% - 48px),var(--max));margin:0 auto;padding:64px 0 72px;position:relative;z-index:2}.copy{max-width:840px}.eyebrow{margin:0 0 16px;color:var(--red2);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:900}.jp{margin:0 0 14px;font-family:'Noto Sans JP',sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.28em;color:#d8d9dc}.wordmark{width:min(530px,78vw);display:block;margin:0 0 22px;filter:drop-shadow(0 8px 28px rgba(0,0,0,.38))}.headline{font-size:clamp(3.3rem,6.7vw,7rem);line-height:.9;letter-spacing:-.035em;font-weight:900;text-transform:uppercase;margin:0 0 24px;max-width:880px;text-shadow:0 10px 45px rgba(0,0,0,.65)}.headline .red{display:block;color:var(--red);text-shadow:0 0 32px rgba(227,27,46,.22)}.lead{max-width:700px;margin:0;color:#c0c1c5;font-size:clamp(1rem,1.5vw,1.17rem);line-height:1.65}.launch{margin-top:30px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.form{display:flex;gap:10px;flex-wrap:wrap;width:min(100%,600px)}.form input{flex:1 1 260px;min-height:52px;padding:14px 16px;background:rgba(8,9,12,.78);border:1px solid rgba(255,255,255,.16);color:white;outline:none;backdrop-filter:blur(14px)}.form input:focus{border-color:rgba(227,27,46,.72);box-shadow:0 0 0 3px rgba(227,27,46,.08)}.form button{min-height:52px;padding:0 22px;border:1px solid var(--red);background:var(--red);color:white;text-transform:uppercase;font-weight:900;letter-spacing:.09em;font-size:.77rem;cursor:pointer;box-shadow:0 0 26px rgba(227,27,46,.16)}.form button:hover{background:var(--red2);border-color:var(--red2)}.note{font-size:.72rem;color:#8d8e93;margin:12px 0 0;max-width:620px}.success{display:none;margin:14px 0 0;padding-left:12px;border-left:2px solid var(--red);color:#d6d7da;font-size:.82rem}.success.show{display:block}
-.panel{justify-self:end;width:min(100%,520px);position:relative;padding:34px 32px 30px;background:linear-gradient(180deg,rgba(11,12,15,.73),rgba(5,6,8,.88));border:1px solid rgba(227,27,46,.38);clip-path:polygon(0 0,94% 0,100% 8%,100% 100%,7% 100%,0 91%);box-shadow:0 30px 90px rgba(0,0,0,.46),0 0 50px rgba(227,27,46,.05);backdrop-filter:blur(18px)}.panel::before{content:"";position:absolute;left:0;top:0;width:82px;height:3px;background:var(--red);box-shadow:0 0 18px var(--red)}.live{display:inline-flex;align-items:center;gap:8px;padding:6px 9px;border:1px solid rgba(227,27,46,.44);background:rgba(227,27,46,.08);font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900}.live i{width:6px;height:6px;border-radius:50%;background:var(--red2);box-shadow:0 0 10px var(--red2);animation:pulse 2.2s ease-in-out infinite}.panel h2{font-size:clamp(2rem,3.3vw,3.2rem);line-height:.96;text-transform:uppercase;margin:22px 0 12px;letter-spacing:-.02em}.panel p{color:#a8a9ae;line-height:1.55}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.08);margin-top:22px}.grid div{background:rgba(8,9,11,.84);padding:18px}.grid strong{display:block;font-size:1.03rem;letter-spacing:.02em}.grid span{display:block;margin-top:2px;color:#777a80;font-size:.66rem;text-transform:uppercase;letter-spacing:.11em}.footer-line{position:absolute;left:clamp(22px,4vw,64px);right:clamp(22px,4vw,64px);bottom:22px;display:flex;justify-content:space-between;gap:20px;color:#74767c;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;z-index:3}.footer-line strong{color:#d8d9dc}.footer-line .r{color:var(--red)}
-@keyframes rain{from{transform:translateY(-110px) rotate(-5deg)}to{transform:translateY(110px) rotate(-5deg)}}@keyframes mist{from{transform:translate3d(-2vw,0,0)}to{transform:translate3d(6vw,-1vh,0)}}@keyframes reflection{from{transform:perspective(560px) rotateX(67deg) translateX(-1%)}to{transform:perspective(560px) rotateX(67deg) translateX(1.5%)}}@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}@keyframes flicker{0%,100%,7%,9%,61%,65%{opacity:.9}5%,8%,63%{opacity:.32}}
-@media(max-width:980px){.main{grid-template-columns:1fr;gap:34px;padding:52px 0 104px}.panel{justify-self:start;max-width:650px}.bg{background-position:62% center}.footer-line{position:relative;left:auto;right:auto;bottom:auto;width:min(calc(100% - 48px),var(--max));margin:-72px auto 0;padding-bottom:24px}.nav-note{display:none}}
-@media(max-width:640px){.header{height:68px}.brand{font-size:.84rem}.slash{height:31px}.main{width:min(calc(100% - 28px),var(--max));min-height:calc(100svh - 68px);padding-top:40px}.headline{font-size:clamp(3rem,15vw,4.7rem)}.panel{padding:28px 22px}.grid{grid-template-columns:1fr 1fr}.footer-line{width:min(calc(100% - 28px),var(--max));flex-direction:column;gap:6px}.bg{background-position:66% center}}
-@media(prefers-reduced-motion:reduce){.rain,.rain2,.mist,.reflection,.flicker,.live i{animation:none}}
+:root{--bg:#040404;--panel:#050505;--white:#f5f5f5;--muted:#9b9ca2;--red:#ed1b2f;--red2:#ff2439;--line:#25262a}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white)}body{font-family:Inter,system-ui,sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}
+.page{min-height:100svh;background:#050505;position:relative;overflow:hidden}.topbar{height:70px;display:grid;grid-template-columns:34% 66%;align-items:center;position:relative;z-index:20;background:#050505}.brand-mini{padding-left:46px;display:flex;align-items:flex-start;gap:8px;font-family:Orbitron,sans-serif;font-weight:800;line-height:.88;font-size:17px}.brand-mini .words{display:flex;flex-direction:column}.brand-mini .saikyo{color:#fff}.brand-mini .rivals{color:var(--red);margin-top:3px}.brand-mini .jp{font-family:'Noto Sans JP',sans-serif;font-size:9px;line-height:1.35;color:#fff}.brand-mini .jp span{display:block;color:var(--red)}
+.nav-wrap{height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 36px 0 24px}.nav{display:flex;gap:34px;align-items:center}.nav a{font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#e4e4e6;padding:25px 0 10px;position:relative}.nav a.active{color:var(--red)}.nav a.active:after{content:"";position:absolute;left:0;right:0;bottom:3px;height:2px;background:var(--red)}.social{display:flex;gap:17px}.social a{font-size:13px;color:#d5d5d8;opacity:.9}
+.hero{min-height:calc(100svh - 70px);display:grid;grid-template-columns:34% 66%;position:relative}.left{background:#050505;position:relative;z-index:8;padding:0 54px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}.left:after{content:"";position:absolute;top:0;right:-90px;width:130px;height:100%;background:linear-gradient(90deg,#050505 0%,rgba(5,5,5,.88) 35%,rgba(5,5,5,0) 100%);pointer-events:none}.kanji-side{position:absolute;left:9px;top:9%;font-family:'Noto Sans JP';writing-mode:vertical-rl;color:rgba(227,27,46,.12);font-weight:900;font-size:18px;letter-spacing:.12em}.kanji-big{position:absolute;left:15px;top:28%;font-family:'Noto Sans JP';color:rgba(227,27,46,.08);font-size:43px;font-weight:900}
+.kicker{font-family:'Noto Sans JP';font-size:13px;letter-spacing:.08em;color:var(--red2);font-weight:800;margin:0 0 14px}.wordmark{width:min(445px,100%);display:block;margin:0 0 20px;filter:drop-shadow(0 7px 18px rgba(0,0,0,.42))}.tagline{font-weight:900;font-size:16px;letter-spacing:.015em;margin:0 0 16px}.coming{color:var(--red2);font-size:14px;letter-spacing:.43em;font-weight:800;margin:0 0 17px;text-transform:uppercase}.copy{font-size:14px;line-height:1.6;color:#a8abb3;max-width:425px;margin:0 0 24px}.notify{display:flex;gap:10px;max-width:420px}.notify input{height:45px;flex:1;background:#111214;border:1px solid #2a2b2f;color:#fff;padding:0 15px;outline:none}.notify input:focus{border-color:var(--red)}.notify button{height:45px;padding:0 22px;background:transparent;color:#fff;border:1px solid var(--red);font-family:Orbitron,sans-serif;font-size:12px;font-weight:800;letter-spacing:.06em;cursor:pointer}.notify button:hover{background:rgba(237,27,47,.13);box-shadow:0 0 18px rgba(237,27,47,.24)}.left-social{display:flex;gap:17px;margin-top:18px;font-size:13px;color:#d3d3d6}.fine{font-size:11px;color:#777980;margin-top:17px}.success{display:none;font-size:12px;color:#d5d6d9;margin-top:12px;border-left:2px solid var(--red);padding-left:10px}.success.show{display:block}
+.right{position:relative;overflow:hidden;background:#08090b}.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:56% 31%;transform:scale(1.004)}.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.25),rgba(5,5,5,0) 13%),linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.05) 62%,rgba(0,0,0,.2));pointer-events:none}.rain-canvas,.splash-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.rain-canvas{z-index:4}.splash-canvas{z-index:6}.mist{position:absolute;left:8%;right:8%;bottom:3%;height:17%;background:radial-gradient(ellipse at center,rgba(190,205,215,.12),transparent 70%);filter:blur(24px);z-index:3;animation:mist 11s ease-in-out infinite alternate}.reflection-shimmer{position:absolute;left:0;right:0;bottom:0;height:31%;z-index:5;pointer-events:none;background:linear-gradient(90deg,transparent 3%,rgba(255,32,68,.12) 18%,transparent 31%,rgba(67,176,255,.12) 46%,transparent 60%,rgba(255,16,74,.16) 78%,transparent 96%);mix-blend-mode:screen;filter:blur(6px);opacity:.65;animation:shimmer 3.6s ease-in-out infinite alternate}
+.neon-flicker{position:absolute;z-index:5;pointer-events:none;mix-blend-mode:screen}.neon-a{right:18.7%;top:6.2%;width:17%;height:18%;background:radial-gradient(ellipse,rgba(255,28,64,.22),transparent 66%);animation:flickerA 5.8s infinite}.neon-b{right:1%;top:8%;width:17%;height:55%;background:radial-gradient(ellipse,rgba(255,20,48,.2),transparent 67%);animation:flickerB 7.2s infinite}.neon-c{left:22%;top:30%;width:11%;height:25%;background:radial-gradient(ellipse,rgba(60,160,255,.15),transparent 70%);animation:flickerC 9s infinite}
+.hat-drips{position:absolute;z-index:7;left:48%;top:22%;width:28%;height:18%;pointer-events:none}.drip{position:absolute;width:3px;height:13px;border-radius:60% 60% 70% 70%;background:linear-gradient(180deg,rgba(225,244,255,.9),rgba(150,206,235,.22));filter:drop-shadow(0 0 4px rgba(190,230,255,.6));opacity:0}.drip:after{content:"";position:absolute;left:-1px;bottom:-4px;width:5px;height:5px;border-radius:50%;background:rgba(205,238,255,.75)}.d1{left:12%;top:40%;animation:drip 2.7s .2s infinite}.d2{left:32%;top:48%;animation:drip 3.1s 1.1s infinite}.d3{left:53%;top:47%;animation:drip 2.5s 1.8s infinite}.d4{left:75%;top:36%;animation:drip 3.4s .7s infinite}.d5{left:91%;top:25%;animation:drip 2.9s 2s infinite}
+@keyframes shimmer{0%{transform:translateX(-1%) scaleY(.96);opacity:.48}100%{transform:translateX(1.5%) scaleY(1.05);opacity:.78}}@keyframes mist{from{transform:translateX(-2%);opacity:.18}to{transform:translateX(4%);opacity:.3}}@keyframes drip{0%,66%{opacity:0;transform:translateY(0) scaleY(.5)}69%{opacity:.9}86%{opacity:.78;transform:translateY(34px) scaleY(1.2)}100%{opacity:0;transform:translateY(48px) scaleY(.8)}}@keyframes flickerA{0%,3%,6%,8%,53%,55%,100%{opacity:.95}4%,7%,54%{opacity:.25}57%{opacity:.6}}@keyframes flickerB{0%,62%,65%,68%,100%{opacity:.9}63%,67%{opacity:.2}69%{opacity:.55}}@keyframes flickerC{0%,74%,77%,100%{opacity:.55}75%{opacity:.1}78%{opacity:.4}}
+@media(max-width:980px){.topbar{grid-template-columns:1fr;height:66px}.brand-mini{padding-left:22px}.nav-wrap{display:none}.hero{grid-template-columns:1fr;min-height:auto}.left{min-height:58svh;padding:44px 24px 48px}.left:after{display:none}.right{height:58svh}.wordmark{width:min(430px,92vw)}.kanji-side,.kanji-big{display:none}.hat-drips{left:47%;top:22%;width:34%}}
+@media(max-width:620px){.left{padding-top:34px}.notify{flex-direction:column}.notify button{width:100%}.tagline{font-size:14px}.right{height:52svh}.hat-drips{left:44%;width:39%}}
+@media(prefers-reduced-motion:reduce){.reflection-shimmer,.mist,.neon-flicker,.drip{animation:none}.rain-canvas,.splash-canvas{display:none}}
 </style>
 </head>
 <body>
-<div class="shell">
-  <div class="bg" aria-hidden="true"></div>
-  <div class="rain" aria-hidden="true"></div>
-  <div class="rain2" aria-hidden="true"></div>
-  <div class="mist" aria-hidden="true"></div>
-  <div class="reflection" aria-hidden="true"></div>
-  <div class="flicker" aria-hidden="true"></div>
-
-  <header class="header">
-    <a class="brand" href="/" aria-label="Saikyo Rivals home"><span class="slash" aria-hidden="true"></span><strong>SAIKYO</strong><span>RIVALS</span></a>
-    <div class="nav-note">The arena is forming</div>
-  </header>
-
-  <main class="main">
-    <section class="copy">
-      <p class="eyebrow">Coming soon · Early access</p>
-      <p class="jp">最強 · THE STRONGEST</p>
-      <img class="wordmark" src="wordmark.png" alt="Saikyo Rivals">
-      <h1 class="headline">COMPETE. PROVE.<span class="red">BE THE STRONGEST.</span></h1>
-      <p class="lead">A new competitive gaming platform where verified performance decides who rises. Enter competitions. Face rivals. Earn your place.</p>
-      <div class="launch">
-        <form class="form" id="notifyForm">
-          <input id="emailInput" type="email" autocomplete="email" placeholder="Enter your email" aria-label="Email address" required>
-          <button type="submit">Notify me</button>
-        </form>
-      </div>
-      <p class="note">Join the launch list for early-access and launch updates. No spam.</p>
-      <p class="success" id="formSuccess">Thanks — your mail app should now be open with a message ready to send. If it didn't open, email arenagaminguk1@gmail.com.</p>
-    </section>
-
-    <aside class="panel" aria-label="Saikyo Rivals platform principles">
-      <span class="live"><i aria-hidden="true"></i> Arena protocol online</span>
-      <p class="eyebrow" style="margin-top:24px">Built for earned results</p>
-      <h2>EVERY RESULT HAS TO BE EARNED.</h2>
-      <p>Official game data is the authority. Saikyo Rivals owns the competition; supported games supply the verified result.</p>
-      <div class="grid">
-        <div><strong>SKILL</strong><span>Not chance</span></div>
-        <div><strong>VERIFIED</strong><span>Official data</span></div>
-        <div><strong>RANKED</strong><span>Clear standings</span></div>
-        <div><strong>MULTI-GAME</strong><span>Built to expand</span></div>
-      </div>
-    </aside>
-  </main>
-
-  <div class="footer-line"><span><strong>SAIKYO</strong> <span class="r">RIVALS</span></span><span>Compete. Prove. Be the strongest.</span><span>&copy; <span id="year"></span></span></div>
+<div class="page">
+<header class="topbar">
+  <a class="brand-mini" href="/" aria-label="Saikyo Rivals home"><span class="words"><span class="saikyo">SAIKYO</span><span class="rivals">RIVALS</span></span><span class="jp">最<span>強</span></span></a>
+  <div class="nav-wrap"><nav class="nav"><a class="active" href="#">Home</a><a href="#">About</a><a href="#">Features</a><a href="#">Games</a><a href="#">Roadmap</a><a href="#">Contact</a></nav><div class="social"><a href="#" aria-label="Discord">●</a><a href="#" aria-label="X">✦</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="YouTube">▶</a></div></div>
+</header>
+<main class="hero">
+  <section class="left">
+    <div class="kanji-side">最高</div><div class="kanji-big">最</div>
+    <p class="kicker">最強のライバル</p>
+    <img class="wordmark" src="wordmark.png" alt="Saikyo Rivals">
+    <p class="tagline">COMPETE. PROVE. BE THE STRONGEST.</p>
+    <p class="coming">COMING SOON</p>
+    <p class="copy">Saikyo Rivals is the next generation competitive platform. Real players. Real stakes. Real glory.</p>
+    <form class="notify" id="notifyForm"><input id="emailInput" type="email" autocomplete="email" placeholder="Enter your email" aria-label="Email address" required><button type="submit">NOTIFY ME</button></form>
+    <div class="left-social"><span>●</span><span>✦</span><span>◎</span><span>▶</span></div>
+    <p class="fine">We'll only use this to email you about the Saikyo Rivals launch — no spam.</p>
+    <p class="success" id="formSuccess">Thanks — your mail app should now be open with a message ready to send.</p>
+  </section>
+  <section class="right" aria-label="Rain-soaked Neo-Tokyo street with a lone ronin">
+    <img class="photo" src="hero-bg.jpg" alt="A silhouetted ronin in a rain-soaked neon city street">
+    <div class="scrim"></div><div class="mist"></div><div class="reflection-shimmer"></div>
+    <div class="neon-flicker neon-a"></div><div class="neon-flicker neon-b"></div><div class="neon-flicker neon-c"></div>
+    <div class="hat-drips" aria-hidden="true"><i class="drip d1"></i><i class="drip d2"></i><i class="drip d3"></i><i class="drip d4"></i><i class="drip d5"></i></div>
+    <canvas id="rainCanvas" class="rain-canvas" aria-hidden="true"></canvas><canvas id="splashCanvas" class="splash-canvas" aria-hidden="true"></canvas>
+  </section>
+</main>
 </div>
 <script>
-document.getElementById('year').textContent=new Date().getFullYear();
-var form=document.getElementById('notifyForm');var success=document.getElementById('formSuccess');
-form.addEventListener('submit',function(e){e.preventDefault();var email=document.getElementById('emailInput').value.trim();if(!email)return;var subject=encodeURIComponent('Saikyo Rivals — notify me at launch');var body=encodeURIComponent('Please notify this address when Saikyo Rivals launches:\n\n'+email);window.location.href='mailto:arenagaminguk1@gmail.com?subject='+subject+'&body='+body;success.classList.add('show');form.reset();});
-document.addEventListener('visibilitychange',function(){document.body.classList.toggle('tab-hidden',document.hidden);});
+const form=document.getElementById('notifyForm'),success=document.getElementById('formSuccess');form.addEventListener('submit',e=>{e.preventDefault();const email=document.getElementById('emailInput').value.trim();if(!email)return;location.href='mailto:arenagaminguk1@gmail.com?subject='+encodeURIComponent('Saikyo Rivals — notify me at launch')+'&body='+encodeURIComponent('Please notify this address when Saikyo Rivals launches:\n\n'+email);success.classList.add('show');form.reset();});
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!reduced){
+ const rain=document.getElementById('rainCanvas'),splash=document.getElementById('splashCanvas'),rc=rain.getContext('2d'),sc=splash.getContext('2d');let W=0,H=0,dpr=1,drops=[],splashes=[];
+ function resize(){const r=rain.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);W=r.width;H=r.height;[rain,splash].forEach(c=>{c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px'});rc.setTransform(dpr,0,0,dpr,0,0);sc.setTransform(dpr,0,0,dpr,0,0);drops=Array.from({length:Math.max(120,Math.round(W/7))},()=>makeDrop(true));}
+ function makeDrop(initial=false){return{x:Math.random()*W,y:initial?Math.random()*H:-20-Math.random()*H*.25,len:5+Math.random()*12,w:.7+Math.random()*1.3,s:300+Math.random()*520,alpha:.18+Math.random()*.52,wind:-22-Math.random()*18};}
+ function addSplash(x,y){splashes.push({x,y,t:0,life:.35+Math.random()*.2,r:2+Math.random()*4});}
+ let last=performance.now();function frame(now){const dt=Math.min((now-last)/1000,.035);last=now;rc.clearRect(0,0,W,H);sc.clearRect(0,0,W,H);
+  for(let i=0;i<drops.length;i++){let d=drops[i];d.y+=d.s*dt;d.x+=d.wind*dt;if(d.y>H){if(d.x>0&&d.x<W&&Math.random()<.36)addSplash(d.x,H*(.78+Math.random()*.19));drops[i]=makeDrop(false);d=drops[i]}if(d.x<-20)d.x=W+10;
+   const g=rc.createLinearGradient(d.x,d.y-d.len,d.x,d.y);g.addColorStop(0,'rgba(190,225,245,0)');g.addColorStop(.55,`rgba(210,238,255,${d.alpha*.45})`);g.addColorStop(1,`rgba(230,248,255,${d.alpha})`);rc.strokeStyle=g;rc.lineWidth=d.w;rc.lineCap='round';rc.beginPath();rc.moveTo(d.x-d.wind*.012,d.y-d.len);rc.lineTo(d.x,d.y);rc.stroke();rc.fillStyle=`rgba(235,250,255,${Math.min(.8,d.alpha+.18)})`;rc.beginPath();rc.ellipse(d.x,d.y,Math.max(.8,d.w*.75),Math.max(1.2,d.w),0,0,Math.PI*2);rc.fill();}
+  for(let i=splashes.length-1;i>=0;i--){const p=splashes[i];p.t+=dt;if(p.t>p.life){splashes.splice(i,1);continue}const q=p.t/p.life,a=(1-q)*.55,r=p.r+q*9;sc.strokeStyle=`rgba(210,240,255,${a})`;sc.lineWidth=1;sc.beginPath();sc.ellipse(p.x,p.y,r,r*.28,0,0,Math.PI*2);sc.stroke();for(let j=0;j<3;j++){const ang=(j/3)*Math.PI+Math.random()*.2,rr=3+q*10;sc.fillStyle=`rgba(220,245,255,${a*.8})`;sc.beginPath();sc.arc(p.x+Math.cos(ang)*rr,p.y-Math.sin(ang)*rr*.7,1.1*(1-q)+.3,0,Math.PI*2);sc.fill();}}
+  requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);requestAnimationFrame(frame);
+}
 </script>
-</body>
-</html>
+</body></html>

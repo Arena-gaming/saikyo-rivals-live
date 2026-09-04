@@ -41,7 +41,7 @@
   }
 
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0;overflow-x:hidden;}
   body{
     background:var(--bg);
     color:var(--white);
@@ -194,6 +194,8 @@
   .hero-content{
     position:relative;
     z-index:5;
+    width:100%;
+    min-width:0;
     padding:0 clamp(20px,4vw,56px) clamp(48px,8vh,96px);
     max-width:720px;
   }

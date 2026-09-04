@@ -96,18 +96,37 @@
     justify-content:space-between;
     overflow:hidden;
   }
-  .hero-bg{
+  .hero-bg-scroll{
     position:absolute;
     inset:0;
-    background-image:radial-gradient(ellipse at 30% 20%, rgba(227,27,46,0.25), transparent 60%), radial-gradient(ellipse at 80% 60%, rgba(95,214,232,0.12), transparent 55%), url('hero-bg.jpg'), linear-gradient(180deg, #0a0a0a 0%, #050505 60%, #000 100%);
-    background-size:cover;
-    background-position:center 30%;
     z-index:0;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    background:linear-gradient(180deg, #0a0a0a 0%, #050505 60%, #000 100%);
+  }
+  .hero-bg-scroll::-webkit-scrollbar{ display:none; }
+  .hero-bg-img{
+    height:100%;
+    width:auto;
+    max-width:none;
+    min-width:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .hero-glow{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background-image:radial-gradient(ellipse at 30% 20%, rgba(227,27,46,0.25), transparent 60%), radial-gradient(ellipse at 80% 60%, rgba(95,214,232,0.12), transparent 55%);
   }
   .hero-scrim{
     position:absolute;
     inset:0;
     z-index:1;
+    pointer-events:none;
     background:
       linear-gradient(90deg, rgba(5,5,5,0.97) 0%, rgba(5,5,5,0.86) 28%, rgba(5,5,5,0.35) 58%, rgba(5,5,5,0.15) 78%, rgba(5,5,5,0.35) 100%),
       linear-gradient(180deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.05) 20%, rgba(5,5,5,0.05) 55%, rgba(5,5,5,0.9) 100%);
@@ -388,7 +407,10 @@
 <body>
 
 <div class="hero">
-  <div class="hero-bg" role="img" aria-label="A silhouetted ronin figure stands in a rain-soaked Neo-Tokyo street, lit by red and cyan neon signage."></div>
+  <div class="hero-bg-scroll" id="heroBgScroll">
+    <img class="hero-bg-img" src="hero-bg.jpg" alt="A silhouetted ronin figure stands in a rain-soaked Neo-Tokyo street, lit by red and cyan neon signage. Scroll sideways to see more of the street." draggable="false">
+  </div>
+  <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-scrim"></div>
   <div class="rain" aria-hidden="true"></div>
   <div class="mist" aria-hidden="true"></div>
@@ -471,6 +493,22 @@
   document.addEventListener('visibilitychange', function(){
     document.body.classList.toggle('tab-hidden', document.hidden);
   });
+
+  // Center the pannable hero background on load (matching the old crop's
+  // framing) so visitors land on the same view, then can swipe/scroll
+  // sideways to see the rest of the street that used to be cropped off.
+  function centerHeroBg(){
+    var scroller = document.getElementById('heroBgScroll');
+    if(!scroller) return;
+    var max = scroller.scrollWidth - scroller.clientWidth;
+    if(max > 0){ scroller.scrollLeft = max * 0.5; }
+  }
+  var heroImg = document.querySelector('.hero-bg-img');
+  if(heroImg){
+    if(heroImg.complete && heroImg.naturalWidth){ centerHeroBg(); }
+    else { heroImg.addEventListener('load', centerHeroBg); }
+  }
+  window.addEventListener('resize', centerHeroBg);
 </script>
 
 </body>

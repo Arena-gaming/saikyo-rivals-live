@@ -24,7 +24,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -146,16 +146,12 @@
   }
   .wordmark2{
     position:relative;
-    font-family:'Anton',sans-serif;
-    text-transform:uppercase;
-    line-height:0.86;
-    font-size:clamp(48px,6.4vw,88px);
-    letter-spacing:0.005em;
-    margin:0 0 20px;
+    margin:4px 0 20px;
+    width:clamp(280px,34vw,480px);
+    max-width:100%;
+    height:auto;
+    display:block;
   }
-  .wordmark2 span{ display:block; transform:skewX(-6deg); transform-origin:left bottom; }
-  .wordmark2 .l1{ color:var(--white); text-shadow:2px 2px 0 rgba(0,0,0,0.35); }
-  .wordmark2 .l2{ color:var(--red); margin-top:-4px; text-shadow:2px 2px 0 rgba(0,0,0,0.35); }
 
   .tagline2{
     font-family:'Inter',sans-serif;
@@ -434,8 +430,8 @@
     <div class="side-kanji k1">最高</div>
     <div class="side-kanji k2">最</div>
     <p class="kicker">最強のライバル</p>
-    <h1 class="wordmark2">
-      <span class="l1">SAIKYO</span><span class="l2">RIVALS</span>
+    <h1 style="margin:0;padding:0;">
+      <img class="wordmark2" src="wordmark.png" alt="Saikyo Rivals" width="526" height="293">
     </h1>
     <p class="tagline2">COMPETE. PROVE. BE THE STRONGEST.</p>
     <p class="coming-soon">COMING SOON</p>

@@ -36,7 +36,7 @@
 .neon-sign{position:absolute}
 .neon-glow,.neon-off-mask{position:absolute;inset:0;transition:opacity 40ms linear;will-change:opacity}
 .neon-glow{opacity:.42;background:radial-gradient(ellipse at 50% 50%,var(--nc) 0%,var(--nc) 35%,transparent 78%);mix-blend-mode:screen;filter:blur(3px) brightness(1.15)}
-.neon-off-mask{opacity:0;background:var(--nc-dark);mix-blend-mode:multiply;transition:opacity 90ms linear}
+.neon-off-mask{opacity:0;background:radial-gradient(ellipse at 50% 50%,var(--nc-dark) 0%,var(--nc-dark) 50%,transparent 82%);mix-blend-mode:multiply;transition:opacity 140ms ease-out;filter:blur(6px)}
 .neon-sign.is-off .neon-glow{opacity:0}
 .neon-sign.is-off .neon-off-mask{opacity:.85}
 .neon-sign.is-flickering .neon-glow{animation:neonElectricalFlicker 340ms steps(1,end)}

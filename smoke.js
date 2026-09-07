@@ -21,10 +21,10 @@
   }
   function spawn(strength=1){
     const roll=Math.random();
-    const kind=roll<.52?'body':roll<.69?'haze':roll<.91?'wisp':'filament';
+    const kind=roll<.57?'body':roll<.72?'haze':roll<.92?'wisp':'filament';
     const life=kind==='filament'?7+Math.random()*5:kind==='wisp'?9+Math.random()*6:12+Math.random()*6.5;
     const base=kind==='body'?.19:kind==='haze'?.25:kind==='wisp'?.09:.045;
-    const alphaBase=kind==='body'?.29+Math.random()*.17:kind==='haze'?.085+Math.random()*.075:kind==='wisp'?.12+Math.random()*.11:.075+Math.random()*.075;
+    const alphaBase=kind==='body'?.35+Math.random()*.19:kind==='haze'?.095+Math.random()*.085:kind==='wisp'?.12+Math.random()*.11:.075+Math.random()*.075;
     particles.push({
       kind,x:emitterX+(Math.random()-.5)*unit*(kind==='filament'?.72:.56),y:emitterY+(Math.random()-.5)*unit*.032,
       vx:(Math.random()-.5)*unit*(kind==='filament'?.30:kind==='wisp'?.25:.14),
@@ -62,25 +62,25 @@
   }
   function drawPuff(p){
     const t=p.age/p.life;
-    const fadeIn=Math.min(1,t/.045),lifeFade=Math.max(0,1-Math.max(0,t-.68)/.32);
-    // Dense and opaque at the manhole, progressively thinner as the plume rises/ages.
-    const heightFade=Math.pow(1-t,.92);
-    const a=p.alpha*fadeIn*lifeFade*(.20+.80*heightFade);if(a<=.0015)return;
+    const fadeIn=Math.min(1,t/.035),lifeFade=Math.max(0,1-Math.max(0,t-.68)/.32);
+    const heightFade=Math.pow(1-t,1.12);
+    const baseBoost=1+1.05*Math.pow(Math.max(0,1-t/.28),2);
+    const a=p.alpha*fadeIn*lifeFade*(.17+.83*heightFade)*baseBoost;if(a<=.0015)return;
     const radius=p.r+p.grow*(1-Math.pow(1-t,1.25));
     const curl=Math.sin(p.phase+p.age*.32)*radius*(.10+.08*t);
     if(p.kind!=='filament'){
       cloud(p.x,p.y,radius,a,p.squash,p.kind==='haze'?'haze':'body');
-      cloud(p.x+radius*p.off1+curl,p.y-radius*.10,radius*p.lobe1,a*.48,p.squash*.91,p.kind==='haze'?'haze':'body');
-      cloud(p.x+radius*p.off2-curl*.6,p.y+radius*.07,radius*p.lobe2,a*.34,p.squash*1.08,p.kind==='haze'?'haze':'body');
-      cloud(p.x+radius*p.off3+curl*.35,p.y-radius*.24,radius*p.lobe3,a*.23,p.squash*.84,'haze');
+      cloud(p.x+radius*p.off1+curl,p.y-radius*.10,radius*p.lobe1,a*.52,p.squash*.91,p.kind==='haze'?'haze':'body');
+      cloud(p.x+radius*p.off2-curl*.6,p.y+radius*.07,radius*p.lobe2,a*.38,p.squash*1.08,p.kind==='haze'?'haze':'body');
+      cloud(p.x+radius*p.off3+curl*.35,p.y-radius*.24,radius*p.lobe3,a*.25,p.squash*.84,'haze');
     }
     if(p.kind==='wisp'||p.kind==='filament')drawStrand(p,radius,a,t);
   }
   function frame(now){
     const dt=Math.min((now-last)/1000,.04);last=now;ctx.clearRect(0,0,W,H);
     const breathe=.98+Math.sin(now*.00071)*.09+Math.sin(now*.00161+1.7)*.05+Math.sin(now*.00307+4.1)*.025;
-    spawnCarry+=dt*(21*breathe);
-    while(spawnCarry>=1){spawn(.96+Math.random()*.16);spawnCarry-=1;if(Math.random()<.12)spawn(.58+Math.random()*.25);}
+    spawnCarry+=dt*(23*breathe);
+    while(spawnCarry>=1){spawn(.98+Math.random()*.17);spawnCarry-=1;if(Math.random()<.16)spawn(.64+Math.random()*.27);}
     for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.age+=dt;if(p.age>=p.life||p.y<-unit*7){particles.splice(i,1);continue;}
       const t=p.age/p.life;
       const curl1=Math.sin(p.age*p.wobble*1.65+p.phase),curl2=Math.sin(p.age*.47+p.phase2+t*7.1),curl3=Math.sin(p.age*.21+p.phase*1.8+t*12.3);
@@ -89,7 +89,7 @@
       p.vy-=unit*(.015+.014*t)*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;drawPuff(p);}
     requestAnimationFrame(frame);
   }
-  function seed(){for(let i=0;i<122;i++){spawn(.92+Math.random()*.15);const p=particles[particles.length-1];p.age=Math.random()*p.life*.73;p.x+=p.vx*p.age;p.y+=p.vy*p.age-unit*.009*p.age*p.age;}}
+  function seed(){for(let i=0;i<136;i++){spawn(.94+Math.random()*.16);const p=particles[particles.length-1];p.age=Math.random()*p.life*.73;p.x+=p.vx*p.age;p.y+=p.vy*p.age-unit*.009*p.age*p.age;}}
   if(photo.complete&&photo.naturalWidth){layout();seed();}else photo.addEventListener('load',()=>{layout();seed();},{once:true});
   window.addEventListener('resize',layout,{passive:true});requestAnimationFrame(frame);
 })();

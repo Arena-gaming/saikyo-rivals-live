@@ -11,8 +11,7 @@
   let W=0,H=0,dpr=1,last=performance.now(),spawnCarry=0;
   const particles=[];
   const OBJ_POS_X=.56,OBJ_POS_Y=.31,IMG_SCALE=1.004;
-  // Further leftward correction following live visual feedback.
-  const SOURCE_X=.785,SOURCE_Y=.855;
+  const SOURCE_X=.780,SOURCE_Y=.855;
   let emitterX=0,emitterY=0,unit=1;
   function layout(){
     const r=stage.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(window.devicePixelRatio||1,2);

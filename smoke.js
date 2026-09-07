@@ -11,8 +11,8 @@
   let W=0,H=0,dpr=1,last=performance.now(),spawnCarry=0;
   const particles=[];
   const OBJ_POS_X=.56,OBJ_POS_Y=.31,IMG_SCALE=1.004;
-  // Manhole centre from the supplied artwork/reference: well to the right of the hero.
-  const SOURCE_X=.735,SOURCE_Y=.855;
+  // Corrected from the live-page feedback: the manhole is substantially farther right than the hero's right foot.
+  const SOURCE_X=.825,SOURCE_Y=.855;
   let emitterX=0,emitterY=0,unit=1;
   function layout(){
     const r=stage.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(window.devicePixelRatio||1,2);
@@ -36,7 +36,6 @@
   }
   function frame(now){
     const dt=Math.min((now-last)/1000,.04);last=now;ctx.clearRect(0,0,W,H);
-    // Thick, uninterrupted bellow like the approved reference, with gentle organic volume changes.
     const breathe=1+Math.sin(now*.00082)*.05+Math.sin(now*.0019+1.7)*.035;spawnCarry+=dt*(18*breathe);
     while(spawnCarry>=1){spawn(.98+Math.random()*.16);spawnCarry-=1;}
     for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.age+=dt;if(p.age>=p.life||p.y<-unit*7){particles.splice(i,1);continue;}

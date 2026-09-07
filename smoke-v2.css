@@ -1,5 +1,4 @@
 /* The legacy CSS wisp plume is intentionally disabled.
-   smoke.js is the single source of the manhole steam animation so the
+   smoke.js is the single source of the manhole smoke animation so the
    emitter can stay anchored to the source artwork across responsive crops. */
 .manhole-steam{display:none!important}
-@media(prefers-reduced-motion:reduce){.smoke-canvas{display:none!important}}

@@ -11,8 +11,8 @@
   let W=0,H=0,dpr=1,last=performance.now(),spawnCarry=0;
   const particles=[];
   const OBJ_POS_X=.56,OBJ_POS_Y=.31,IMG_SCALE=1.004;
-  // Corrected from the live-page feedback: the manhole is substantially farther right than the hero's right foot.
-  const SOURCE_X=.825,SOURCE_Y=.855;
+  // Manhole smoke origin, moved farther right following live visual feedback.
+  const SOURCE_X=.885,SOURCE_Y=.855;
   let emitterX=0,emitterY=0,unit=1;
   function layout(){
     const r=stage.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(window.devicePixelRatio||1,2);

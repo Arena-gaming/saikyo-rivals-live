@@ -1,6 +1,5 @@
 (()=>{
   'use strict';
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const stage=document.querySelector('.right');
   const photo=document.querySelector('.photo');
   if(!stage||!photo)return;

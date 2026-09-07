@@ -1,0 +1,41 @@
+name: Integrate isolated smoke v2
+on:
+  push:
+    paths:
+      - '.github/workflows/integrate-smoke-v2.yml'
+permissions:
+  contents: write
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Safely attach isolated smoke
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          required=["const rain=document.getElementById('rainCanvas')","requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);requestAnimationFrame(frame);","function layoutNeon()"]
+          for needle in required:
+              if needle not in s: raise SystemExit('Safety check failed: working animation baseline not found')
+          if '<script src="smoke.js" defer></script>' not in s:
+              marker='</body></html>'
+              if marker not in s: raise SystemExit('Safety check failed: closing body marker missing')
+              s=s.replace(marker,'<script src="smoke.js" defer></script>\n'+marker,1)
+          p.write_text(s)
+          PY
+      - name: Verify existing animation code unchanged and smoke attached
+        run: |
+          grep -q "const rain=document.getElementById('rainCanvas')" index.html
+          grep -q 'function layoutNeon()' index.html
+          grep -q '<script src="smoke.js" defer></script>' index.html
+          grep -q 'const SOURCE_X=' smoke.js
+      - name: Commit branch integration
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'Attach isolated natural smoke animation'
+          git push

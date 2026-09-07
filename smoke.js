@@ -11,8 +11,8 @@
   let W=0,H=0,dpr=1,last=performance.now(),spawnCarry=0;
   const particles=[];
   const OBJ_POS_X=.56,OBJ_POS_Y=.31,IMG_SCALE=1.004;
-  // Fine-tuned manhole smoke origin between the last two live positions.
-  const SOURCE_X=.855,SOURCE_Y=.855;
+  // Explicit leftward correction from the previous live position.
+  const SOURCE_X=.815,SOURCE_Y=.855;
   let emitterX=0,emitterY=0,unit=1;
   function layout(){
     const r=stage.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(window.devicePixelRatio||1,2);

@@ -34,3 +34,42 @@ Google Search Console is set up for `https://saikyo-rivals.com/` (verified via H
 3. Once DNS propagates, enable "Enforce HTTPS" in the repo's Pages settings (same as was done for arenagaming.live).
 
 Confirmed live and working (DNS, HTTPS, notify-me backend, search indexing) as of 7 September 2026.
+
+
+## 2026-09-16: Favicon added, Google re-indexing requested
+
+The "Coming Soon" page had no favicon at all, which is why Google's search
+result and browser tabs were showing a generic globe/placeholder icon.
+This is now fixed.
+
+What was added (root of this repo):
+- `favicon.ico` - multi-size (16/32/48), classic uncompressed BMP-format
+  frames for maximum decoder compatibility. Verified to decode correctly
+  (confirmed via createImageBitmap pixel readback, not just file-header
+  parsing - an earlier PNG-compressed ICO build from Pillow reported correct
+  dimensions but failed to rasterize in some decode paths, so BMP frames
+  were used instead for safety).
+- `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png`
+  (180x180).
+
+All generated from the approved red glowing 最 ("strongest") mark used
+elsewhere in the brand system, cropped to a clean square.
+
+`index.html`'s `<head>` now links all of these:
+```html
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+```
+
+Also requested re-indexing of `https://saikyo-rivals.com/` via Search
+Console's URL Inspection tool on 16 September 2026 (confirmed: "Indexing
+requested - URL was added to a priority crawl queue") to speed up Google
+picking up the new icon. The page was already confirmed indexed and served
+over HTTPS beforehand. The search-result icon itself can still take days to
+refresh even after the recrawl - this is expected, not a sign anything is
+broken.
+
+Conclusion: favicon task is complete. Don't redo this or regenerate a new
+icon set unless the brand mark itself changes.

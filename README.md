@@ -8,6 +8,7 @@ Static site, deployed via GitHub Pages. Built from `Saikyo_Rivals_Claude_Website
 
 - `index.html` — the coming-soon homepage (self-contained: inline CSS/JS, no images embedded as base64 anymore — see Features strip below)
 - `about.html` — "How Saikyo Rivals Works" page, added 25 September 2026 (see dated section below). Same inline-CSS-per-file pattern as `index.html`, not a shared stylesheet.
+- `contact.html` — "Get In Touch" page, added 25 September 2026 (see dated section below). Same inline-CSS-per-file pattern, no shared stylesheet.
 - `hero-bg.jpg` — cropped hero background (from the approved concept art in the design spec)
 - `CNAME` — custom domain for GitHub Pages
 - `robots.txt`, `sitemap.xml` — basic SEO groundwork
@@ -26,7 +27,7 @@ This section is real HTML text + inline SVG icons (crossed swords, trophy, rival
 
 Google Search Console is set up for `https://saikyo-rivals.com/` (verified via HTML meta tag in `index.html`'s `<head>` — don't remove the `google-site-verification` meta tag or verification is lost). Sitemap submitted and accepted, homepage confirmed indexed and served correctly over HTTPS as of 7 September 2026.
 
-**Not done yet:** `arenagaming.live` (a separate repo/domain, `Arena-gaming/arena-gaming-live`) still serves its own old placeholder page and was never migrated to redirect to or mirror this site, despite that being the original plan once this page went live. Search Console has not been set up for that domain. `sitemap.xml` also still only lists the homepage — `about.html` hasn't been added to it yet.
+**Not done yet:** Search Console has not been set up for `arenagaming.live`. Lower priority now — as of 25 September 2026 that domain's repo (`Arena-gaming/arena-gaming-live`, separate from this one) serves a redirect straight to `saikyo-rivals.com/`, so it no longer needs its own indexing.
 
 ## Going live
 
@@ -85,10 +86,26 @@ First real second page on this site. Previously the nav bar (Home/About/Features
 - Sections: page header (kicker + title), "What Saikyo Rivals Is" prose, a 4-step "How It Works" grid (Register → Enter → Compete → Get Verified), a bordered "Verified Results, Always" doctrine callout, a "Launch Title" section on VALORANT (`id="launch"`, linked from the nav's Games item), and a CTA button back to the homepage's notify form.
 - No page-specific JS beyond the footer year (see below) — intentionally static, no rain/neon effects to keep it lightweight.
 
-**Nav hrefs fixed** (`index.html` and `about.html`, both `.nav-wrap` blocks): Home → `/`, About → `/about.html`, Features → `/#features`, Games → `/about.html#launch`. **Roadmap and Contact are still `href="#"` placeholders** — no pages exist for these yet, left as-is intentionally rather than guessed at.
+**Nav hrefs fixed** (`index.html` and `about.html`, both `.nav-wrap` blocks): Home → `/`, About → `/about.html`, Features → `/#features`, Games → `/about.html#launch`. Contact was fixed later the same day to `/contact.html` — see the section below. **Roadmap is still an `href="#"` placeholder** — no page exists for it yet, left as-is intentionally rather than guessed at.
 
 **Site-wide footer + copyright notice** (new `.site-footer`/`.footer-inner`/`.footer-brand`/`.footer-copy` CSS, added to both `index.html` and `about.html`): a thin bar under a `1px solid var(--line)` top border, brand wordmark left, `© <year> Saikyo Rivals. All rights reserved.` right. The year is set by a one-line inline script (`document.getElementById('year').textContent=new Date().getFullYear()`) so it never needs a manual yearly edit — don't hardcode a static year over this. Rights holder is written as "Saikyo Rivals" (no legal entity exists yet); update to the actual registered company name once Jamie/Carl incorporate.
 
 Both files committed directly to `main` and confirmed live at `saikyo-rivals.com/` and `saikyo-rivals.com/about.html` post-deploy.
 
-**Not done yet:** Roadmap and Contact pages (nav links still inert), `sitemap.xml` doesn't list `about.html`, and the Features strip section on the homepage isn't cross-linked from `about.html` (or vice versa) beyond the shared nav.
+**Not done yet:** Roadmap page (nav link still inert — Contact was built later the same day, see below), and the Features strip section on the homepage isn't cross-linked from `about.html` (or vice versa) beyond the shared nav.
+
+## 2026-09-25: Contact page added, sitemap.xml completed
+
+Second new page today. `sitemap.xml` was also updated in this same pass to list `about.html` (missed in the entry above) and the new `contact.html`.
+
+**`contact.html` — "Get In Touch"** (new file, root of repo):
+- Same Neo-Tokyo visual system and trimmed inline `<style>` block as `about.html` (no hero photo, rain, or neon-flicker CSS/JS — same reasoning as before).
+- Sections: page header (kicker + title), a short intro paragraph explaining there's no support desk yet, a two-card "channels" grid linking out to the real live X (`@saikyorivals`) and Instagram (`@saikyorivals`) accounts, a bordered callout noting a support inbox and Discord are coming later and warning against trusting other contact details claiming to be us, and a closing CTA back to the homepage's notify form.
+- **Deliberately does not include an email address or contact form.** No real support/business email or form backend exists yet (Jamie hasn't supplied one — see `Docs/legal/LEGAL_REVIEW_PACK.md` in `Arena-Platform-` for that open item), so rather than inventing one, this page routes people to the two social accounts that are actually live and checked, plus the existing notify-me signup. Don't add a `mailto:` or a form here until a real inbox/backend exists — replace this note when that happens.
+- Discord and YouTube icons in the topbar `.social` row are still `href="#"` placeholders (same as every other page) — not linked from this page's content either, for the same reason.
+
+**Nav hrefs**: Contact → `/contact.html` in both `index.html` and `about.html`'s `.nav-wrap` blocks (was `href="#"`). Roadmap is now the only remaining placeholder nav link.
+
+**`sitemap.xml`**: now lists all three live pages (`/`, `/about.html`, `/contact.html`).
+
+Committed directly to `main` in one commit ("Add Contact page and wire up Contact nav link") alongside the updated `index.html`, `about.html`, and `sitemap.xml`. Confirmed live at `saikyo-rivals.com/contact.html` post-deploy.

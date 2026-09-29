@@ -74,6 +74,7 @@
 
 </style>
 <link rel="stylesheet" href="smoke-v2.css">
+<link rel="stylesheet" href="ambient.css">
 </head>
 <body>
 <div class="page">
@@ -111,6 +112,7 @@
 <div class="hat-drips" aria-hidden="true"><i class="drip d1"></i><i class="drip d2"></i><i class="drip d3"></i><i class="drip d4"></i><i class="drip d5"></i></div>
 <div class="manhole-steam" aria-hidden="true"><i class="steam-wisp s1"></i><i class="steam-wisp s2"></i><i class="steam-wisp s3"></i></div>
 <canvas id="rainCanvas" class="rain-canvas" aria-hidden="true"></canvas>
+<button id="ambientSoundToggle" class="sound-toggle" type="button" aria-pressed="false"><span class="sound-dot" aria-hidden="true"></span><span class="sound-label">Enable ambience</span></button>
 </section>
 </main>
 </div>
@@ -201,8 +203,9 @@ if(photo.complete&&photo.naturalWidth)layoutNeon();else photo.addEventListener('
 window.addEventListener('resize',layoutNeon);
 const nwait=ms=>new Promise(r=>setTimeout(r,ms));
 const nrandom=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
-async function nflicker(el){el.classList.add('is-flickering');await nwait(340);el.classList.remove('is-flickering');}
+async function nflicker(el){window.saikyoAmbient?.neon?.(.7);el.classList.add('is-flickering');await nwait(340);el.classList.remove('is-flickering');}
 async function nfullFailure(el){
+window.saikyoAmbient?.neon?.(1.15);
 el.classList.add('is-flickering');await nwait(300);el.classList.remove('is-flickering');
 el.classList.add('is-off');await nwait(nrandom(600,2000));
 el.classList.remove('is-off');await nwait(60);
@@ -212,6 +215,7 @@ el.classList.add('is-off');await nwait(45);
 el.classList.remove('is-off');
 }
 async function npartialFailure(sign){
+window.saikyoAmbient?.neon?.(.9);
 const sections=[...sign.querySelectorAll('.neon-section')];
 if(!sections.length)return;
 const section=sections[nrandom(0,sections.length-1)];
@@ -241,5 +245,6 @@ else if(effect==='full')nschedule(sign,effect,20000,45000);
 }
 })();
 </script>
+<script src="ambient.js" defer></script>
 <script src="smoke.js" defer></script>
 </body></html>

@@ -1,0 +1,26 @@
+name: Validate landing page
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Check JavaScript syntax
+        run: |
+          node --check ambient.js
+          node --check smoke.js
+      - name: Verify landing assets
+        run: |
+          grep -q 'hero-bg.jpg' index.html
+          grep -q 'wordmark.png' index.html
+          grep -q 'ambient.css' index.html
+          grep -q 'ambient.js' index.html
+          grep -q 'ambientSoundToggle' index.html

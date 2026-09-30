@@ -23,8 +23,8 @@ jobs:
           from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
           import requests, io
           from pathlib import Path
-          source='https://unsplash.com/napi/photos/Or5_Zj65XmM/download?force=true&w=2300'
-          r=requests.get(source,timeout=45,headers={'User-Agent':'Mozilla/5.0'},allow_redirects=True)
+          source='https://upload.wikimedia.org/wikipedia/commons/c/c1/Kabukicho-at-night.jpg'
+          r=requests.get(source,timeout=45,headers={'User-Agent':'Saikyo-Rivals-illustration-builder/1.0 (contact@saikyo-rivals.com)'},allow_redirects=True)
           print('photo-download status',r.status_code,'final',r.url,'length',len(r.content),'type',r.headers.get('content-type'))
           r.raise_for_status()
           src=Image.open(io.BytesIO(r.content)).convert('RGB')
@@ -35,7 +35,15 @@ jobs:
           w,h=round(src.width*scale),round(src.height*scale)
           src=src.resize((w,h),Image.Resampling.LANCZOS)
           left=(w-target[0])//2;top=(h-target[1])//2
-          src=src.crop((left,top,left+target[0],top+target[1]))
+          # Preserve the narrow-alley perspective: sharp centered photo + enlarged,
+          # soft city street side-fill rather than cropping a portrait into a closeup.
+          from PIL import ImageOps
+          orig=Image.open(io.BytesIO(r.content)).convert('RGB')
+          side=ImageOps.fit(orig,target,method=Image.Resampling.LANCZOS)
+          side=side.filter(ImageFilter.GaussianBlur(35))
+          sharp=ImageOps.contain(orig,(1100,1080),method=Image.Resampling.LANCZOS)
+          side.paste(sharp,((1920-sharp.width)//2,0))
+          src=side
           src=ImageEnhance.Color(src).enhance(1.28)
           src=ImageEnhance.Contrast(src).enhance(1.11)
           # Graded red/cyan city glow inspired by the approved Neo Tokyo home.

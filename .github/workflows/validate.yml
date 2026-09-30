@@ -42,7 +42,7 @@ jobs:
           if (image.length < 140000 || image.toString('ascii',0,4) !== 'RIFF' || image.toString('ascii',8,12) !== 'WEBP') throw Error('Approved generated Contact artwork missing or truncated');
           if (!contact.includes('class="contact-art"') || !contact.includes('/contact-approved.webp')) throw Error('Contact must render the user-approved exact artwork');
           if (!contact.includes("body::before{") || !contact.includes("background:#03040a url('/contact-approved.webp')")) throw Error('Contact must have an independent fixed-image fallback');
-          const embedded = contact.match(/data:image\\/webp;base64,([A-Za-z0-9+/=]+)/)?.[1];
+          const embedded = contact.split('data:image/webp;base64,')[1]?.split('"')[0];
           if (!embedded) throw Error('Missing self-contained fallback image');
           if (!Buffer.from(embedded, 'base64').equals(image)) throw Error('Embedded Contact art must exactly match approved image bytes');
           if (!contact.includes('contact-scene-revision') || !contact.includes('html{background:#03040a var(--contact-scene)')) throw Error('Persistent embedded HTML background missing');

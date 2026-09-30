@@ -1,0 +1,56 @@
+name: Verify approved Contact live
+on:
+  push:
+    branches: [approved-contact-visual-acceptance]
+    paths: ['.github/workflows/approved-contact-visual.yml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install playwright pillow
+      - run: python -m playwright install --with-deps chromium
+      - name: Check live original artwork, form and Home transition
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          from PIL import Image,ImageStat
+          import io
+          with sync_playwright() as p:
+              browser=p.chromium.launch(headless=True)
+              for width,height in ((1648,928),(390,844)):
+                  page=browser.new_page(viewport={'width':width,'height':height})
+                  response=page.goto('https://saikyo-rivals.com/contact.html',wait_until='networkidle',timeout=60000)
+                  assert response.status==200
+                  art=page.locator('.contact-art')
+                  info=art.evaluate('(e)=>({src:e.currentSrc,w:e.naturalWidth,h:e.naturalHeight,visible:getComputedStyle(e).display})')
+                  assert 'contact-approved.webp' in info['src'] and info['w']==1648 and info['h']==928,info
+                  panel=page.locator('.contact-panel')
+                  assert panel.is_visible()
+                  assert page.locator('nav a[href="/"]').is_visible()
+                  assert page.locator('nav a[href="/contact.html"]').is_visible()
+                  assert page.get_by_role('button',name='SEND MESSAGE').is_visible()
+                  assert page.locator('form input[name="name"]').count()==1
+                  assert page.locator('form input[name="email"]').count()==1
+                  assert page.locator('form select[name="type"]').count()==1
+                  assert page.locator('form textarea[name="message"]').count()==1
+                  stats=ImageStat.Stat(Image.open(io.BytesIO(art.screenshot())).convert('RGB'))
+                  assert max(stats.stddev)>30,stats.stddev
+                  print('PASS live Contact',width,info,'panel',panel.bounding_box(),'art stdev',stats.stddev)
+                  page.close()
+              page=browser.new_page(viewport={'width':1440,'height':900})
+              page.goto('https://saikyo-rivals.com/',wait_until='networkidle',timeout=60000)
+              page.locator('nav a[href="/contact.html"]').click()
+              page.wait_for_timeout(850)
+              result=page.locator('#contact-arrival').evaluate('(e)=>({opacity:Number(getComputedStyle(e).opacity),background:getComputedStyle(e).backgroundImage})')
+              assert result['opacity']>.2 and 'contact-approved.webp' in result['background'],result
+              page.wait_for_url('**/contact.html',timeout=30000)
+              assert page.locator('img.contact-art').is_visible()
+              print('PASS Home crossfade:',result,'and Contact destination loaded')
+              browser.close()
+          PY

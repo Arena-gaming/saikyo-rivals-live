@@ -41,6 +41,10 @@ jobs:
           const image = fs.readFileSync('contact-approved.webp');
           if (image.length < 140000 || image.toString('ascii',0,4) !== 'RIFF' || image.toString('ascii',8,12) !== 'WEBP') throw Error('Approved generated Contact artwork missing or truncated');
           if (!contact.includes('class="contact-art"') || !contact.includes('/contact-approved.webp')) throw Error('Contact must render the user-approved exact artwork');
+          if (!contact.includes("body::before{") || !contact.includes("background:#03040a url('/contact-approved.webp')")) throw Error('Contact must have an independent fixed-image fallback');
+          const art = contact.match(/\.contact-art\{([^}]+)\}/)?.[1] || '';
+          if (!/position:fixed/.test(art) || !/z-index:1/.test(art) || !/opacity:1/.test(art) || !/animation:none/.test(art)) throw Error('Contact art must remain visible without its own arrival animation');
+          if (/animation:sceneArrive/.test(contact)) throw Error('Entrance animation must not fade the Contact artwork');
           if (!home.includes('contact-arrival') || !home.includes('/contact-approved.webp')) throw Error('Home must hand off into that exact artwork');
           if (!contact.includes('id="contactForm"') || !contact.includes('mailto:hello@saikyo-rivals.com')) throw Error('Enquiry email-draft form missing');
           if (!contact.includes('https://x.com/saikyorivals') || !contact.includes('https://instagram.com/saikyorivals')) throw Error('Actual live contact links missing');

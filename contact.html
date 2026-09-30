@@ -4,176 +4,158 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Contact — Saikyo Rivals</title>
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<meta name="description" content="Visit the East Alley communications kiosk and get in touch with Saikyo Rivals. Follow along and reach us on X and Instagram, or sign up to be notified at launch.">
+<meta name="description" content="Visit the Saikyo Rivals neon-lit East Alley and contact us through our pre-launch channels.">
 <link rel="canonical" href="https://saikyo-rivals.com/contact.html">
-<link rel="preload" as="image" href="/contact-alley.jpg">
-<meta property="og:type" content="website"><meta property="og:title" content="Contact — Saikyo Rivals"><meta property="og:description" content="Follow along and reach us on X and Instagram, or sign up to be notified at launch."><meta property="og:image" content="https://saikyo-rivals.com/hero-bg.jpg"><meta property="og:url" content="https://saikyo-rivals.com/contact.html">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@700;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+<meta property="og:title" content="Contact — Saikyo Rivals">
+<meta property="og:description" content="Reach Saikyo Rivals from the East Alley communications district.">
+<meta property="og:image" content="https://saikyo-rivals.com/contact-approved.webp">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preload" href="/contact-approved.webp" as="image" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/ambient.css?v=8">
 <style>
-:root{--bg:#040404;--panel:#050505;--white:#f5f5f5;--muted:#9b9ca2;--red:#ed1b2f;--red2:#ff2439;--line:#25262a}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white)}body{font-family:Inter,system-ui,sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}
-
-.topbar{height:70px;display:grid;grid-template-columns:34% 66%;align-items:center;position:relative;z-index:20;background:#050505}.brand-mini{padding-left:46px;display:flex;align-items:flex-start;gap:8px;font-family:Orbitron,sans-serif;font-weight:800;line-height:.88;font-size:17px}.brand-mini .words{display:flex;flex-direction:column}.brand-mini .saikyo{color:#fff}.brand-mini .rivals{color:var(--red);margin-top:3px}.brand-mini .jp{font-family:'Noto Sans JP',sans-serif;font-size:9px;line-height:1.35;color:#fff}.brand-mini .jp span{display:block;color:var(--red)}
-.nav-wrap{height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 36px 0 24px}.nav{display:flex;gap:34px;align-items:center}.nav a{font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#e4e4e6;padding:25px 0 10px;position:relative}.nav a.active{color:var(--red)}.nav a.active:after{content:"";position:absolute;left:0;right:0;bottom:3px;height:2px;background:var(--red)}.social{display:flex;gap:17px}.social a{color:#d5d5d8;opacity:.9;display:flex}.social a:hover{color:var(--red2);opacity:1}.social svg{width:18px;height:18px}
-@media(max-width:980px){.topbar{grid-template-columns:1fr;height:66px}.brand-mini{padding-left:22px}.nav-wrap{display:none}}
-
-.kicker{font-family:'Noto Sans JP';font-size:13px;letter-spacing:.08em;color:var(--red2);font-weight:800;margin:0 0 14px}
-
-.contact-hero{position:relative;isolation:isolate;overflow:hidden;background:#050505;padding:180px 54px 95px;min-height:570px;display:flex;flex-direction:column;justify-content:center}
-.contact-hero:before{content:"";position:absolute;z-index:-2;inset:0;background:url('/contact-location.svg') 58% 43% /cover no-repeat;animation:contactDestination 1.2s cubic-bezier(.19,.8,.22,1) both}
-.contact-hero:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(2,3,7,.95),rgba(2,3,7,.83) 29%,rgba(2,3,7,.38) 60%,rgba(2,3,7,.21)),linear-gradient(0deg,#050505,transparent 27%)}
-.contact-hero .kicker,.contact-hero .page-title,.contact-hero .page-sub{position:relative}
-.contact-hero .page-title{text-shadow:0 6px 24px #000}
-.contact-location{position:relative;font:700 11px/1.4 Orbitron,sans-serif;letter-spacing:.24em;color:#e8a3b4;margin:0 0 25px;text-transform:uppercase}
-@keyframes contactDestination{from{opacity:.45;transform:scale(1.14)}to{opacity:1;transform:scale(1)}}
-@media(prefers-reduced-motion:reduce){.contact-hero:before{animation:none}}
-
-.contact-hero .kanji-side{position:absolute;left:9px;top:20%;font-family:'Noto Sans JP';writing-mode:vertical-rl;color:rgba(227,27,46,.12);font-weight:900;font-size:18px;letter-spacing:.12em}
-.contact-hero .kanji-big{position:absolute;left:15px;top:40%;font-family:'Noto Sans JP';color:rgba(227,27,46,.07);font-size:52px;font-weight:900}
-.page-title{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(30px,5vw,54px);letter-spacing:.01em;margin:0 0 14px;color:#fff;max-width:760px}
-.page-sub{font-size:15px;line-height:1.6;color:var(--muted);max-width:520px;margin:0}
-@media(max-width:620px){.contact-hero{padding:64px 24px 46px}.contact-hero .kanji-side,.contact-hero .kanji-big{display:none}}
-
-.section-heading{font-family:Orbitron,sans-serif;font-weight:800;font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-align:center;margin:0 0 10px}
-.section-rule{width:44px;height:2px;background:var(--red);margin:0 auto 40px}
-
-.content-block{max-width:720px;margin:0 auto;padding:54px 24px 10px}
-.content-block p{font-size:15px;line-height:1.8;color:#a8abb3;margin:0 0 18px}
-.content-block p:last-child{margin-bottom:0}
-
-.channels{background:#050505;padding:60px 40px 70px;position:relative}
-.channels-inner{max-width:820px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.channel-card{border:1px solid var(--line);padding:30px 26px;text-align:center;transition:border-color .15s}
-.channel-card:hover{border-color:var(--red)}
-.channel-icon{width:32px;height:32px;color:var(--red2);margin:0 auto 16px;display:block}
-.channel-card h3{margin:0 0 8px;font-size:14px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#fff}
-.channel-card p{margin:0 0 18px;font-size:12.5px;line-height:1.6;color:var(--muted)}
-.channel-btn{display:inline-block;height:38px;line-height:36px;padding:0 20px;background:transparent;color:#fff;border:1px solid var(--red);font-family:Orbitron,sans-serif;font-size:11px;font-weight:800;letter-spacing:.06em}
-.channel-btn:hover{background:rgba(237,27,47,.13);box-shadow:0 0 18px rgba(237,27,47,.24)}
-@media(max-width:620px){.channels{padding:44px 24px 56px}.channels-inner{grid-template-columns:1fr}}
-
-.doctrine{background:#08090b;padding:60px 24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.doctrine-inner{max-width:720px;margin:0 auto;text-align:center}
-.doctrine-inner p{font-size:15px;line-height:1.8;color:#c7c8cc;margin:0;border-left:2px solid var(--red);padding-left:18px;text-align:left}
-
-.cta{text-align:center;padding:70px 24px 90px}
-.cta-btn{display:inline-block;height:45px;line-height:43px;padding:0 28px;background:transparent;color:#fff;border:1px solid var(--red);font-family:Orbitron,sans-serif;font-size:12px;font-weight:800;letter-spacing:.06em;cursor:pointer}
-.cta-btn:hover{background:rgba(237,27,47,.13);box-shadow:0 0 18px rgba(237,27,47,.24)}
-
-.site-footer{background:#040404;border-top:1px solid var(--line);padding:22px 40px}
-.footer-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.footer-brand{font-family:Orbitron,sans-serif;font-weight:800;font-size:11px;letter-spacing:.12em;color:#6a6b70}
-.footer-copy{font-size:11px;color:#6a6b70}
-@media(max-width:480px){.footer-inner{flex-direction:column;text-align:center}}
-
-/* Dedicated East Alley destination — full-page, visibly illustrated location.
-   Explicit foreground layers prevent background art disappearing behind the
-   body's dark background (the old negative pseudo-element stacking defect). */
-.contact-backdrop{position:fixed;inset:0;z-index:0;background:#07111d url('/contact-alley.jpg') 52% 48% /cover no-repeat;pointer-events:none;transform:scale(1.025);animation:alleyArrival 1.15s cubic-bezier(.19,.8,.22,1) both}
-.contact-grade{position:fixed;inset:0;z-index:1;pointer-events:none;background:
- linear-gradient(90deg,rgba(3,5,10,.89) 0%,rgba(3,5,10,.54) 23%,rgba(3,5,10,.1) 51%,rgba(3,5,10,.5) 79%,rgba(3,5,10,.76) 100%),
- linear-gradient(180deg,rgba(2,4,10,.3),rgba(2,4,10,.08) 42%,rgba(2,4,10,.64) 100%)}
-.topbar,.contact-hero,.content-block,.channels,.doctrine,.cta,.site-footer{position:relative;z-index:2}
-.topbar{background:rgba(3,4,9,.86);backdrop-filter:blur(13px);border-bottom:1px solid rgba(242,70,100,.18)}
-.contact-hero{background:transparent;isolation:auto;min-height:min(74svh,740px);padding:110px 7vw 120px}
-.contact-hero:before,.contact-hero:after{content:none;display:none}
-.contact-hero .page-title{font-size:clamp(36px,5.5vw,80px);max-width:690px;text-shadow:0 5px 32px #04040b}
-.contact-hero .page-sub{color:#eef0f2;max-width:430px;text-shadow:0 2px 10px #030408}
-.contact-location{display:inline-block;color:#f2a1b8;border:1px solid rgba(255,85,130,.54);background:rgba(11,5,16,.78);padding:10px 14px;width:max-content;max-width:100%;box-shadow:0 0 30px rgba(230,42,97,.23)}
-.content-block{max-width:min(900px,calc(100% - 40px));margin:0 auto;padding:27px 32px;background:rgba(5,8,15,.78);border:1px solid rgba(117,176,203,.2);backdrop-filter:blur(15px);box-shadow:0 20px 90px rgba(0,0,0,.46)}
-.content-block p{color:#e1e2e5}
-.channels{background:transparent;padding:42px 24px 62px}
-.channels-inner{max-width:930px}
-.channel-card{background:rgba(4,8,15,.86);border-color:rgba(236,65,112,.34);backdrop-filter:blur(17px);box-shadow:0 24px 55px rgba(0,0,0,.44)}
-.channel-card p{color:#d4d8e0}
-.channel-card:hover{border-color:#f24670;background:rgba(13,10,22,.93)}
-.doctrine{max-width:min(930px,calc(100% - 40px));margin:0 auto;background:rgba(3,8,15,.84);backdrop-filter:blur(14px);border:1px solid rgba(115,171,198,.22);padding:34px 26px}
-.doctrine-inner p{color:#d7dce4}
-.cta{padding:58px 24px 88px}
-.site-footer{background:rgba(2,3,8,.86);backdrop-filter:blur(14px)}
-.contact-photo-credit{font-size:10px;color:#969da8;text-align:center;margin:0 0 10px}
-.contact-photo-credit a{text-decoration:underline;text-underline-offset:2px}
-@keyframes alleyArrival{from{opacity:.42;transform:scale(1.12);filter:brightness(.55)}to{opacity:1;transform:scale(1.025);filter:brightness(1)}}
-@media(max-width:980px){
-  .topbar{height:auto;min-height:66px;display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px}
-  .brand-mini{padding-left:0}
-  .nav-wrap{display:flex;justify-content:flex-start;width:100%;height:auto;padding:0}
-  .nav{gap:28px}.nav a{padding:10px 0}
-  .social{display:none}
+:root{--pink:#ff2386;--pink-light:#ff619d;--cyan:#71d9ff;--text:#f6f5fa}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#03040a;color:var(--text)}
+body{font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button,a,select,input,textarea{touch-action:manipulation}
+.skip{position:absolute;left:-9999px;z-index:200}.skip:focus{left:12px;top:12px;background:#111;padding:12px}
+.contact-art{position:fixed;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.03);animation:sceneArrive 1.15s ease-out both}
+.contact-screen{position:fixed;z-index:1;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 0% 64%,rgba(2,2,8,.16) 67%,rgba(2,2,8,.24) 100%)}
+.site-header{position:relative;z-index:20;min-height:76px;background:rgba(2,3,8,.96);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;gap:30px;padding:9px clamp(18px,4.1vw,72px)}
+.brand{flex-shrink:0;display:flex;align-items:center;font-family:Orbitron,sans-serif;font-size:clamp(15px,1.7vw,23px);font-weight:900;line-height:.89;letter-spacing:.04em;transform:skew(-8deg)}
+.brand span{display:flex;flex-direction:column;text-shadow:0 0 18px rgba(236,42,129,.35)}
+.brand small{color:#ff4ba1;font-size:.46em;letter-spacing:.55em;text-align:center;margin-top:5px}
+.nav-controls{display:flex;align-items:center;gap:clamp(20px,3vw,55px)}
+.main-nav{display:flex;align-items:center;gap:clamp(20px,3.1vw,48px)}
+.main-nav a{position:relative;display:block;padding:15px 0 14px;color:#c5c4ce;text-transform:uppercase;font-weight:800;letter-spacing:.065em;font-size:12px}
+.main-nav a[aria-current]{color:#fff}
+.main-nav a[aria-current]:after{content:"";position:absolute;bottom:7px;left:0;right:0;height:2px;background:var(--pink);box-shadow:0 0 13px var(--pink)}
+.sound-wrap{display:flex;align-items:center}
+#ambientSoundToggle{position:static;bottom:auto;right:auto;z-index:auto;min-width:0;border-radius:4px;box-shadow:0 0 18px rgba(255,31,141,.12);border-color:rgba(255,54,153,.82);background:rgba(10,5,18,.65);padding:12px 16px;white-space:nowrap;font:700 10px/1.2 Orbitron,sans-serif;letter-spacing:.07em;color:#ff70ae;cursor:pointer}
+#ambientSoundToggle:hover{box-shadow:0 0 20px rgba(255,41,153,.45)}
+#ambientSoundToggle .ambient-toggle__dot{background:var(--pink)}
+.page-main{position:relative;z-index:5;min-height:calc(100svh - 76px);display:flex;align-items:center;justify-content:flex-end;padding:32px clamp(18px,2.2vw,42px) 40px}
+.contact-panel{width:min(100%,492px);min-height:560px;background:rgba(5,5,11,.975);border:1px solid rgba(255,55,142,.78);border-radius:4px;box-shadow:0 0 0 1px rgba(40,9,35,.25),0 22px 70px rgba(0,0,0,.7),0 0 30px rgba(255,21,119,.1);padding:24px clamp(20px,1.7vw,28px) 23px}
+.eyebrow{margin:0 0 12px;color:#dcdae0;text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:.12em}
+.contact-panel h1{font:900 clamp(22px,2.2vw,28px)/1.18 Orbitron,sans-serif;margin:0 0 12px;letter-spacing:-.01em}
+.intro{font-size:12px;color:#dedde5;line-height:1.6;margin:0 0 18px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{width:100%;color:#f7f1fa;padding:11px 12px;min-height:40px;background:#0f0e14;border:1px solid #33313b;border-radius:4px;outline:none;font-size:12px}
+.field::placeholder{color:#b6afb9}
+.field:focus-visible{border-color:#ff50a4;box-shadow:0 0 0 2px rgba(255,56,160,.2)}
+.field--wide{grid-column:1/-1}
+select.field{appearance:auto;color:#c5c2cd}
+select.field:valid{color:#f5f1f8}
+textarea.field{resize:vertical;min-height:105px}
+.submit{grid-column:1/-1;padding:12px 18px;min-height:42px;border:0;border-radius:4px;background:linear-gradient(90deg,#e93c88,#ff0085);font:900 12px Orbitron,sans-serif;letter-spacing:.04em;color:#0b0610;cursor:pointer;box-shadow:0 4px 25px rgba(255,26,122,.22)}
+.submit:hover{filter:brightness(1.1)}
+.delivery-note{grid-column:1/-1;color:#aba4b1;font-size:10px;line-height:1.45;margin:-1px 0 0}
+.form-status{font-size:11px;line-height:1.5;margin:8px 0 0;color:#ffb6d1;min-height:0}
+.divider{display:flex;align-items:center;gap:12px;margin:15px 0 14px;color:#86808b;font-size:10px;font-weight:700;text-align:center;text-transform:uppercase;white-space:nowrap}
+.divider:before,.divider:after{content:"";height:1px;flex:1;background:#2e2933}
+.channels{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.channel{display:flex;flex-direction:column;justify-content:center;min-height:95px;gap:7px;align-items:center;padding:13px 8px;border:1px solid #34303b;border-radius:4px;background:#0a0a10;text-align:center;transition:border-color .18s,background .18s}
+.channel:hover,.channel:focus-visible{border-color:#f6399d;background:#170a1d}
+.channel svg{width:21px;height:21px;color:#f64b9c}
+.channel strong{font-size:12px}
+.channel small{color:#bcb5c4;font-size:10px;line-height:1.4}
+.prelaunch{margin:12px 0 0;font-size:10px;line-height:1.5;color:#aca5b4;text-align:center}
+.prelaunch a{color:#ffa5ca;text-decoration:underline;text-underline-offset:2px}
+.site-footer{position:relative;z-index:5;padding:12px 20px 18px;color:rgba(225,222,238,.7);text-shadow:0 1px 12px black;font-size:10px;text-align:center}
+@keyframes sceneArrive{from{opacity:.68;transform:scale(1.08);filter:brightness(.65)}to{opacity:1;transform:scale(1);filter:brightness(1)}}
+@media(min-width:1100px){.page-main{padding-top:12px;padding-bottom:18px}.contact-panel{transform:translateY(6px)}}
+@media(max-width:920px){
+  .contact-art{object-position:24% center}
+  .contact-screen{background:linear-gradient(180deg,rgba(1,2,7,.05) 0%,rgba(1,2,7,.04) 32%,rgba(1,2,7,.85) 100%)}
+  .page-main{justify-content:center;align-items:flex-end;min-height:calc(100svh - 110px);padding-top:clamp(200px,31vh,330px)}
+  .contact-panel{width:min(100%,520px);transform:none}
+  .site-header{padding:14px 20px;flex-wrap:wrap;min-height:70px;gap:9px}
+  .nav-controls{gap:15px;margin-left:auto}
+  #ambientSoundToggle{padding:10px 12px;font-size:9px}
 }
-@media(max-width:620px){
- .contact-backdrop{background-position:49% 43%}
- .contact-grade{background:linear-gradient(180deg,rgba(2,3,8,.55),rgba(2,3,8,.58) 33%,rgba(2,3,8,.82))}
- .contact-hero{min-height:520px;padding:66px 24px 80px}
- .contact-hero .page-title{font-size:37px}
- .content-block{padding:23px 20px}
- .channels{padding:26px 20px 48px}
+@media(max-width:520px){
+  .contact-art{object-position:19% center}
+  .page-main{padding:180px 14px 15px;align-items:flex-end}
+  .contact-panel{padding:20px 17px;min-height:0}
+  .contact-panel h1{font-size:21px}
+  .field{min-width:0}
+  .site-header{gap:5px 10px}
+  .brand{font-size:16px}
+  .nav-controls{width:100%;justify-content:space-between}
+  .main-nav a{padding:8px 0 12px}
+  .main-nav a[aria-current]:after{bottom:5px}
+  #ambientSoundToggle{font-size:9px}
 }
-@media(prefers-reduced-motion:reduce){.contact-backdrop{animation:none!important;transform:none}}
+@media(prefers-reduced-motion:reduce){.contact-art{animation:none}}
 </style>
 </head>
 <body>
-<div class="contact-backdrop" aria-hidden="true"></div>
-<div class="contact-grade" aria-hidden="true"></div>
-<header class="topbar">
-<a class="brand-mini" href="/" aria-label="Saikyo Rivals home"><span class="words"><span class="saikyo">SAIKYO</span><span class="rivals">RIVALS</span></span><span class="jp">最<span>強</span></span></a>
-<div class="nav-wrap"><nav class="nav" aria-label="Main navigation"><a href="/">Home</a><a class="active" href="/contact.html" aria-current="page">Contact</a></nav><div class="social"><a href="#" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.331c-1.182 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/></svg></a><a href="https://x.com/saikyorivals" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg></a><a href="https://instagram.com/saikyorivals" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a><a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></a></div></div>
+<a class="skip" href="#contact-main">Skip to contact</a>
+<!-- The photo is the user's ORIGINAL selected generated image, not a new substitute. -->
+<img class="contact-art" src="/contact-approved.webp" alt="" aria-hidden="true" fetchpriority="high">
+<div class="contact-screen" aria-hidden="true"></div>
+<header class="site-header">
+  <a href="/" class="brand" aria-label="Saikyo Rivals Home"><span>SAIKYO<small>RIVALS</small></span></a>
+  <div class="nav-controls">
+    <nav class="main-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/contact.html" aria-current="page">Contact</a></nav>
+    <div class="sound-wrap"><button id="ambientSoundToggle" type="button" aria-pressed="false" title="Toggle rain and neon atmosphere"><span class="ambient-toggle__dot" aria-hidden="true"></span> <span class="sound-label">Enable ambience</span></button></div>
+  </div>
 </header>
-
-<section class="contact-hero" aria-label="East Alley communications kiosk">
-<div class="kanji-side">連絡</div><div class="kanji-big">連</div>
-<p class="contact-location">East Alley · Communications Kiosk</p><p class="kicker">最強との連絡</p>
-<h1 class="page-title">GET IN TOUCH</h1>
-<p class="page-sub">We're pre-launch and building in the open. Here's where to find us.</p>
-</section>
-
-<section class="content-block">
-<p>Saikyo Rivals hasn't launched yet, so there's no support desk or ticket system running — but we're active every day building this out, and the fastest way to reach a real person on the team right now is through the channels below.</p>
-</section>
-
-<section class="channels">
-<div class="channels-inner">
-<div class="channel-card">
-<svg class="channel-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg>
-<h3>X</h3>
-<p>The quickest way to reach us — replies and DMs are checked daily.</p>
-<a class="channel-btn" href="https://x.com/saikyorivals" target="_blank" rel="noopener">@SAIKYORIVALS</a>
-</div>
-<div class="channel-card">
-<svg class="channel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-<h3>Instagram</h3>
-<p>Behind-the-scenes build updates, and another good way to message us directly.</p>
-<a class="channel-btn" href="https://instagram.com/saikyorivals" target="_blank" rel="noopener">@SAIKYORIVALS</a>
-</div>
-</div>
-</section>
-
-<section class="doctrine">
-<div class="doctrine-inner">
-<h2 class="section-heading">More Ways To Reach Us, Soon</h2>
-<div class="section-rule"></div>
-<p>A dedicated support inbox and our Discord server are coming as we get closer to launch. Until then, X and Instagram are the real, actively-checked channels — don't trust any other contact details claiming to be us.</p>
-</div>
-</section>
-
-<section class="cta">
-<h2 class="section-heading">Don't Want To Wait?</h2>
-<div class="section-rule"></div>
-<a class="cta-btn" href="/#notifyForm">BE FIRST TO KNOW</a>
-</section>
-
-<footer class="site-footer">
-<p class="contact-photo-credit">East Alley atmosphere: <a href="https://commons.wikimedia.org/wiki/File:Kabukicho-at-night.jpg" target="_blank" rel="noopener">original rainy Tokyo photograph by Bryan MacKinnon, public domain</a>.</p>
-<div class="footer-inner">
-<span class="footer-brand">SAIKYO RIVALS</span>
-<span class="footer-copy">© <span id="year">2026</span> Saikyo Rivals. All rights reserved.</span>
-</div>
-</footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<main id="contact-main" class="page-main" tabindex="-1">
+  <section class="contact-panel" aria-labelledby="contact-title">
+    <p class="eyebrow">Get in touch</p>
+    <h1 id="contact-title">CONTACT SAIKYO</h1>
+    <p class="intro">Have a question, partnership enquiry or just want to say hello? We'd love to hear from you.</p>
+    <form id="contactForm" class="form-grid" novalidate>
+      <input type="text" name="name" aria-label="Your name" autocomplete="name" placeholder="Name" class="field" maxlength="90" required>
+      <input type="email" name="email" aria-label="Your email" autocomplete="email" placeholder="Email" class="field" maxlength="180" required>
+      <select name="type" aria-label="Enquiry type" class="field field--wide" required>
+        <option value="" disabled selected>Enquiry Type</option>
+        <option>General enquiry</option><option>Partnership enquiry</option><option>Press and media</option><option>Technical question</option>
+      </select>
+      <textarea name="message" aria-label="Your message" class="field field--wide" placeholder="Your Message" maxlength="3500" required></textarea>
+      <button class="submit" type="submit">✉ &nbsp; SEND MESSAGE</button>
+      <p class="delivery-note">This opens your email app with your message ready to send. It does not send automatically.</p>
+    </form>
+    <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+    <div class="divider">Or reach us directly</div>
+    <div class="channels">
+      <a class="channel" href="https://x.com/saikyorivals" target="_blank" rel="noopener noreferrer" aria-label="Contact Saikyo Rivals on X">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-7.4L5.6 22H2.4l7.3-8.5L2.2 2h6.2l4.3 6.6L18.9 2zm-1.1 18h1.7L7.4 3.9H5.6L17.8 20z"/></svg>
+        <strong>X</strong><small>Message the team</small>
+      </a>
+      <a class="channel" href="https://instagram.com/saikyorivals" target="_blank" rel="noopener noreferrer" aria-label="Contact Saikyo Rivals on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        <strong>Instagram</strong><small>Follow or DM us</small>
+      </a>
+    </div>
+    <p class="prelaunch">Our dedicated support desk and Discord server aren't live yet. <a href="/#notifyForm">Be first to know.</a></p>
+  </section>
+</main>
+<footer class="site-footer">© <span id="year">2026</span> Saikyo Rivals</footer>
+<script src="/ambient.js?v=8" defer></script>
+<script>
+document.getElementById("year").textContent=String(new Date().getFullYear());
+const form=document.getElementById("contactForm");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if(!form.reportValidity()) return;
+  const data=new FormData(form);
+  const name=String(data.get("name")||"").trim();
+  const email=String(data.get("email")||"").trim();
+  const type=String(data.get("type")||"").trim();
+  const message=String(data.get("message")||"").trim();
+  const subject=encodeURIComponent("Saikyo Rivals: "+type);
+  const body=encodeURIComponent("Name: "+name+"\nReply-to: "+email+"\nEnquiry type: "+type+"\n\n"+message);
+  document.getElementById("formStatus").textContent="Your email app should now open. Please press Send there to complete your enquiry.";
+  // Pre-launch static site: no unauthenticated transactional-email endpoint.
+  window.location.href="mailto:hello@saikyo-rivals.com?subject="+subject+"&body="+body;
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,63 @@
+name: Prepare East Alley artwork
+on:
+  push:
+    branches: [fix-real-east-alley-contact]
+    paths: ['.github/workflows/build-contact-alley.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix-real-east-alley-contact
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install Pillow requests
+      - name: Download license-permitted narrow Tokyo alley photo and color grade locally
+        run: |
+          python - <<'PY'
+          from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
+          import requests, io
+          from pathlib import Path
+          source='https://unsplash.com/napi/photos/Or5_Zj65XmM/download?force=true&w=2300'
+          r=requests.get(source,timeout=45,headers={'User-Agent':'Mozilla/5.0'},allow_redirects=True)
+          print('photo-download status',r.status_code,'final',r.url,'length',len(r.content),'type',r.headers.get('content-type'))
+          r.raise_for_status()
+          src=Image.open(io.BytesIO(r.content)).convert('RGB')
+          print('original size',src.size)
+          target=(1920,1080)
+          # Cover-crop into a landscape city scene; maintain alley's vanishing point.
+          scale=max(target[0]/src.width,target[1]/src.height)
+          w,h=round(src.width*scale),round(src.height*scale)
+          src=src.resize((w,h),Image.Resampling.LANCZOS)
+          left=(w-target[0])//2;top=(h-target[1])//2
+          src=src.crop((left,top,left+target[0],top+target[1]))
+          src=ImageEnhance.Color(src).enhance(1.28)
+          src=ImageEnhance.Contrast(src).enhance(1.11)
+          # Graded red/cyan city glow inspired by the approved Neo Tokyo home.
+          tint=Image.new('RGBA',target,(0,0,0,0))
+          px=tint.load()
+          for y in range(target[1]):
+              for x in range(target[0]):
+                  # Selective neon sheen but don't obscure photographed alley detail.
+                  nx=x/target[0];ny=y/target[1]
+                  mag=max(0,1-abs(nx-.14)/.60)*(1-ny*.15)
+                  blue=max(0,1-abs(nx-.77)/.60)*(1-ny*.3)
+                  alpha=int(12*max(mag,blue))
+                  px[x,y]=((255 if mag>blue else 30),(31 if mag>blue else 141),(96 if mag>blue else 218),alpha)
+          src=Image.alpha_composite(src.convert('RGBA'),tint).convert('RGB')
+          Path('contact-alley.jpg').parent.mkdir(parents=True,exist_ok=True)
+          src.save('contact-alley.jpg',quality=85,optimize=True,progressive=True)
+          print('saved contact-alley.jpg',Path('contact-alley.jpg').stat().st_size,'bytes')
+          PY
+      - name: Commit standalone photo to feature branch
+        run: |
+          git config user.name "saikyo-build-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add contact-alley.jpg
+          git commit -m "Add atmospheric East Alley destination photograph" || exit 0
+          git push origin HEAD:fix-real-east-alley-contact

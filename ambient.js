@@ -6,16 +6,18 @@
  * Audio is fetched only after the visitor enables ambience.
  */
 (() => {
-  if (window.saikyoAmbient?.version === 5) return;
+  if (window.saikyoAmbient?.version === 6) return;
 
   // Bundled recordings are shipped with each site; Wikimedia is the fallback
   // only if a local asset has failed to load.
   const assetBase = new URL('.', document.currentScript?.src || window.location.href);
   const RAIN_URL = new URL('storm-rain.ogg', assetBase).href;
   const THUNDER_URL = new URL('storm-thunder.ogg', assetBase).href;
+  const NEON_URL = new URL('neon-flicker.ogg', assetBase).href;
   const RAIN_BACKUP = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_%281%29.ogg';
   const THUNDER_BACKUP = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_and_thunder.ogg';
   let active = false, ctx = null, effectsBus = null;
+  let neonRecording = null, neonLoad = null;
   let rainTrack = null, thunderTrack = null;
   let usedRainBackup = false, usedThunderBackup = false;
   let thunderTimer = null, fallbackTimer = null;
@@ -83,32 +85,58 @@
     source.start(start);
     source.stop(start + duration + .01);
   }
+  function loadNeon() {
+    // Loading only after the visitor opts in: the crackle recording is CC0.
+    if (neonLoad || !ctx) return;
+    neonLoad = fetch(NEON_URL).then(response => {
+      if (!response.ok) throw Error('neon sound file missing');
+      return response.arrayBuffer();
+    }).then(data => ctx.decodeAudioData(data)).then(buffer => {
+      neonRecording = buffer;
+    }).catch(() => {
+      neonRecording = null;
+    });
+  }
+
+  function sputter(start, duration, peak, offset = 2.3) {
+    if (!ctx || !effectsBus) return;
+    if (!neonRecording) {
+      // Fallback is short broadband arcing only, never the old pitched whine.
+      crack(start, Math.min(duration, .11), peak * .6, 1850);
+      return;
+    }
+    const span = Math.max(.04, Math.min(duration, neonRecording.duration - .1));
+    const startOffset = Math.min(offset, Math.max(0, neonRecording.duration - span - .05));
+    const source = ctx.createBufferSource();
+    source.buffer = neonRecording;
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 220;
+    const amp = ctx.createGain();
+    amp.gain.setValueAtTime(.0001, start);
+    amp.gain.linearRampToValueAtTime(peak, start + Math.min(.012, span / 4));
+    amp.gain.setValueAtTime(peak * .91, start + span * .40);
+    amp.gain.exponentialRampToValueAtTime(.0001, start + span);
+    source.connect(hp).connect(amp).connect(effectsBus);
+    source.start(start, startOffset, span);
+    source.stop(start + span + .01);
+  }
+
+  // Visual flicker timing for public CSS (340 ms) and app scene (360 ms).
+  // Each source is an actual short neon-fixture recording, gated on light flashes.
   function neon(phase = 'flicker') {
     if (!active || document.hidden || !audioContext()) return;
     if (ctx.state !== 'running') return;
     const at = ctx.currentTime;
     if (phase === 'ignite') {
-      // Sound follows the last visible flash and dies away; never idles.
-      crack(at, .12, .22, 2450);
-      buzz(at + .03, 1.55, 335, .19);
-      buzz(at + .065, 1.25, 665, .08);
-      // A glassy ting at the instant the tube fully illuminates.
-      const ting = ctx.createOscillator(), env = ctx.createGain();
-      ting.type = 'sine';
-      ting.frequency.setValueAtTime(3050, at);
-      ting.frequency.exponentialRampToValueAtTime(2180, at + .25);
-      env.gain.setValueAtTime(.0001, at);
-      env.gain.linearRampToValueAtTime(.11, at + .008);
-      env.gain.exponentialRampToValueAtTime(.0001, at + .29);
-      ting.connect(env).connect(effectsBus);
-      ting.start(at); ting.stop(at + .30);
+      // One final ragged buzz as the sign catches; silence after 1.1 seconds.
+      sputter(at, .90, .48, 3.6);
+      crack(at, .038, .10, 2000);
     } else if (phase === 'off') {
-      crack(at, .075, .12, 1100);
+      sputter(at, .07, .31, 1.4);
     } else {
-      // These nine clicks align with the existing 340-ms neon animation.
-      for (const d of [0, .041, .068, .098, .119, .163, .181, .207, .238])
-        crack(at + d, .016, .14 + Math.random() * .06, 1150 + Math.random() * 1200);
-      buzz(at + .015, .32, 385, .10);
+      // Brief sputters precisely under the light's off/on transitions.
+      for (const [d, len] of [[0,.033],[.041,.024],[.068,.031],[.098,.020],[.119,.039],[.163,.025],[.181,.023],[.207,.032],[.238,.065]]) {
+        sputter(at + d, len, .31 + Math.random() * .12, 1.1 + Math.random() * 9);
+      }
     }
   }
   function synthThunder() {
@@ -212,6 +240,7 @@
     if (active) return;
     active = true;
     if (effectsBus && ctx) effectsBus.gain.setTargetAtTime(.9, ctx.currentTime, .06);
+    loadNeon();
     try {
       const playing = rainTrack.play();
       if (playing?.catch) void playing.catch(() => startFallbackRain());
@@ -231,7 +260,7 @@
     clearScheduled();
     stopAudio();
     if (ctx) void ctx.close();
-    ctx = effectsBus = null;
+    ctx = effectsBus = neonRecording = neonLoad = null;
   });
-  window.saikyoAmbient = { version: 5, neon };
+  window.saikyoAmbient = { version: 6, neon };
 })();

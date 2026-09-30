@@ -38,6 +38,12 @@ jobs:
           if (!about.includes('noindex,nofollow') || !about.includes('location.replace("/")')) throw Error('About must redirect to Home');
           const contact = fs.readFileSync('contact.html','utf8');
           if (!contact.includes('GET IN TOUCH') || !contact.includes('aria-current="page">Contact')) throw Error('Contact must be public');
+          // A separate, substantial destination photo must exist locally.
+          const image = fs.readFileSync('contact-alley.jpg');
+          if (image.length < 80000 || image[0] !== 0xff || image[1] !== 0xd8) throw Error('Contact alley photograph is absent or invalid');
+          if (!contact.includes("contact-backdrop") || !contact.includes("/contact-alley.jpg")) throw Error('Contact background must visibly render the alley');
+          if (!home.includes("contact-arrival") || !home.includes("/contact-alley.jpg")) throw Error('Home travel must hand off to the actual alley image');
+          if (!contact.includes('class="contact-grade"') || !contact.includes('class="contact-backdrop"')) throw Error('Contact artwork must sit above the page background');
           const sitemap = fs.readFileSync('sitemap.xml','utf8');
           if (/about\.html/.test(sitemap) || !/contact\.html/.test(sitemap)) throw Error('Only Home and Contact belong in public sitemap');
           NODE

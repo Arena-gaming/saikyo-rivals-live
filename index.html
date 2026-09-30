@@ -204,6 +204,12 @@ window.addEventListener('resize',layoutNeon);
 const nwait=ms=>new Promise(r=>setTimeout(r,ms));
 const nrandom=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
 async function nflicker(el){window.saikyoAmbient?.neon?.('flicker');el.classList.add('is-flickering');await nwait(340);el.classList.remove('is-flickering');window.saikyoAmbient?.neon?.('ignite');}
+// On activation, demonstrate a real sign flicker promptly so audio can be heard.
+document.addEventListener('saikyo-ambience-enabled',()=>{
+  if(reduced)return;
+  const sign=signs.find(el=>el.dataset.effect==='flicker');
+  if(sign)window.setTimeout(()=>{if(!document.hidden)void nflicker(sign);},700);
+});
 async function nfullFailure(el){
 window.saikyoAmbient?.neon?.('flicker');
 el.classList.add('is-flickering');await nwait(300);el.classList.remove('is-flickering');
@@ -246,6 +252,6 @@ else if(effect==='full')nschedule(sign,effect,20000,45000);
 }
 })();
 </script>
-<script src="ambient.js?v=4" defer></script>
+<script src="ambient.js?v=5" defer></script>
 <script src="smoke.js" defer></script>
 </body></html>

@@ -6,7 +6,7 @@
  * Audio is fetched only after the visitor enables ambience.
  */
 (() => {
-  if (window.saikyoAmbient?.version === 7) return;
+  if (window.saikyoAmbient?.version === 8) return;
 
   // Bundled recordings are shipped with each site; Wikimedia is the fallback
   // only if a local asset has failed to load.
@@ -205,12 +205,13 @@
     if (ctx.state !== 'running') return;
     const at = ctx.currentTime;
     const region = selectNeonRegion();
+    const neonLevel = .85; // Lower only neon effect output by 15%; leave weather unchanged.
     if (phase === 'ignite') {
       // The light catches: a short, variable recorded electrical sputter.
-      sputter(at, .69 + Math.random() * .24, .41 + Math.random() * .11, region);
-      if (Math.random() < .65) crack(at, .026 + Math.random() * .018, .07, 2000);
+      sputter(at, .69 + Math.random() * .24, (.41 + Math.random() * .11) * neonLevel, region);
+      if (Math.random() < .65) crack(at, .026 + Math.random() * .018, .07 * neonLevel, 2000);
     } else if (phase === 'off') {
-      sputter(at, .055 + Math.random() * .032, .28, region);
+      sputter(at, .055 + Math.random() * .032, .28 * neonLevel, region);
     } else {
       // Timing remains synchronized to the actual nine 340-ms light flashes;
       // varying source regions, amplitudes and occasional missed sparks
@@ -221,7 +222,7 @@
         const offset = neonRegions[(lastNeonRegion + index * 3) % neonRegions.length] +
                        Math.random() * .09;
         sputter(at + delay, length * (.9 + Math.random() * .2),
-                .29 + Math.random() * .15, offset);
+                (.29 + Math.random() * .15) * neonLevel, offset);
       });
     }
   }
@@ -362,5 +363,5 @@
     if (ctx) void ctx.close();
     ctx = effectsBus = neonRecording = neonLoad = null;
   });
-  window.saikyoAmbient = { version: 7, neon };
+  window.saikyoAmbient = { version: 8, neon };
 })();

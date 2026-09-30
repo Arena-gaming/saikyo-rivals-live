@@ -128,14 +128,16 @@
     const at = ctx.currentTime;
     if (phase === 'ignite') {
       // One final ragged buzz as the sign catches; silence after 1.1 seconds.
-      sputter(at, .90, .48, 3.6);
+      sputter(at, .90, .48, 4.4);
       crack(at, .038, .10, 2000);
     } else if (phase === 'off') {
-      sputter(at, .07, .31, 1.4);
+      sputter(at, .07, .31, .2);
     } else {
       // Brief sputters precisely under the light's off/on transitions.
+      const activeWindows = [.2, 4.6, 10.4, 15.2, 20.2]; // Audited high-energy regions in the 22s CC0 recording
+      let segment = 0;
       for (const [d, len] of [[0,.033],[.041,.024],[.068,.031],[.098,.020],[.119,.039],[.163,.025],[.181,.023],[.207,.032],[.238,.065]]) {
-        sputter(at + d, len, .31 + Math.random() * .12, 1.1 + Math.random() * 9);
+        sputter(at + d, len, .31 + Math.random() * .12, activeWindows[segment++ % activeWindows.length]);
       }
     }
   }

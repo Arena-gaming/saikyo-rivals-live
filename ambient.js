@@ -1,24 +1,15 @@
-/* Saikyo v7: real storm recordings + event-timed neon. No continuous synthetic hiss.
- * Real recordings: ezwa "Rain (1).ogg" (45s, public domain) and Caesar
- * "Rain and thunder.ogg" (19s, public domain), Wikimedia Commons.
- * Source/licence: commons.wikimedia.org/wiki/File:Rain_(1).ogg
- *                 commons.wikimedia.org/wiki/File:Rain_and_thunder.ogg
- * Audio is fetched only after the visitor enables ambience.
- */
+/* Saikyo v9: rain and thunder ambience only. Old neon audio removed. */
 (() => {
-  if (window.saikyoAmbient?.version === 8) return;
+  if (window.saikyoAmbient?.version === 9) return;
 
   // Bundled recordings are shipped with each site; Wikimedia is the fallback
   // only if a local asset has failed to load.
   const assetBase = new URL('.', document.currentScript?.src || window.location.href);
   const RAIN_URL = new URL('storm-rain.ogg', assetBase).href;
   const THUNDER_URL = new URL('storm-thunder.ogg', assetBase).href;
-  const NEON_URL = new URL('neon-flicker.ogg', assetBase).href;
   const RAIN_BACKUP = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_%281%29.ogg';
   const THUNDER_BACKUP = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_and_thunder.ogg';
   let active = false, ctx = null, effectsBus = null;
-  let neonRecording = null, neonLoad = null;
-  let lastNeonRegion = -1;
   let rainBuffer = null, rainLoad = null, rainSource = null, rainGain = null;
   let rainTrack = null, thunderTrack = null;
   let usedRainBackup = false, usedThunderBackup = false;
@@ -68,18 +59,6 @@
     source.connect(band).connect(amp).connect(effectsBus);
     source.start(start);
     source.stop(start + duration + .01);
-  }
-  function loadNeon() {
-    // Loading only after the visitor opts in: the crackle recording is CC0.
-    if (neonLoad || !ctx) return;
-    neonLoad = fetch(NEON_URL).then(response => {
-      if (!response.ok) throw Error('neon sound file missing');
-      return response.arrayBuffer();
-    }).then(data => ctx.decodeAudioData(data)).then(buffer => {
-      neonRecording = buffer;
-    }).catch(() => {
-      neonRecording = null;
-    });
   }
 
   // Crossfade the actual recording into itself in an AudioBuffer. Browser
@@ -166,66 +145,6 @@
     });
   }
 
-  const neonRegions = [.2, 4.6, 7.8, 10.4, 12.6, 15.2, 17.4, 20.2];
-  function selectNeonRegion() {
-    // Every lighting event begins in a different part of the field recording.
-    let next = Math.floor(Math.random() * (neonRegions.length - 1));
-    if (lastNeonRegion >= 0 && next >= lastNeonRegion) next++;
-    lastNeonRegion = next;
-    return neonRegions[next];
-  }
-
-  function sputter(start, duration, peak, offset = 2.3) {
-    if (!ctx || !effectsBus) return;
-    if (!neonRecording) {
-      // Fallback is short broadband arcing only, never the old pitched whine.
-      crack(start, Math.min(duration, .11), peak * .6, 1850);
-      return;
-    }
-    const span = Math.max(.04, Math.min(duration, neonRecording.duration - .1));
-    const startOffset = Math.min(offset, Math.max(0, neonRecording.duration - span - .05));
-    const source = ctx.createBufferSource();
-    source.buffer = neonRecording;
-    source.playbackRate.value = .96 + Math.random() * .085;
-    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 220;
-    const amp = ctx.createGain();
-    amp.gain.setValueAtTime(.0001, start);
-    amp.gain.linearRampToValueAtTime(peak, start + Math.min(.012, span / 4));
-    amp.gain.setValueAtTime(peak * .91, start + span * .40);
-    amp.gain.exponentialRampToValueAtTime(.0001, start + span);
-    source.connect(hp).connect(amp).connect(effectsBus);
-    source.start(start, startOffset, span);
-    source.stop(start + span + .01);
-  }
-
-  // Visual flicker timing for public CSS (340 ms) and app scene (360 ms).
-  // Each source is an actual short neon-fixture recording, gated on light flashes.
-  function neon(phase = 'flicker') {
-    if (!active || document.hidden || !audioContext()) return;
-    if (ctx.state !== 'running') return;
-    const at = ctx.currentTime;
-    const region = selectNeonRegion();
-    const neonLevel = .85; // Lower only neon effect output by 15%; leave weather unchanged.
-    if (phase === 'ignite') {
-      // The light catches: a short, variable recorded electrical sputter.
-      sputter(at, .69 + Math.random() * .24, (.41 + Math.random() * .11) * neonLevel, region);
-      if (Math.random() < .65) crack(at, .026 + Math.random() * .018, .07 * neonLevel, 2000);
-    } else if (phase === 'off') {
-      sputter(at, .055 + Math.random() * .032, .28 * neonLevel, region);
-    } else {
-      // Timing remains synchronized to the actual nine 340-ms light flashes;
-      // varying source regions, amplitudes and occasional missed sparks
-      // prevents identical repeated sound motifs.
-      const flashes = [[0,.033],[.041,.024],[.068,.031],[.098,.020],[.119,.039],[.163,.025],[.181,.023],[.207,.032],[.238,.065]];
-      flashes.forEach(([delay, length], index) => {
-        if (index > 0 && index < flashes.length - 1 && Math.random() < .15) return;
-        const offset = neonRegions[(lastNeonRegion + index * 3) % neonRegions.length] +
-                       Math.random() * .09;
-        sputter(at + delay, length * (.9 + Math.random() * .2),
-                (.29 + Math.random() * .15) * neonLevel, offset);
-      });
-    }
-  }
   function synthThunder() {
     if (!active || document.hidden || !audioContext() || ctx.state !== 'running') return;
     const now = ctx.currentTime;
@@ -334,9 +253,7 @@
     try { if (ac) await ac.resume(); } catch {}
     if (active) return;
     active = true;
-    if (effectsBus && ctx) effectsBus.gain.setTargetAtTime(.9, ctx.currentTime, .06);
-    loadNeon();
-    if (rainBuffer) {
+    if (effectsBus && ctx) effectsBus.gain.setTargetAtTime(.9, ctx.currentTime, .06);    if (rainBuffer) {
       startRainLoop();
     } else {
       rainTrack.volume = volume.rain;
@@ -348,10 +265,7 @@
     }
     // First obvious thunder cue occurs soon after enabling, not 15–40s later.
     fallbackTimer = later(thunder, 1700);
-    thunderTimer = later(scheduleThunder, 15500);
-    // The visual scene listens for this and performs a matching early flicker.
-    document.dispatchEvent(new CustomEvent('saikyo-ambience-enabled'));
-    renderButton();
+    thunderTimer = later(scheduleThunder, 15500);    renderButton();
   }
   document.addEventListener('click', (event) => {
     if (event.target?.closest?.('#ambientSoundToggle')) void toggle();
@@ -360,8 +274,6 @@
     active = false;
     clearScheduled();
     stopAudio();
-    if (ctx) void ctx.close();
-    ctx = effectsBus = neonRecording = neonLoad = null;
-  });
-  window.saikyoAmbient = { version: 8, neon };
+    if (ctx) void ctx.close();    ctx = effectsBus = null;
+  });  window.saikyoAmbient = { version: 9 };
 })();

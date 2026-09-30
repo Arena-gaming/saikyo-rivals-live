@@ -8,10 +8,16 @@
 (() => {
   if (window.saikyoAmbient?.version === 5) return;
 
-  const RAIN_URL = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_%281%29.ogg';
-  const THUNDER_URL = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_and_thunder.ogg';
+  // Bundled recordings are shipped with each site; Wikimedia is the fallback
+  // only if a local asset has failed to load.
+  const assetBase = new URL('.', document.currentScript?.src || window.location.href);
+  const RAIN_URL = new URL('storm-rain.ogg', assetBase).href;
+  const THUNDER_URL = new URL('storm-thunder.ogg', assetBase).href;
+  const RAIN_BACKUP = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_%281%29.ogg';
+  const THUNDER_BACKUP = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_and_thunder.ogg';
   let active = false, ctx = null, effectsBus = null;
   let rainTrack = null, thunderTrack = null;
+  let usedRainBackup = false, usedThunderBackup = false;
   let thunderTimer = null, fallbackTimer = null;
   let fallbackRain = null;
   const timers = new Set();
@@ -165,11 +171,24 @@
     rainTrack.preload = 'none';
     rainTrack.volume = volume.rain;
     rainTrack.addEventListener('error', () => {
-      if (active) startFallbackRain();
+      if (!active) return;
+      if (!usedRainBackup) {
+        usedRainBackup = true;
+        rainTrack.src = RAIN_BACKUP;
+        const next = rainTrack.play();
+        if (next?.catch) void next.catch(() => startFallbackRain());
+      } else startFallbackRain();
     });
     thunderTrack = new Audio(THUNDER_URL);
     thunderTrack.preload = 'none';
     thunderTrack.volume = volume.thunder;
+    thunderTrack.addEventListener('error', () => {
+      if (!active || usedThunderBackup) return;
+      usedThunderBackup = true;
+      thunderTrack.src = THUNDER_BACKUP;
+      const next = thunderTrack.play();
+      if (next?.catch) void next.catch(() => {}); // audible synthThunder still plays
+    });
   }
   function renderButton() {
     const button = document.getElementById('ambientSoundToggle');

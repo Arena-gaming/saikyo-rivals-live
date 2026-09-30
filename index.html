@@ -75,6 +75,7 @@
 </style>
 <link rel="stylesheet" href="smoke-v2.css">
 <link rel="stylesheet" href="ambient.css">
+<link rel="preload" as="image" href="/contact-alley.jpg">
 </head>
 <body>
 <div class="page">
@@ -206,23 +207,51 @@ else if(effect==='full')nschedule(sign,effect,20000,45000);
 <script src="ambient.js?v=8" defer></script>
 <script src="smoke.js" defer></script>
 <style>
-/* On Home only, travel toward the East Alley location before opening Contact. */
-#contact-travel{position:fixed;inset:0;z-index:999;background:#03060b url('/hero-bg.jpg') center/cover no-repeat;pointer-events:none;opacity:0;transform:scale(1);transform-origin:76% 54%;transition:transform .78s cubic-bezier(.19,.8,.22,1),opacity .3s ease}
-#contact-travel.is-travelling{opacity:1;transform:scale(3.4)}
-@media(prefers-reduced-motion:reduce){#contact-travel{display:none}}
+/* Travel toward East Alley, then blend into its ACTUAL new destination image. */
+#contact-travel{
+  position:fixed;inset:0;z-index:999;background:#03060b url('/hero-bg.jpg') center/cover no-repeat;
+  pointer-events:none;opacity:0;transform:scale(1);transform-origin:76% 54%;
+  transition:transform .87s cubic-bezier(.19,.8,.22,1),opacity .2s ease;
+}
+#contact-travel.is-travelling{opacity:1;transform:scale(3.3)}
+#contact-arrival{
+  position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:0;
+  background:#07111d url('/contact-alley.jpg') 52% 48% /cover no-repeat;
+  transition:opacity .43s ease;
+}
+#contact-arrival.is-arriving{opacity:1}
+#contact-travel:after{
+  content:"EAST ALLEY  /  COMMUNICATIONS";position:absolute;left:64%;top:43%;
+  padding:9px 13px;color:#ff98b2;font:800 13px/1.3 Orbitron,sans-serif;letter-spacing:.13em;
+  border:1px solid rgba(255,87,132,.7);background:rgba(7,3,15,.75);box-shadow:0 0 38px rgba(255,46,111,.48);
+}
+@media(max-width:980px){
+  .topbar{height:auto;min-height:66px;display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px}
+  .brand-mini{padding-left:0}
+  .nav-wrap{display:flex;justify-content:flex-start;width:100%;height:auto;padding:0}
+  .nav{gap:28px}.nav a{padding:10px 0}
+  .social{display:none}
+}
+@media(prefers-reduced-motion:reduce){#contact-travel,#contact-arrival{display:none!important}}
 </style>
 <div id="contact-travel" aria-hidden="true"></div>
+<div id="contact-arrival" aria-hidden="true"></div>
 <script>
 (() => {
   const link = document.querySelector('nav a[href="/contact.html"]');
   const travel = document.getElementById('contact-travel');
-  if (!link || !travel) return;
+  const arrival = document.getElementById('contact-arrival');
+  if (!link || !travel || !arrival) return;
+  // Warm the image cache before the first journey, without blocking Home.
+  const destination = new Image(); destination.src = '/contact-alley.jpg';
   link.addEventListener('click', (event) => {
     if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     event.preventDefault();
     travel.classList.add('is-travelling');
-    window.setTimeout(() => { window.location.assign(link.href); }, 820);
+    // Show the real alley BEFORE entering Contact, preventing a black handoff.
+    window.setTimeout(() => arrival.classList.add('is-arriving'), 580);
+    window.setTimeout(() => { window.location.assign(link.href); }, 1120);
   });
 })();
 </script>

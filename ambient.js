@@ -1,7 +1,7 @@
 /* Saikyo ambient soundscape: intermittent rain impacts, distant thunder, neon sputter + ignition.
    Original procedural synthesis. No external samples, no autoplay, no continuous neon hum. */
 (() => {
-  if (window.saikyoAmbient?.version === 2) return;
+  if (window.saikyoAmbient?.version === 3) return;
   let ctx = null;
   let master = null;
   let rainBed = null;
@@ -52,6 +52,7 @@
   let droplets = null;
   let atmosphere = null;
   let rumbleNoise = null;
+  let ignitionNoise = null;
 
   function prepareSounds() {
     if (droplets) return;
@@ -68,6 +69,7 @@
     });
     atmosphere = noise(4, 'brown');
     rumbleNoise = noise(8, 'brown');
+    ignitionNoise = noise(1);
   }
 
   function startBackground() {
@@ -80,7 +82,7 @@
     filter.frequency.value = 850;
     filter.Q.value = .28;
     rainBed = ctx.createGain();
-    rainBed.gain.value = .016; // Almost imperceptible wet-air layer; droplets carry the rain.
+    rainBed.gain.value = .003; // Keep the noise floor barely audible: individual drops create the rain.
     source.connect(filter).connect(rainBed).connect(master);
     source.start();
   }
@@ -94,24 +96,24 @@
 
     const filter = ctx.createBiquadFilter();
     filter.type = Math.random() < .7 ? 'bandpass' : 'lowpass';
-    filter.frequency.value = 950 + Math.random() * 3350;
+    filter.frequency.value = 1350 + Math.random() * 2750;
     filter.Q.value = .6 + Math.random() * 1.2;
     const amp = ctx.createGain();
-    amp.gain.value = .12 + Math.random() * .19;
+    amp.gain.value = .085 + Math.random() * .15;
     const pan = ctx.createStereoPanner();
     pan.pan.value = Math.random() * 1.6 - .8;
     source.connect(filter).connect(amp).connect(pan).connect(master);
     source.start(now);
 
     // Nearby drops have a tiny, softer rounded tick after the surface splash.
-    if (Math.random() < .24) {
+    if (Math.random() < .14) {
       const osc = ctx.createOscillator();
       const envelope = ctx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(670 + Math.random() * 450, now);
       osc.frequency.exponentialRampToValueAtTime(260 + Math.random() * 140, now + .04);
       envelope.gain.setValueAtTime(.0001, now);
-      envelope.gain.exponentialRampToValueAtTime(.010, now + .003);
+      envelope.gain.exponentialRampToValueAtTime(.003, now + .003);
       envelope.gain.exponentialRampToValueAtTime(.0001, now + .058);
       osc.connect(envelope).connect(pan);
       osc.start(now);
@@ -122,10 +124,10 @@
   function scheduleRain() {
     if (!active) return;
     if (!document.hidden) {
-      const cluster = Math.random() < .48 ? 2 : 1;
+      const cluster = Math.random() < .20 ? 3 : Math.random() < .48 ? 2 : 1;
       for (let i = 0; i < cluster; i++) drop();
     }
-    rainLoop = later(scheduleRain, 65 + Math.random() * 105);
+    rainLoop = later(scheduleRain, 120 + Math.random() * 125);
   }
 
   function thunder() {
@@ -139,7 +141,7 @@
     low.frequency.value = 115;
     const envelope = ctx.createGain();
     envelope.gain.setValueAtTime(.0001, now);
-    envelope.gain.exponentialRampToValueAtTime(.022, now + .85);
+    envelope.gain.exponentialRampToValueAtTime(.033, now + .85);
     envelope.gain.exponentialRampToValueAtTime(.013, now + 2.6);
     envelope.gain.exponentialRampToValueAtTime(.018, now + 3.25);
     envelope.gain.exponentialRampToValueAtTime(.0001, now + 7.1);
@@ -153,7 +155,7 @@
     body.frequency.setValueAtTime(46, now);
     body.frequency.exponentialRampToValueAtTime(30, now + 6.5);
     bodyGain.gain.setValueAtTime(.0001, now);
-    bodyGain.gain.exponentialRampToValueAtTime(.025, now + .95);
+    bodyGain.gain.exponentialRampToValueAtTime(.020, now + .95);
     bodyGain.gain.exponentialRampToValueAtTime(.0001, now + 6.9);
     body.connect(bodyGain).connect(master);
     body.start(now);
@@ -183,19 +185,42 @@
     oscillator.stop(at + length + .025);
   }
 
+  // A crackling, short filtered electrical burst; every source is stopped.
+  function electricSnap(delay, length, peak, frequency) {
+    const at = ctx.currentTime + delay;
+    const source = ctx.createBufferSource();
+    source.buffer = ignitionNoise;
+    const band = ctx.createBiquadFilter();
+    band.type = 'bandpass';
+    band.frequency.value = frequency;
+    band.Q.value = 2.1;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(.0001, at);
+    gain.gain.exponentialRampToValueAtTime(peak, at + .006);
+    gain.gain.exponentialRampToValueAtTime(.0001, at + length);
+    source.connect(band).connect(gain).connect(master);
+    source.start(at);
+    source.stop(at + length + .015);
+  }
+
   function neon(phase = 'flicker') {
     if (!active || document.hidden || !ctx) return;
-    // Each sound is tied to a visual event. No oscillator remains after ignition.
+    // Match the visual 340–360 ms electrical flutter, including dark gaps.
     if (phase === 'ignite') {
-      shortTone(2780 + Math.random() * 240, .27, .025, 'sine');
-      shortTone(111 + Math.random() * 12, .76, .021, 'sawtooth', .02);
-      shortTone(223, .51, .009, 'triangle', .045);
+      electricSnap(0, .13, .024, 3100);
+      shortTone(2860, .15, .016, 'sine', .025); // brief glassy switch-on ting
+      electricSnap(.11, .47, .011, 430);
+      shortTone(116, .72, .013, 'sawtooth', .11); // fades out < 1s after illumination
     } else if (phase === 'off') {
-      shortTone(140, .09, .009, 'sawtooth');
+      electricSnap(0, .055, .014, 850);
+      shortTone(140, .065, .007, 'sawtooth');
     } else {
-      shortTone(91 + Math.random() * 12, .087, .026, 'sawtooth');
-      shortTone(166, .052, .009, 'square', .12);
-      shortTone(104, .095, .019, 'sawtooth', .24);
+      // Pulses land on the opacity changes in neonElectricalFlicker (340 ms).
+      for (const delay of [0, .041, .068, .098, .119, .163, .181, .207, .238]) {
+        electricSnap(delay, .024 + Math.random() * .013, .011 + Math.random() * .009, 620 + Math.random() * 1800);
+      }
+      shortTone(2500, .085, .009, 'sine', .065);
+      shortTone(130, .11, .009, 'sawtooth', .18);
     }
   }
 
@@ -241,8 +266,8 @@
     if (ctx) {
       master.gain.setValueAtTime(.0001, ctx.currentTime);
       void ctx.close();
-      ctx = master = rainBed = droplets = atmosphere = rumbleNoise = null;
+      ctx = master = rainBed = droplets = atmosphere = rumbleNoise = ignitionNoise = null;
     }
   });
-  window.saikyoAmbient = { version: 2, neon };
+  window.saikyoAmbient = { version: 3, neon };
 })();

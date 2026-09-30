@@ -59,11 +59,11 @@
 
     emitterX=ox+SOURCE_X*dw;
     emitterY=oy+SOURCE_Y*dh;
-    unit=Math.max(24,Math.min(W,H)*.05);
+    unit=Math.max(24,Math.min(W,H)*.25);
   }
 
   function spawn(){
-    if(particles.length>42)return;
+    if(particles.length>34)return;
 
     const life=3.6+Math.random()*2.6;
     const small=Math.random()<.70;
@@ -146,7 +146,7 @@
       Math.sin(now*.00065)*.16+
       Math.sin(now*.0014+1.6)*.10;
 
-    spawnCarry+=dt*(4.4*Math.max(.25,pulse));
+    spawnCarry+=dt*(3.2*Math.max(.25,pulse));
 
     while(spawnCarry>=1){
       spawn();

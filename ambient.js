@@ -1,10 +1,12 @@
-/* Saikyo ambient soundscape: intermittent rain impacts, distant thunder, neon sputter + ignition.
+/* Saikyo ambient soundscape: heavy layered storm rain, rolling thunder, neon sputter + ignition.
    Original procedural synthesis. No external samples, no autoplay, no continuous neon hum. */
 (() => {
-  if (window.saikyoAmbient?.version === 3) return;
+  if (window.saikyoAmbient?.version === 4) return;
   let ctx = null;
   let master = null;
   let rainBed = null;
+  let runoffBed = null;
+  let stormSwell = null;
   let rainLoop = null;
   let thunderTimer = null;
   let active = false;
@@ -22,7 +24,7 @@
   function clearScheduled() {
     for (const timer of pending) window.clearTimeout(timer);
     pending.clear();
-    rainLoop = thunderTimer = null;
+    rainLoop = thunderTimer = stormSwell = null;
   }
 
   function getContext() {
@@ -51,6 +53,7 @@
 
   let droplets = null;
   let atmosphere = null;
+  let runoff = null;
   let rumbleNoise = null;
   let ignitionNoise = null;
 
@@ -67,24 +70,47 @@
       }
       return buffer;
     });
-    atmosphere = noise(4, 'brown');
+    atmosphere = noise(7); // wide, continuous heavy-rain wash
+    runoff = noise(11, 'brown'); // low roof/street runoff and rainfall body
     rumbleNoise = noise(8, 'brown');
-    ignitionNoise = noise(1);
+    ignitionNoise = noise(2.2);
   }
 
   function startBackground() {
     if (rainBed) return;
-    const source = ctx.createBufferSource();
-    source.buffer = atmosphere;
-    source.loop = true;
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 850;
-    filter.Q.value = .28;
+    // Two independent rain layers: a broad windy hiss above a low, rolling
+    // wash. Neither layer is a single unfiltered white-noise oscillator.
+    const shower = ctx.createBufferSource();
+    shower.buffer = atmosphere;
+    shower.loop = true;
+    const high = ctx.createBiquadFilter();
+    high.type = 'bandpass';
+    high.frequency.value = 1450;
+    high.Q.value = .34;
     rainBed = ctx.createGain();
-    rainBed.gain.value = .003; // Keep the noise floor barely audible: individual drops create the rain.
-    source.connect(filter).connect(rainBed).connect(master);
-    source.start();
+    rainBed.gain.value = .16;
+    shower.connect(high).connect(rainBed).connect(master);
+    shower.start();
+
+    const water = ctx.createBufferSource();
+    water.buffer = runoff;
+    water.loop = true;
+    const low = ctx.createBiquadFilter();
+    low.type = 'lowpass';
+    low.frequency.value = 700;
+    runoffBed = ctx.createGain();
+    runoffBed.gain.value = .19;
+    water.connect(low).connect(runoffBed).connect(master);
+    water.start();
+    // Gentle irregular swells make heavy rain move instead of sounding static.
+    function swell() {
+      if (!active || !ctx || !rainBed || !runoffBed) return;
+      const t = ctx.currentTime;
+      rainBed.gain.setTargetAtTime(.14 + Math.random() * .075, t, 1.7);
+      runoffBed.gain.setTargetAtTime(.15 + Math.random() * .065, t, 2.1);
+      stormSwell = later(swell, 2700 + Math.random() * 2400);
+    }
+    stormSwell = later(swell, 2100);
   }
 
   function drop() {
@@ -124,10 +150,10 @@
   function scheduleRain() {
     if (!active) return;
     if (!document.hidden) {
-      const cluster = Math.random() < .20 ? 3 : Math.random() < .48 ? 2 : 1;
+      const cluster = Math.random() < .35 ? 3 : Math.random() < .60 ? 2 : 1;
       for (let i = 0; i < cluster; i++) drop();
     }
-    rainLoop = later(scheduleRain, 120 + Math.random() * 125);
+    rainLoop = later(scheduleRain, 85 + Math.random() * 100);
   }
 
   function thunder() {
@@ -138,12 +164,12 @@
     source.playbackRate.value = .78 + Math.random() * .15;
     const low = ctx.createBiquadFilter();
     low.type = 'lowpass';
-    low.frequency.value = 115;
+    low.frequency.value = 190;
     const envelope = ctx.createGain();
     envelope.gain.setValueAtTime(.0001, now);
-    envelope.gain.exponentialRampToValueAtTime(.033, now + .85);
-    envelope.gain.exponentialRampToValueAtTime(.013, now + 2.6);
-    envelope.gain.exponentialRampToValueAtTime(.018, now + 3.25);
+    envelope.gain.exponentialRampToValueAtTime(.055, now + .85);
+    envelope.gain.exponentialRampToValueAtTime(.025, now + 2.6);
+    envelope.gain.exponentialRampToValueAtTime(.037, now + 3.25);
     envelope.gain.exponentialRampToValueAtTime(.0001, now + 7.1);
     source.connect(low).connect(envelope).connect(master);
     source.start(now);
@@ -155,19 +181,21 @@
     body.frequency.setValueAtTime(46, now);
     body.frequency.exponentialRampToValueAtTime(30, now + 6.5);
     bodyGain.gain.setValueAtTime(.0001, now);
-    bodyGain.gain.exponentialRampToValueAtTime(.020, now + .95);
+    bodyGain.gain.exponentialRampToValueAtTime(.030, now + .95);
     bodyGain.gain.exponentialRampToValueAtTime(.0001, now + 6.9);
     body.connect(bodyGain).connect(master);
     body.start(now);
     body.stop(now + 7);
   }
 
+  let firstThunder = true;
   function scheduleThunder() {
     if (!active) return;
     thunderTimer = later(() => {
       thunder();
       scheduleThunder();
-    }, 35000 + Math.random() * 44000);
+    }, firstThunder ? 8000 + Math.random() * 7500 : 19000 + Math.random() * 23000);
+    firstThunder = false;
   }
 
   function shortTone(frequency, length, peak, type, delay = 0) {
@@ -209,8 +237,8 @@
     if (phase === 'ignite') {
       electricSnap(0, .13, .024, 3100);
       shortTone(2860, .15, .016, 'sine', .025); // brief glassy switch-on ting
-      electricSnap(.11, .47, .011, 430);
-      shortTone(116, .72, .013, 'sawtooth', .11); // fades out < 1s after illumination
+      electricSnap(.11, 1.48, .023, 480);
+      shortTone(116, 1.48, .020, 'sawtooth', .11); // warm electrical buzz fading ~1.6s after illumination
     } else if (phase === 'off') {
       electricSnap(0, .055, .014, 850);
       shortTone(140, .065, .007, 'sawtooth');
@@ -250,6 +278,7 @@
       active = true;
       master.gain.cancelScheduledValues(audio.currentTime);
       master.gain.setTargetAtTime(.65, audio.currentTime, .55);
+      firstThunder = true;
       scheduleRain();
       scheduleThunder();
     }
@@ -266,8 +295,8 @@
     if (ctx) {
       master.gain.setValueAtTime(.0001, ctx.currentTime);
       void ctx.close();
-      ctx = master = rainBed = droplets = atmosphere = rumbleNoise = ignitionNoise = null;
+      ctx = master = rainBed = runoffBed = droplets = atmosphere = runoff = rumbleNoise = ignitionNoise = null;
     }
   });
-  window.saikyoAmbient = { version: 3, neon };
+  window.saikyoAmbient = { version: 4, neon };
 })();

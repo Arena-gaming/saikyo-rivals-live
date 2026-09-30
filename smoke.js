@@ -59,11 +59,11 @@
 
     emitterX=ox+SOURCE_X*dw;
     emitterY=oy+SOURCE_Y*dh;
-    unit=Math.max(24,Math.min(W,H)*.25);
+    unit=Math.max(24,Math.min(W,H)*.05);
   }
 
   function spawn(){
-    if(particles.length>34)return;
+    if(particles.length>30)return;
 
     const life=3.6+Math.random()*2.6;
     const small=Math.random()<.70;
@@ -76,8 +76,8 @@
       vx:unit*(.11+Math.random()*.12),
       vy:-unit*(.22+Math.random()*.14),
 
-      r:unit*(small?.07+Math.random()*.04:.10+Math.random()*.05),
-      grow:unit*(small?.15+Math.random()*.08:.20+Math.random()*.12),
+      r:unit*(small?.42+Math.random()*.22:.58+Math.random()*.30),
+      grow:unit*(small?.95+Math.random()*.50:1.28+Math.random()*.72),
 
       age:0,
       life,
@@ -146,7 +146,7 @@
       Math.sin(now*.00065)*.16+
       Math.sin(now*.0014+1.6)*.10;
 
-    spawnCarry+=dt*(3.2*Math.max(.25,pulse));
+    spawnCarry+=dt*(2.8*Math.max(.25,pulse));
 
     while(spawnCarry>=1){
       spawn();

@@ -24,7 +24,7 @@ a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit}
 button,a,select,input,textarea{touch-action:manipulation}
 .skip{position:absolute;left:-9999px;z-index:200}.skip:focus{left:12px;top:12px;background:#111;padding:12px}
-.contact-art{position:fixed;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.03);animation:sceneArrive 1.15s ease-out both}
+.contact-art{position:fixed;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.03);opacity:1;visibility:visible;animation:none}
 .contact-screen{position:fixed;z-index:1;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 0% 64%,rgba(2,2,8,.16) 67%,rgba(2,2,8,.24) 100%)}
 .site-header{position:relative;z-index:20;min-height:76px;background:rgba(2,3,8,.96);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;gap:30px;padding:9px clamp(18px,4.1vw,72px)}
 .brand{flex-shrink:0;display:flex;align-items:center;font-family:Orbitron,sans-serif;font-size:clamp(15px,1.7vw,23px);font-weight:900;line-height:.89;letter-spacing:.04em;transform:skew(-8deg)}
@@ -92,12 +92,15 @@ textarea.field{resize:vertical;min-height:105px}
   #ambientSoundToggle{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){.contact-art{animation:none}}
+
+:root{--contact-scene:url('/contact-approved.webp')}
+html,body{background-color:#03040a!important;background-image:var(--saikyo-contact-art,var(--contact-scene))!important;background-position:center top!important;background-size:cover!important;background-attachment:fixed!important;background-repeat:no-repeat!important}
 </style>
 </head>
 <body>
 <a class="skip" href="#contact-main">Skip to contact</a>
 <!-- The photo is the user's ORIGINAL selected generated image, not a new substitute. -->
-<img class="contact-art" src="/contact-approved.webp" alt="" aria-hidden="true" fetchpriority="high">
+<img class="contact-art" data-contact-art src="/contact-approved.webp" alt="" aria-hidden="true" fetchpriority="high">
 <div class="contact-screen" aria-hidden="true"></div>
 <header class="site-header">
   <a href="/" class="brand" aria-label="Saikyo Rivals Home"><span>SAIKYO<small>RIVALS</small></span></a>
@@ -157,5 +160,6 @@ form.addEventListener("submit", (event) => {
   window.location.href="mailto:hello@saikyo-rivals.com?subject="+subject+"&body="+body;
 });
 </script>
+<script src="https://saikyo-rivals.com/contact-art/background.js?v=6" defer></script>
 </body>
 </html>

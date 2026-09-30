@@ -1,0 +1,46 @@
+name: One-time live Contact visual smoke
+on:
+  push:
+    branches: [contact-live-visual-smoke]
+    paths: ['.github/workflows/contact-live-visual-smoke.yml']
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install playwright pillow
+      - run: python -m playwright install --with-deps chromium
+      - name: Verify public Contact scenery and responsive navigation render
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          from PIL import Image, ImageStat
+          import io
+          with sync_playwright() as p:
+              browser=p.chromium.launch(headless=True)
+              for width,height in [(1440,900),(390,844)]:
+                  page=browser.new_page(viewport={'width':width,'height':height},device_scale_factor=1)
+                  response=page.goto('https://saikyo-rivals.com/contact.html',wait_until='networkidle',timeout=60000)
+                  print('contact page',width,'status',response.status,'url',page.url)
+                  assert response.status==200
+                  layer=page.locator('.contact-backdrop')
+                  assert layer.count()==1
+                  css=layer.evaluate('(el)=>({bg:getComputedStyle(el).backgroundImage,z:getComputedStyle(el).zIndex,display:getComputedStyle(el).display})')
+                  assert 'contact-alley.jpg' in css['bg'] and css['display']!='none',css
+                  assert css['z']=='0',css
+                  img=page.evaluate("""async () => {const i=new Image();i.src='/contact-alley.jpg';await i.decode();return [i.naturalWidth,i.naturalHeight]}""")
+                  assert img[0]>800 and img[1]>600,img
+                  screenshot=layer.screenshot()
+                  colors=ImageStat.Stat(Image.open(io.BytesIO(screenshot)).convert('RGB'))
+                  print('alley pixels',width,'RGB mean',colors.mean,'RGB stdev',colors.stddev,'photo dimensions',img)
+                  assert sum(colors.mean)/3>17 and max(colors.stddev)>24,'Contact artwork is too dark/flat'
+                  contact=page.get_by_role('link',name='Contact',exact=True)
+                  assert contact.is_visible(),'Contact navigation hidden at width '+str(width)
+                  page.close()
+              browser.close()
+          print('PASSED: real Contact image decoded and visible, live desktop and mobile scenic background has texture and navigation is accessible')
+          PY

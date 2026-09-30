@@ -1,261 +1,176 @@
-/* Saikyo ambient soundscape: heavy layered storm rain, rolling thunder, neon sputter + ignition.
-   Original procedural synthesis. No external samples, no autoplay, no continuous neon hum. */
+/* Saikyo v5: real storm recordings + event-timed neon. No continuous synthetic hiss.
+ * Real recordings: ezwa "Rain (1).ogg" (45s, public domain) and Caesar
+ * "Rain and thunder.ogg" (19s, public domain), Wikimedia Commons.
+ * Source/licence: commons.wikimedia.org/wiki/File:Rain_(1).ogg
+ *                 commons.wikimedia.org/wiki/File:Rain_and_thunder.ogg
+ * Audio is fetched only after the visitor enables ambience.
+ */
 (() => {
-  if (window.saikyoAmbient?.version === 4) return;
-  let ctx = null;
-  let master = null;
-  let rainBed = null;
-  let runoffBed = null;
-  let stormSwell = null;
-  let rainLoop = null;
-  let thunderTimer = null;
-  let active = false;
-  const pending = new Set();
+  if (window.saikyoAmbient?.version === 5) return;
 
-  function later(callback, milliseconds) {
-    const timer = window.setTimeout(() => {
-      pending.delete(timer);
-      callback();
-    }, milliseconds);
-    pending.add(timer);
-    return timer;
+  const RAIN_URL = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_%281%29.ogg';
+  const THUNDER_URL = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Rain_and_thunder.ogg';
+  let active = false, ctx = null, effectsBus = null;
+  let rainTrack = null, thunderTrack = null;
+  let thunderTimer = null, fallbackTimer = null;
+  let fallbackRain = null;
+  const timers = new Set();
+  const volume = { rain: .59, thunder: .92 };
+
+  function later(fn, ms) {
+    const id = setTimeout(() => { timers.delete(id); fn(); }, ms);
+    timers.add(id);
+    return id;
   }
-
   function clearScheduled() {
-    for (const timer of pending) window.clearTimeout(timer);
-    pending.clear();
-    rainLoop = thunderTimer = stormSwell = null;
+    for (const id of timers) clearTimeout(id);
+    timers.clear();
+    thunderTimer = fallbackTimer = null;
   }
-
-  function getContext() {
+  function audioContext() {
     if (ctx) return ctx;
-    const Audio = window.AudioContext || window.webkitAudioContext;
-    if (!Audio) return null;
-    ctx = new Audio();
-    master = ctx.createGain();
-    master.gain.value = 0.0001;
-    master.connect(ctx.destination);
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtor) return null;
+    ctx = new AudioCtor();
+    effectsBus = ctx.createGain();
+    effectsBus.gain.value = .9;
+    effectsBus.connect(ctx.destination);
     return ctx;
   }
-
-  function noise(seconds, color = 'white') {
-    const count = Math.floor(ctx.sampleRate * seconds);
-    const buffer = ctx.createBuffer(1, count, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    let brown = 0;
-    for (let i = 0; i < count; i++) {
-      const white = Math.random() * 2 - 1;
-      brown = (brown + .018 * white) / 1.018;
-      data[i] = color === 'brown' ? brown * 3 : white;
-    }
-    return buffer;
+  function whiteNoise(seconds) {
+    const frames = Math.ceil(ctx.sampleRate * seconds);
+    const buf = ctx.createBuffer(1, frames, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < frames; i++) data[i] = Math.random() * 2 - 1;
+    return buf;
   }
-
-  let droplets = null;
-  let atmosphere = null;
-  let runoff = null;
-  let rumbleNoise = null;
-  let ignitionNoise = null;
-
-  function prepareSounds() {
-    if (droplets) return;
-    // Precompute very short splatters rather than keeping white noise audible.
-    droplets = Array.from({ length: 6 }, (_, i) => {
-      const seconds = .015 + i * .006;
-      const buffer = noise(seconds);
-      const d = buffer.getChannelData(0);
-      for (let j = 0; j < d.length; j++) {
-        const progress = j / d.length;
-        d[j] *= Math.pow(1 - progress, 2.6) * Math.sin(Math.PI * Math.min(1, progress * 8));
-      }
-      return buffer;
-    });
-    atmosphere = noise(7); // wide, continuous heavy-rain wash
-    runoff = noise(11, 'brown'); // low roof/street runoff and rainfall body
-    rumbleNoise = noise(8, 'brown');
-    ignitionNoise = noise(2.2);
-  }
-
-  function startBackground() {
-    if (rainBed) {
-      // Restart dynamic rainfall after the listener turns ambience back on.
-      if (!stormSwell) stormSwell = later(swell, 2100);
-      return;
-    }
-    // Two independent rain layers: a broad windy hiss above a low, rolling
-    // wash. Neither layer is a single unfiltered white-noise oscillator.
-    const shower = ctx.createBufferSource();
-    shower.buffer = atmosphere;
-    shower.loop = true;
-    const high = ctx.createBiquadFilter();
-    high.type = 'bandpass';
-    high.frequency.value = 1450;
-    high.Q.value = .34;
-    rainBed = ctx.createGain();
-    rainBed.gain.value = .16;
-    shower.connect(high).connect(rainBed).connect(master);
-    shower.start();
-
-    const water = ctx.createBufferSource();
-    water.buffer = runoff;
-    water.loop = true;
-    const low = ctx.createBiquadFilter();
-    low.type = 'lowpass';
-    low.frequency.value = 700;
-    runoffBed = ctx.createGain();
-    runoffBed.gain.value = .19;
-    water.connect(low).connect(runoffBed).connect(master);
-    water.start();
-    // Gentle irregular swells make heavy rain move instead of sounding static.
-    function swell() {
-      if (!active || !ctx || !rainBed || !runoffBed) return;
-      const t = ctx.currentTime;
-      rainBed.gain.setTargetAtTime(.14 + Math.random() * .075, t, 1.7);
-      runoffBed.gain.setTargetAtTime(.15 + Math.random() * .065, t, 2.1);
-      stormSwell = later(swell, 2700 + Math.random() * 2400);
-    }
-    stormSwell = later(swell, 2100);
-  }
-
-  function drop() {
-    if (!active || document.hidden) return;
-    const now = ctx.currentTime;
-    const source = ctx.createBufferSource();
-    source.buffer = droplets[Math.floor(Math.random() * droplets.length)];
-    source.playbackRate.value = .74 + Math.random() * .76;
-
-    const filter = ctx.createBiquadFilter();
-    filter.type = Math.random() < .7 ? 'bandpass' : 'lowpass';
-    filter.frequency.value = 1350 + Math.random() * 2750;
-    filter.Q.value = .6 + Math.random() * 1.2;
+  function buzz(start, duration, frequency, peak) {
+    const osc = ctx.createOscillator();
     const amp = ctx.createGain();
-    amp.gain.value = .085 + Math.random() * .15;
-    const pan = ctx.createStereoPanner();
-    pan.pan.value = Math.random() * 1.6 - .8;
-    source.connect(filter).connect(amp).connect(pan).connect(master);
-    source.start(now);
-
-    // Nearby drops have a tiny, softer rounded tick after the surface splash.
-    if (Math.random() < .14) {
-      const osc = ctx.createOscillator();
-      const envelope = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(670 + Math.random() * 450, now);
-      osc.frequency.exponentialRampToValueAtTime(260 + Math.random() * 140, now + .04);
-      envelope.gain.setValueAtTime(.0001, now);
-      envelope.gain.exponentialRampToValueAtTime(.003, now + .003);
-      envelope.gain.exponentialRampToValueAtTime(.0001, now + .058);
-      osc.connect(envelope).connect(pan);
-      osc.start(now);
-      osc.stop(now + .063);
-    }
+    // Midrange harmonics survive laptop speakers and cut through storm recordings.
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(frequency, start);
+    osc.frequency.linearRampToValueAtTime(frequency * .86, start + duration);
+    amp.gain.setValueAtTime(.0001, start);
+    amp.gain.linearRampToValueAtTime(peak, start + .025);
+    amp.gain.setValueAtTime(peak * .75, start + duration * .45);
+    amp.gain.exponentialRampToValueAtTime(.0001, start + duration);
+    const mid = ctx.createBiquadFilter();
+    mid.type = 'lowpass';
+    mid.frequency.value = 1200;
+    osc.connect(mid).connect(amp).connect(effectsBus);
+    osc.start(start);
+    osc.stop(start + duration + .02);
   }
-
-  function scheduleRain() {
-    if (!active) return;
-    if (!document.hidden) {
-      const cluster = Math.random() < .35 ? 3 : Math.random() < .60 ? 2 : 1;
-      for (let i = 0; i < cluster; i++) drop();
-    }
-    rainLoop = later(scheduleRain, 85 + Math.random() * 100);
-  }
-
-  function thunder() {
-    if (!active || document.hidden) return;
-    const now = ctx.currentTime;
+  function crack(start, duration, peak, frequency = 1750) {
     const source = ctx.createBufferSource();
-    source.buffer = rumbleNoise;
-    source.playbackRate.value = .78 + Math.random() * .15;
-    const low = ctx.createBiquadFilter();
-    low.type = 'lowpass';
-    low.frequency.value = 190;
+    source.buffer = whiteNoise(duration + .02);
+    const band = ctx.createBiquadFilter();
+    band.type = 'bandpass';
+    band.frequency.value = frequency;
+    band.Q.value = .75;
+    const amp = ctx.createGain();
+    amp.gain.setValueAtTime(.0001, start);
+    amp.gain.linearRampToValueAtTime(peak, start + .005);
+    amp.gain.exponentialRampToValueAtTime(.0001, start + duration);
+    source.connect(band).connect(amp).connect(effectsBus);
+    source.start(start);
+    source.stop(start + duration + .01);
+  }
+  function neon(phase = 'flicker') {
+    if (!active || document.hidden || !audioContext()) return;
+    if (ctx.state !== 'running') return;
+    const at = ctx.currentTime;
+    if (phase === 'ignite') {
+      // Sound follows the last visible flash and dies away; never idles.
+      crack(at, .12, .22, 2450);
+      buzz(at + .03, 1.55, 335, .19);
+      buzz(at + .065, 1.25, 665, .08);
+      // A glassy ting at the instant the tube fully illuminates.
+      const ting = ctx.createOscillator(), env = ctx.createGain();
+      ting.type = 'sine';
+      ting.frequency.setValueAtTime(3050, at);
+      ting.frequency.exponentialRampToValueAtTime(2180, at + .25);
+      env.gain.setValueAtTime(.0001, at);
+      env.gain.linearRampToValueAtTime(.11, at + .008);
+      env.gain.exponentialRampToValueAtTime(.0001, at + .29);
+      ting.connect(env).connect(effectsBus);
+      ting.start(at); ting.stop(at + .30);
+    } else if (phase === 'off') {
+      crack(at, .075, .12, 1100);
+    } else {
+      // These nine clicks align with the existing 340-ms neon animation.
+      for (const d of [0, .041, .068, .098, .119, .163, .181, .207, .238])
+        crack(at + d, .016, .14 + Math.random() * .06, 1150 + Math.random() * 1200);
+      buzz(at + .015, .32, 385, .10);
+    }
+  }
+  function synthThunder() {
+    if (!active || document.hidden || !audioContext() || ctx.state !== 'running') return;
+    const now = ctx.currentTime;
+    // Both the attack and the rolling tail have audible midrange, not just bass.
+    const src = ctx.createBufferSource();
+    src.buffer = whiteNoise(5.8);
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900;
     const envelope = ctx.createGain();
     envelope.gain.setValueAtTime(.0001, now);
+    envelope.gain.linearRampToValueAtTime(.16, now + .14);
     envelope.gain.exponentialRampToValueAtTime(.055, now + .85);
-    envelope.gain.exponentialRampToValueAtTime(.025, now + 2.6);
-    envelope.gain.exponentialRampToValueAtTime(.037, now + 3.25);
-    envelope.gain.exponentialRampToValueAtTime(.0001, now + 7.1);
-    source.connect(low).connect(envelope).connect(master);
-    source.start(now);
-    source.stop(now + 7.3);
-
-    const body = ctx.createOscillator();
-    const bodyGain = ctx.createGain();
-    body.type = 'sine';
-    body.frequency.setValueAtTime(46, now);
-    body.frequency.exponentialRampToValueAtTime(30, now + 6.5);
-    bodyGain.gain.setValueAtTime(.0001, now);
-    bodyGain.gain.exponentialRampToValueAtTime(.030, now + .95);
-    bodyGain.gain.exponentialRampToValueAtTime(.0001, now + 6.9);
-    body.connect(bodyGain).connect(master);
-    body.start(now);
-    body.stop(now + 7);
+    envelope.gain.linearRampToValueAtTime(.105, now + 1.7);
+    envelope.gain.exponentialRampToValueAtTime(.0001, now + 5.55);
+    src.connect(lp).connect(envelope).connect(effectsBus);
+    src.start(now); src.stop(now + 5.7);
+    buzz(now + .1, 3.9, 83, .037);
   }
-
-  let firstThunder = true;
+  function stopAudio() {
+    if (rainTrack) { rainTrack.pause(); rainTrack.currentTime = 0; }
+    if (thunderTrack) { thunderTrack.pause(); thunderTrack.currentTime = 0; }
+    if (fallbackRain) { try { fallbackRain.stop(); } catch {} fallbackRain = null; }
+    if (effectsBus && ctx) effectsBus.gain.setTargetAtTime(.0001, ctx.currentTime, .06);
+  }
+  function startFallbackRain() {
+    if (!active || fallbackRain || !audioContext() || ctx.state !== 'running') return;
+    // Clearly quieter fallback; recordings are the intended primary sound.
+    const source = ctx.createBufferSource();
+    source.buffer = whiteNoise(7);
+    source.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass'; filter.frequency.value = 1450;
+    const gain = ctx.createGain(); gain.gain.value = .022;
+    source.connect(filter).connect(gain).connect(ctx.destination);
+    source.start();
+    fallbackRain = source;
+  }
+  function thunder() {
+    if (!active || document.hidden) return;
+    // A real thunder recording plus a distinct, speaker-friendly opening rumble.
+    if (thunderTrack) {
+      thunderTrack.currentTime = 0;
+      const played = thunderTrack.play();
+      if (played?.catch) void played.catch(() => {});
+    }
+    synthThunder();
+  }
   function scheduleThunder() {
     if (!active) return;
     thunderTimer = later(() => {
       thunder();
       scheduleThunder();
-    }, firstThunder ? 8000 + Math.random() * 7500 : 19000 + Math.random() * 23000);
-    firstThunder = false;
+    }, 25000 + Math.random() * 17000);
   }
-
-  function shortTone(frequency, length, peak, type, delay = 0) {
-    const at = ctx.currentTime + delay;
-    const oscillator = ctx.createOscillator();
-    const gain = ctx.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, at);
-    oscillator.frequency.exponentialRampToValueAtTime(Math.max(32, frequency * .84), at + length);
-    gain.gain.setValueAtTime(.0001, at);
-    gain.gain.exponentialRampToValueAtTime(peak, at + .009);
-    gain.gain.exponentialRampToValueAtTime(.0001, at + length);
-    oscillator.connect(gain).connect(master);
-    oscillator.start(at);
-    oscillator.stop(at + length + .025);
+  function initialiseTracks() {
+    if (rainTrack) return;
+    rainTrack = new Audio(RAIN_URL);
+    rainTrack.loop = true;
+    rainTrack.preload = 'none';
+    rainTrack.volume = volume.rain;
+    rainTrack.addEventListener('error', () => {
+      if (active) startFallbackRain();
+    });
+    thunderTrack = new Audio(THUNDER_URL);
+    thunderTrack.preload = 'none';
+    thunderTrack.volume = volume.thunder;
   }
-
-  // A crackling, short filtered electrical burst; every source is stopped.
-  function electricSnap(delay, length, peak, frequency) {
-    const at = ctx.currentTime + delay;
-    const source = ctx.createBufferSource();
-    source.buffer = ignitionNoise;
-    const band = ctx.createBiquadFilter();
-    band.type = 'bandpass';
-    band.frequency.value = frequency;
-    band.Q.value = 2.1;
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(.0001, at);
-    gain.gain.exponentialRampToValueAtTime(peak, at + .006);
-    gain.gain.exponentialRampToValueAtTime(.0001, at + length);
-    source.connect(band).connect(gain).connect(master);
-    source.start(at);
-    source.stop(at + length + .015);
-  }
-
-  function neon(phase = 'flicker') {
-    if (!active || document.hidden || !ctx) return;
-    // Match the visual 340–360 ms electrical flutter, including dark gaps.
-    if (phase === 'ignite') {
-      electricSnap(0, .13, .024, 3100);
-      shortTone(2860, .15, .016, 'sine', .025); // brief glassy switch-on ting
-      electricSnap(.11, 1.48, .023, 480);
-      shortTone(116, 1.48, .020, 'sawtooth', .11); // warm electrical buzz fading ~1.6s after illumination
-    } else if (phase === 'off') {
-      electricSnap(0, .055, .014, 850);
-      shortTone(140, .065, .007, 'sawtooth');
-    } else {
-      // Pulses land on the opacity changes in neonElectricalFlicker (340 ms).
-      for (const delay of [0, .041, .068, .098, .119, .163, .181, .207, .238]) {
-        electricSnap(delay, .024 + Math.random() * .013, .011 + Math.random() * .009, 620 + Math.random() * 1800);
-      }
-      shortTone(2500, .085, .009, 'sine', .065);
-      shortTone(130, .11, .009, 'sawtooth', .18);
-    }
-  }
-
   function renderButton() {
     const button = document.getElementById('ambientSoundToggle');
     if (!button) return;
@@ -263,44 +178,41 @@
     button.setAttribute('aria-pressed', String(active));
     const label = button.querySelector('.sound-label');
     if (label) label.textContent = active ? 'Ambience on' : 'Enable ambience';
-    else button.lastChild && (button.lastChild.textContent = active ? 'Ambience on' : 'Enable ambience');
   }
-
   async function toggle() {
-    const audio = getContext();
-    if (!audio) return;
     if (active) {
       active = false;
       clearScheduled();
-      master.gain.cancelScheduledValues(audio.currentTime);
-      master.gain.setTargetAtTime(.0001, audio.currentTime, .07);
-    } else {
-      try { await audio.resume(); } catch { return; }
-      if (active) return;
-      prepareSounds();
-      startBackground();
-      active = true;
-      master.gain.cancelScheduledValues(audio.currentTime);
-      master.gain.setTargetAtTime(.65, audio.currentTime, .55);
-      firstThunder = true;
-      scheduleRain();
-      scheduleThunder();
+      stopAudio();
+      renderButton();
+      return;
     }
+    initialiseTracks();
+    const ac = audioContext();
+    try { if (ac) await ac.resume(); } catch {}
+    if (active) return;
+    active = true;
+    if (effectsBus && ctx) effectsBus.gain.setTargetAtTime(.9, ctx.currentTime, .06);
+    try {
+      const playing = rainTrack.play();
+      if (playing?.catch) void playing.catch(() => startFallbackRain());
+    } catch { startFallbackRain(); }
+    // First obvious thunder cue occurs soon after enabling, not 15–40s later.
+    fallbackTimer = later(thunder, 1700);
+    thunderTimer = later(scheduleThunder, 15500);
+    // The visual scene listens for this and performs a matching early flicker.
+    document.dispatchEvent(new CustomEvent('saikyo-ambience-enabled'));
     renderButton();
   }
-
-  // Delegated listener also works if Next.js mounts the button after this script.
-  document.addEventListener('click', event => {
+  document.addEventListener('click', (event) => {
     if (event.target?.closest?.('#ambientSoundToggle')) void toggle();
   });
   window.addEventListener('pagehide', () => {
     active = false;
     clearScheduled();
-    if (ctx) {
-      master.gain.setValueAtTime(.0001, ctx.currentTime);
-      void ctx.close();
-      ctx = master = rainBed = runoffBed = droplets = atmosphere = runoff = rumbleNoise = ignitionNoise = null;
-    }
+    stopAudio();
+    if (ctx) void ctx.close();
+    ctx = effectsBus = null;
   });
-  window.saikyoAmbient = { version: 4, neon };
+  window.saikyoAmbient = { version: 5, neon };
 })();

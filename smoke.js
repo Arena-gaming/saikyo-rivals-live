@@ -72,8 +72,8 @@
       x:emitterX+(Math.random()-.5)*unit*.22,
       y:emitterY+(Math.random()-.5)*unit*.02,
 
-      // Match the static plume: strong leftward push, modest rise.
-      vx:-unit*(.11+Math.random()*.12),
+      // Match the static plume: strong rightward push, modest rise.
+      vx:unit*(.11+Math.random()*.12),
       vy:-unit*(.22+Math.random()*.14),
 
       r:unit*(small?.07+Math.random()*.04:.10+Math.random()*.05),
@@ -127,9 +127,9 @@
       ctx.beginPath();
       ctx.moveTo(p.x,p.y+r*.08);
       ctx.bezierCurveTo(
-        p.x-r*.15,p.y-r*.18,
-        p.x-r*.42,p.y-r*.45,
-        p.x-r*.58,p.y-r*.78
+        p.x+r*.15,p.y-r*.18,
+        p.x+r*.42,p.y-r*.45,
+        p.x+r*.58,p.y-r*.78
       );
       ctx.stroke();
       ctx.restore();
@@ -164,10 +164,10 @@
       }
 
       const t=p.age/p.life;
-      const leftPull=unit*(.010+.020*(1-t));
+      const rightPull=unit*(.010+.020*(1-t));
       const sway=Math.sin(p.phase+p.age*p.wobble)*unit*.010;
 
-      p.vx-=leftPull*dt;
+      p.vx+=rightPull*dt;
       p.vx+=sway*dt;
       p.vy-=unit*.004*dt;
 

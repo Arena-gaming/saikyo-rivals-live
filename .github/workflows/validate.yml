@@ -24,3 +24,20 @@ jobs:
           grep -q 'ambient.css' index.html
           grep -q 'ambient.js' index.html
           grep -q 'ambientSoundToggle' index.html
+      - name: Enforce pre-launch Home-only site
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const home = fs.readFileSync('index.html','utf8');
+          const nav = home.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/);
+          if (!nav) throw Error('Missing Home navigation');
+          const labels = [...nav[1].matchAll(/<a\b[^>]*>(.*?)<\/a>/g)].map(m => m[1].replace(/<[^>]+>/g,'').trim());
+          if (JSON.stringify(labels) !== JSON.stringify(['Home'])) throw Error('Only Home may appear in navigation: '+labels.join(', '));
+          if (/id=["']features["']/.test(home)) throw Error('Pre-launch Features section must not appear');
+          for (const file of ['about.html', 'contact.html']) {
+            const page = fs.readFileSync(file,'utf8');
+            if (!page.includes('noindex,nofollow') || !page.includes('location.replace("/")')) throw Error(file+' must redirect to Home');
+          }
+          const sitemap = fs.readFileSync('sitemap.xml','utf8');
+          if (/about\.html|contact\.html/.test(sitemap)) throw Error('Only Home belongs in public sitemap');
+          NODE

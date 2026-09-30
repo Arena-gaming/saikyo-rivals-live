@@ -42,11 +42,9 @@ jobs:
           if (image.length < 80000 || image.toString('ascii',0,4) !== 'RIFF' || image.toString('ascii',8,12) !== 'WEBP') throw Error('Approved clean Contact artwork missing or truncated');
           if (!contact.includes('class="contact-art"') || !contact.includes('/contact-background-clean.webp')) throw Error('Contact must render the user-approved exact artwork');
           if (!contact.includes("body::before{") || !contact.includes("contact-background-clean.webp")) throw Error('Contact must have an independent fixed-image fallback');
-          const embedded = contact.split('data:image/webp;base64,')[1]?.split('"')[0];
-          if (!embedded) throw Error('Missing self-contained fallback image');
-          if (!Buffer.from(embedded, 'base64').equals(image)) throw Error('Embedded Contact art must exactly match approved image bytes');
-          if (!contact.includes('contact-scene-revision') || !contact.includes('html{background:#03040a var(--contact-scene)')) throw Error('Persistent Contact background missing');
-          if (/data:image\/webp;base64/.test(contact)) throw Error('Contact must not embed the old UI-bearing artwork');
+          if (!contact.includes('contact-scene-revision') || !contact.includes('--contact-scene:url')) throw Error('Persistent Contact background missing');
+          if (/contact-art\/background\.js/.test(contact) || /contact-art\/background\.js/.test(home)) throw Error('Obsolete Contact artwork assembler must not override the approved WebP');
+          if (/data:image\/webp;base64/.test(contact)) throw Error('Contact must not embed stale Contact artwork');
           const art = contact.match(/\.contact-art\{([^}]+)\}/)?.[1] || '';
           if (!/position:fixed/.test(art) || !/z-index:1/.test(art) || !/opacity:1/.test(art) || !/animation:none/.test(art)) throw Error('Contact art must remain visible without its own arrival animation');
           if (/animation:sceneArrive/.test(contact)) throw Error('Entrance animation must not fade the Contact artwork');

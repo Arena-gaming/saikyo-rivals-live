@@ -1,0 +1,33 @@
+name: Prepare approved Contact artwork
+on:
+  push:
+    branches: [approved-contact-design-exact]
+    paths: [".github/workflows/prepare-approved-contact.yml"]
+permissions:
+  contents: write
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: approved-contact-design-exact
+      - name: Convert the exact approved image into a local website asset
+        run: |
+          base64 -d contact-approved.webp.base64 > contact-approved.webp
+          file contact-approved.webp
+          bytes=$(wc -c < contact-approved.webp)
+          if [ "$bytes" -lt 140000 ]; then echo "Approved image was truncated"; exit 1; fi
+          python3 - <<'PY'
+          import struct
+          b=open('contact-approved.webp','rb').read()
+          assert b[:4]==b'RIFF' and b[8:12]==b'WEBP'
+          print('Approved original artwork converted:',len(b),'bytes')
+          PY
+      - name: Commit binary artwork
+        run: |
+          git config user.name "saikyo-build-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add contact-approved.webp
+          git commit -m "Add the original user-approved generated Contact image" || exit 0
+          git push origin HEAD:approved-contact-design-exact

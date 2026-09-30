@@ -41,6 +41,20 @@ jobs:
                   contact=page.get_by_role('link',name='Contact',exact=True)
                   assert contact.is_visible(),'Contact navigation hidden at width '+str(width)
                   page.close()
+              # End-to-end: the public Home navigation reaches and crossfades
+              # into the actual destination image rather than opening a black screen.
+              page=browser.new_page(viewport={'width':1440,'height':900})
+              page.goto('https://saikyo-rivals.com/',wait_until='networkidle',timeout=60000)
+              page.locator('nav a[href="/contact.html"]').click()
+              page.wait_for_timeout(830)
+              arrival=page.locator('#contact-arrival')
+              opacity=arrival.evaluate('(el)=>Number(getComputedStyle(el).opacity)')
+              print('mid-travel alley-image opacity:',opacity)
+              assert opacity>0.15,'Home transition failed to reveal the destination image'
+              page.wait_for_url('**/contact.html',timeout=30000)
+              print('arrived at:',page.url)
+              assert page.locator('.contact-backdrop').count()==1
+              page.close()
               browser.close()
           print('PASSED: real Contact image decoded and visible, live desktop and mobile scenic background has texture and navigation is accessible')
           PY

@@ -24,7 +24,7 @@ jobs:
           grep -q 'ambient.css' index.html
           grep -q 'ambient.js' index.html
           grep -q 'ambientSoundToggle' index.html
-      - name: Enforce pre-launch Home-only site
+      - name: Enforce pre-launch Home and Contact only
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
@@ -32,12 +32,12 @@ jobs:
           const nav = home.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/);
           if (!nav) throw Error('Missing Home navigation');
           const labels = [...nav[1].matchAll(/<a\b[^>]*>(.*?)<\/a>/g)].map(m => m[1].replace(/<[^>]+>/g,'').trim());
-          if (JSON.stringify(labels) !== JSON.stringify(['Home'])) throw Error('Only Home may appear in navigation: '+labels.join(', '));
+          if (JSON.stringify(labels) !== JSON.stringify(['Home','Contact'])) throw Error('Only Home and Contact may appear in navigation: '+labels.join(', '));
           if (/id=["']features["']/.test(home)) throw Error('Pre-launch Features section must not appear');
-          for (const file of ['about.html', 'contact.html']) {
-            const page = fs.readFileSync(file,'utf8');
-            if (!page.includes('noindex,nofollow') || !page.includes('location.replace("/")')) throw Error(file+' must redirect to Home');
-          }
+          const about = fs.readFileSync('about.html','utf8');
+          if (!about.includes('noindex,nofollow') || !about.includes('location.replace("/")')) throw Error('About must redirect to Home');
+          const contact = fs.readFileSync('contact.html','utf8');
+          if (!contact.includes('GET IN TOUCH') || !contact.includes('aria-current="page">Contact')) throw Error('Contact must be public');
           const sitemap = fs.readFileSync('sitemap.xml','utf8');
-          if (/about\.html|contact\.html/.test(sitemap)) throw Error('Only Home belongs in public sitemap');
+          if (/about\.html/.test(sitemap) || !/contact\.html/.test(sitemap)) throw Error('Only Home and Contact belong in public sitemap');
           NODE

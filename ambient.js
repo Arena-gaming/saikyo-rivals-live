@@ -170,7 +170,7 @@
   function selectNeonRegion() {
     // Every lighting event begins in a different part of the field recording.
     let next = Math.floor(Math.random() * (neonRegions.length - 1));
-    if (next >= lastNeonRegion) next++;
+    if (lastNeonRegion >= 0 && next >= lastNeonRegion) next++;
     lastNeonRegion = next;
     return neonRegions[next];
   }

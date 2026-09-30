@@ -77,7 +77,11 @@
   }
 
   function startBackground() {
-    if (rainBed) return;
+    if (rainBed) {
+      // Restart dynamic rainfall after the listener turns ambience back on.
+      if (!stormSwell) stormSwell = later(swell, 2100);
+      return;
+    }
     // Two independent rain layers: a broad windy hiss above a low, rolling
     // wash. Neither layer is a single unfiltered white-noise oscillator.
     const shower = ctx.createBufferSource();

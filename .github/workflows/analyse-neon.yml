@@ -1,0 +1,27 @@
+name: Analyse neon recording windows
+on:
+  push:
+    branches: [neon-audio-analysis]
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Analyse sound pressure windows
+        run: |
+          python3 -m pip install --quiet --break-system-packages imageio-ffmpeg
+          python3 - <<'PY'
+          import imageio_ffmpeg,subprocess,struct,math
+          path=imageio_ffmpeg.get_ffmpeg_exe()
+          p=subprocess.run([path,'-nostdin','-loglevel','error','-i','neon-flicker.ogg','-ar','8000','-ac','1','-f','f32le','pipe:1'],capture_output=True,check=True)
+          vals=struct.unpack('<'+str(len(p.stdout)//4)+'f',p.stdout)
+          def rms(a,b):
+            x=vals[int(a*8000):int(b*8000)]
+            return math.sqrt(sum(v*v for v in x)/max(1,len(x)))
+          print('DURATION',len(vals)/8000,'PEAK',round(max(map(abs,vals)),3))
+          result=[]
+          for start in range(0,min(int(len(vals)/8000),22)*5):
+            a=start*.2;result.append((round(rms(a,a+.2),4),round(a,1)))
+          print('BEST 200ms WINDOWS',sorted(result,reverse=True)[:35])
+          print('PER SECOND RMS',[(i,round(rms(i,i+1),4)) for i in range(min(22,int(len(vals)/8000)))])
+          PY

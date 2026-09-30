@@ -203,9 +203,9 @@ if(photo.complete&&photo.naturalWidth)layoutNeon();else photo.addEventListener('
 window.addEventListener('resize',layoutNeon);
 const nwait=ms=>new Promise(r=>setTimeout(r,ms));
 const nrandom=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
-async function nflicker(el){window.saikyoAmbient?.neon?.(.7);el.classList.add('is-flickering');await nwait(340);el.classList.remove('is-flickering');}
+async function nflicker(el){window.saikyoAmbient?.neon?.('flicker');el.classList.add('is-flickering');await nwait(340);el.classList.remove('is-flickering');window.saikyoAmbient?.neon?.('ignite');}
 async function nfullFailure(el){
-window.saikyoAmbient?.neon?.(1.15);
+window.saikyoAmbient?.neon?.('flicker');
 el.classList.add('is-flickering');await nwait(300);el.classList.remove('is-flickering');
 el.classList.add('is-off');await nwait(nrandom(600,2000));
 el.classList.remove('is-off');await nwait(60);
@@ -213,13 +213,14 @@ el.classList.add('is-off');await nwait(80);
 el.classList.remove('is-off');await nwait(90);
 el.classList.add('is-off');await nwait(45);
 el.classList.remove('is-off');
+window.saikyoAmbient?.neon?.('ignite');
 }
 async function npartialFailure(sign){
-window.saikyoAmbient?.neon?.(.9);
+window.saikyoAmbient?.neon?.('flicker');
 const sections=[...sign.querySelectorAll('.neon-section')];
 if(!sections.length)return;
 const section=sections[nrandom(0,sections.length-1)];
-section.classList.add('is-partial-flicker');await nwait(430);section.classList.remove('is-partial-flicker');
+section.classList.add('is-partial-flicker');await nwait(430);section.classList.remove('is-partial-flicker');window.saikyoAmbient?.neon?.('ignite');
 if(Math.random()<0.35){
 section.classList.add('is-dead');await nwait(nrandom(700,2500));section.classList.remove('is-dead');
 }

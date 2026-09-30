@@ -9,9 +9,9 @@
 <link rel="canonical" href="https://saikyo-rivals.com/contact.html">
 <meta property="og:title" content="Contact — Saikyo Rivals">
 <meta property="og:description" content="Reach Saikyo Rivals from the East Alley communications district.">
-<meta property="og:image" content="https://saikyo-rivals.com/contact-background-clean.webp">
+<meta property="og:image" content="https://saikyo-rivals.com/contact-background-clean.webp?v=d5654cda">
 <link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="preload" href="/contact-background-clean.webp" as="image" type="image/webp">
+<link rel="preload" href="/contact-background-clean.webp?v=d5654cda" as="image" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
 html,body{margin:0;min-height:100%;background:#03040a;color:var(--text)}
 /* The illustration is a permanent scene, independent of arrival animation. */
 body{isolation:isolate;background:transparent}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-color:#03040a;background-image:var(--saikyo-contact-art,url('/contact-background-clean.webp'));background-position:center top;background-size:cover;background-repeat:no-repeat}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-color:#03040a;background-image:var(--saikyo-contact-art,url('/contact-background-clean.webp?v=d5654cda'));background-position:center top;background-size:cover;background-repeat:no-repeat}
 body{font-family:Inter,Arial,sans-serif;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit}
@@ -96,7 +96,7 @@ textarea.field{resize:vertical;min-height:105px}
 }
 
 /* The approved clean East Alley artwork is the permanent Contact scene. */
-:root{--contact-scene:url('/contact-background-clean.webp')}
+:root{--contact-scene:url('/contact-background-clean.webp?v=d5654cda')}
 html{background-color:#03040a!important;background-image:var(--saikyo-contact-art,var(--contact-scene))!important;background-position:center top!important;background-size:cover!important;background-attachment:fixed!important;background-repeat:no-repeat!important}
 body{background:transparent!important}
 body::before{background-image:var(--saikyo-contact-art,var(--contact-scene))!important}
@@ -104,8 +104,8 @@ body::before{background-image:var(--saikyo-contact-art,var(--contact-scene))!imp
 </head>
 <body>
 <a class="skip" href="#contact-main">Skip to contact</a>
-<!-- Original approved image plus an identical self-contained CSS fallback. -->
-<img class="contact-art" data-contact-art src="/contact-background-clean.webp" alt="" aria-hidden="true" fetchpriority="high">
+<!-- Approved East Alley artwork. The direct WebP is the single source of truth. -->
+<img class="contact-art" data-contact-art src="/contact-background-clean.webp?v=d5654cda" alt="" aria-hidden="true" fetchpriority="high">
 <div class="contact-screen" aria-hidden="true"></div>
 <header class="site-header">
   <a href="/" class="brand" aria-label="Saikyo Rivals Home"><span>SAIKYO<small>RIVALS</small></span></a>
@@ -146,7 +146,6 @@ body::before{background-image:var(--saikyo-contact-art,var(--contact-scene))!imp
   </section>
 </main>
 <footer class="site-footer">© <span id="year">2026</span> Saikyo Rivals</footer>
-<script src="/contact-art/background.js?v=6" defer></script>
 <script src="/ambient.js?v=8" defer></script>
 <script>
 document.getElementById("year").textContent=String(new Date().getFullYear());

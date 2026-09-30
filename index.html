@@ -75,7 +75,7 @@
 </style>
 <link rel="stylesheet" href="smoke-v2.css">
 <link rel="stylesheet" href="ambient.css">
-<link rel="preload" as="image" href="/contact-background-clean.webp">
+<link rel="preload" as="image" href="/contact-background-clean.webp?v=d5654cda">
 </head>
 <body>
 <div class="page">
@@ -216,7 +216,7 @@ else if(effect==='full')nschedule(sign,effect,20000,45000);
 #contact-travel.is-travelling{opacity:1;transform:scale(3.3)}
 #contact-arrival{
   position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:0;
-  background-color:#07111d;background-image:var(--saikyo-contact-art,url('/contact-background-clean.webp'));background-position:52% 48%;background-size:cover;background-repeat:no-repeat;
+  background-color:#07111d;background-image:var(--saikyo-contact-art,url('/contact-background-clean.webp?v=d5654cda'));background-position:52% 48%;background-size:cover;background-repeat:no-repeat;
   transition:opacity .43s ease;
 }
 #contact-arrival.is-arriving{opacity:1}
@@ -234,7 +234,6 @@ else if(effect==='full')nschedule(sign,effect,20000,45000);
 }
 @media(prefers-reduced-motion:reduce){#contact-travel,#contact-arrival{display:none!important}}
 </style>
-<script src="/contact-art/background.js?v=6" defer></script>
 <div id="contact-travel" aria-hidden="true"></div>
 <div id="contact-arrival" aria-hidden="true"></div>
 <script>
@@ -244,10 +243,7 @@ else if(effect==='full')nschedule(sign,effect,20000,45000);
   const arrival = document.getElementById('contact-arrival');
   if (!link || !travel || !arrival) return;
   // Warm the image cache before the first journey, without blocking Home.
-  const destination = new Image(); destination.src = '/contact-background-clean.webp';
-  window.addEventListener('saikyo-contact-art-ready', (event) => {
-    if (event.detail && event.detail.uri) destination.src = event.detail.uri;
-  });
+  const destination = new Image(); destination.src = '/contact-background-clean.webp?v=d5654cda';
   link.addEventListener('click', (event) => {
     if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

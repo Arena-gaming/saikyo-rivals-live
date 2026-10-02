@@ -29,6 +29,9 @@
 .neon-glow{position:absolute;inset:-8% -10%;will-change:opacity}
 .neon-glow{opacity:.48;background:radial-gradient(ellipse at 50% 50%,var(--nc) 0%,var(--nc) 31%,transparent 76%);mix-blend-mode:screen;filter:blur(2px) brightness(1.2);transition:opacity 40ms linear}
 
+.neon-sign--blue .neon-glow{inset:-12% -20%;opacity:.38;background:radial-gradient(ellipse at 50% 50%,var(--nc) 0%,var(--nc) 28%,transparent 74%);filter:blur(2px) brightness(1.15)}
+.neon-sign--blue.is-flickering .neon-glow{animation:blueNeonFlicker 340ms steps(1,end)}
+@keyframes blueNeonFlicker{0%{opacity:.38}10%{opacity:.05}18%{opacity:.43}28%{opacity:.08}36%{opacity:.46}47%{opacity:.03}54%{opacity:.41}63%{opacity:.10}72%{opacity:.35}100%{opacity:.38}}
 .neon-character.is-off .neon-glow{opacity:0}.neon-character.is-off 
 .neon-character.is-flickering .neon-glow{animation:neonElectricalFlicker 340ms steps(1,end)}
 .neon-character.is-flickering 
@@ -96,6 +99,7 @@
 <section class="right" aria-label="Rain-soaked Neo-Tokyo street with a lone ronin">
 <img class="photo" src="hero-bg.jpg?v=4571c171" alt="A silhouetted ronin in a rain-soaked neon city street">
 <div class="neon-layer" aria-hidden="true">
+<div class="neon-sign neon-sign--blue" data-neon="blue-japanese" data-effect="blue-flicker" data-sx="81.95" data-sy="9.75" data-sw="3.15" data-sh="9.55" style="--nc:#52cfff"><span class="neon-glow"></span></div>
 <div class="neon-sign neon-sign--red" data-neon="red-ramen" data-sx="24.15" data-sy="33.35" data-sw="7.10" data-sh="4.35" style="--nc:#ff3a45">
     <span class="neon-character" style="left:0%"><span class="neon-glow"></span></span>
     <span class="neon-character" style="left:25%"><span class="neon-glow"></span></span>
@@ -134,24 +138,32 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
 </script>
 <script>
 (() => {
-  
   const flash = document.querySelector('.right .lightning-flash');
   if (!flash) return;
-  let timer = 0;
+  let timer = 0, resetTimer = 0;
+  const flashNow = () => {
+    if (document.hidden) return;
+    flash.classList.remove('is-flashing','is-double');
+    void flash.offsetWidth;
+    flash.classList.add(Math.random() < .32 ? 'is-double' : 'is-flashing');
+    window.clearTimeout(resetTimer);
+    resetTimer = window.setTimeout(() => flash.classList.remove('is-flashing','is-double'), 950);
+  };
+  document.addEventListener('saikyo-thunder', flashNow);
   const schedule = () => {
     const delay = 9000 + Math.random() * 15000;
     timer = window.setTimeout(() => {
-      flash.classList.remove('is-flashing','is-double');
-      void flash.offsetWidth;
-      flash.classList.add(Math.random() < .32 ? 'is-double' : 'is-flashing');
-      window.setTimeout(() => {
-        flash.classList.remove('is-flashing','is-double');
-        schedule();
-      }, 950);
+      const thunderPlayed = window.saikyoAmbient?.thunder?.() === true;
+      if (!thunderPlayed) flashNow();
+      schedule();
     }, delay);
   };
   schedule();
-  window.addEventListener('pagehide', () => window.clearTimeout(timer), {once:true});
+  window.addEventListener('pagehide', () => {
+    window.clearTimeout(timer);
+    window.clearTimeout(resetTimer);
+    document.removeEventListener('saikyo-thunder', flashNow);
+  }, {once:true});
 })();
 </script>
 <script>
@@ -213,16 +225,28 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
     await wait(70);
     targets.forEach(char=>char.classList.remove('is-off'));
   }
+  async function blueFlicker(el){
+    window.saikyoAmbient?.neon?.('flicker');
+    el.classList.add('is-flickering');
+    await wait(340);
+    el.classList.remove('is-flickering');
+  }
   function schedule(el){
+    const isBlue=el.dataset.effect==='blue-flicker';
     let firstRun=true;
     const run=async()=>{
-      await wait(firstRun?random(2200,4200):random(9000,24000));
+      await wait(isBlue
+        ?(firstRun?random(1200,2400):random(6000,14000))
+        :(firstRun?random(2200,4200):random(9000,24000)));
       firstRun=false;
       if(document.hidden)return run();
-      const roll=Math.random();
-      if(roll<.65)await characterFailure(el,1);
-      else if(roll<.90)await characterFailure(el,2);
-      else await wholeFailure(el);
+      if(isBlue)await blueFlicker(el);
+      else{
+        const roll=Math.random();
+        if(roll<.65)await characterFailure(el,1);
+        else if(roll<.90)await characterFailure(el,2);
+        else await wholeFailure(el);
+      }
       run();
     };
     run();
@@ -230,7 +254,7 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
   signs.forEach(schedule);
 })();
 </script>
-<script src="ambient.js?v=10" defer></script>
+<script src="ambient.js?v=11" defer></script>
 <script src="smoke.js?v=10" defer></script>
 <style>
 /* Travel toward East Alley, then blend into its ACTUAL new destination image. */

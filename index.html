@@ -171,10 +171,18 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
   document.addEventListener('visibilitychange',relayoutNeon);
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
   const random=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
-  async function flicker(el){el.classList.add('is-flickering');await wait(340);el.classList.remove('is-flickering');}
+  async function flicker(el){
+    window.saikyoAmbient?.neon?.('flicker');
+    el.classList.add('is-flickering');
+    await wait(340);
+    el.classList.remove('is-flickering');
+  }
   async function fullFailure(el){
+    window.saikyoAmbient?.neon?.('flicker');
     el.classList.add('is-flickering');await wait(300);el.classList.remove('is-flickering');
+    window.saikyoAmbient?.neon?.('off');
     el.classList.add('is-off');await wait(random(600,2000));
+    window.saikyoAmbient?.neon?.('ignite');
     el.classList.remove('is-off');await wait(60);el.classList.add('is-off');await wait(80);
     el.classList.remove('is-off');await wait(90);el.classList.add('is-off');await wait(45);el.classList.remove('is-off');
   }
@@ -193,7 +201,7 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
   signs.forEach(schedule);
 })();
 </script>
-<script src="ambient.js?v=9" defer></script>
+<script src="ambient.js?v=10" defer></script>
 <script src="smoke.js?v=10" defer></script>
 <style>
 /* Travel toward East Alley, then blend into its ACTUAL new destination image. */

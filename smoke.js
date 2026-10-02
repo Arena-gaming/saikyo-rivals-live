@@ -8,7 +8,7 @@
   const stage=liveStage||appStage;
   const photo=livePhoto||appPhoto;
 
-  if(!stage||!photo||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!stage||!photo)return;
 
   const canvas=document.createElement('canvas');
   canvas.className='smoke-canvas';
@@ -83,7 +83,7 @@
       life,
       phase:Math.random()*Math.PI*2,
       wobble:.7+Math.random()*.7,
-      alpha:small?.115+Math.random()*.05:.078+Math.random()*.042,
+      alpha:small?.10+Math.random()*.045:.068+Math.random()*.038,
       squash:.8+Math.random()*.25
     });
   }

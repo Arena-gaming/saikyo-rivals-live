@@ -6,7 +6,7 @@
  * Audio is fetched only after the visitor enables ambience.
  */
 (() => {
-  if (window.saikyoAmbient?.version === 10) return;
+  if (window.saikyoAmbient?.version === 11) return;
 
   // Bundled recordings are shipped with each site; Wikimedia is the fallback
   // only if a local asset has failed to load.
@@ -22,7 +22,7 @@
   let rainBuffer = null, rainLoad = null, rainSource = null, rainGain = null;
   let rainTrack = null, thunderTrack = null;
   let usedRainBackup = false, usedThunderBackup = false;
-  let thunderTimer = null, fallbackTimer = null;
+  let fallbackTimer = null;
   let fallbackRain = null;
   const timers = new Set();
   const volume = { rain: .59, thunder: .92 };
@@ -35,7 +35,7 @@
   function clearScheduled() {
     for (const id of timers) clearTimeout(id);
     timers.clear();
-    thunderTimer = fallbackTimer = null;
+    fallbackTimer = null;
   }
   function audioContext() {
     if (ctx) return ctx;
@@ -271,21 +271,15 @@
     fallbackRain = source;
   }
   function thunder() {
-    if (!active || document.hidden) return;
-    // A real thunder recording plus a distinct, speaker-friendly opening rumble.
+    if (!active || document.hidden) return false;
+    document.dispatchEvent(new CustomEvent('saikyo-thunder'));
     if (thunderTrack) {
       thunderTrack.currentTime = 0;
       const played = thunderTrack.play();
       if (played?.catch) void played.catch(() => {});
     }
     synthThunder();
-  }
-  function scheduleThunder() {
-    if (!active) return;
-    thunderTimer = later(() => {
-      thunder();
-      scheduleThunder();
-    }, 25000 + Math.random() * 17000);
+    return true;
   }
   function initialiseTracks() {
     if (rainTrack) return;
@@ -348,8 +342,6 @@
     }
     // First obvious thunder cue occurs soon after enabling, not 15–40s later.
     fallbackTimer = later(thunder, 1700);
-    thunderTimer = later(scheduleThunder, 15500);
-    // The visual scene listens for this and performs a matching early flicker.
     document.dispatchEvent(new CustomEvent('saikyo-ambience-enabled'));
     renderButton();
   }
@@ -363,5 +355,5 @@
     if (ctx) void ctx.close();
     ctx = effectsBus = neonRecording = neonLoad = null;
   });
-  window.saikyoAmbient = { version: 10, neon };
+  window.saikyoAmbient = { version: 11, neon, thunder };
 })();

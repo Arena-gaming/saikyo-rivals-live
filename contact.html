@@ -99,6 +99,9 @@ textarea.field{resize:vertical;min-height:105px}
 :root{--contact-scene:url('/contact-background-clean.webp?v=d5654cda')}
 html{background-color:#03040a!important;background-image:var(--saikyo-contact-art,var(--contact-scene))!important;background-position:center top!important;background-size:cover!important;background-attachment:fixed!important;background-repeat:no-repeat!important}
 body{background:transparent!important}
+.rain-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.site-header,.page-main,.site-footer{position:relative;z-index:2}
+@media(prefers-reduced-motion:reduce){.rain-canvas{opacity:.55}}
 body::before{background-image:var(--saikyo-contact-art,var(--contact-scene))!important}
 </style>
 </head>
@@ -107,6 +110,7 @@ body::before{background-image:var(--saikyo-contact-art,var(--contact-scene))!imp
 <!-- Approved East Alley artwork. The direct WebP is the single source of truth. -->
 <img class="contact-art" data-contact-art src="/contact-background-clean.webp?v=d5654cda" alt="" aria-hidden="true" fetchpriority="high">
 <div class="contact-screen" aria-hidden="true"></div>
+<canvas id="rainCanvas" class="rain-canvas" aria-hidden="true"></canvas>
 <header class="site-header">
   <a href="/" class="brand" aria-label="Saikyo Rivals Home"><span>SAIKYO<small>RIVALS</small></span></a>
   <div class="nav-controls">
@@ -147,6 +151,46 @@ body::before{background-image:var(--saikyo-contact-art,var(--contact-scene))!imp
 </main>
 <footer class="site-footer">© <span id="year">2026</span> Saikyo Rivals</footer>
 <script src="/ambient.js?v=8" defer></script>
+<script>
+(() => {
+  const rain=document.getElementById('rainCanvas');
+  if(!rain)return;
+  const rc=rain.getContext('2d');
+  let W=0,H=0,dpr=1,drops=[];
+  function makeDrop(initial=false){
+    return{x:Math.random()*W,y:initial?Math.random()*H:-20-Math.random()*H*.25,len:5+Math.random()*12,w:.7+Math.random()*1.3,s:300+Math.random()*520,alpha:.18+Math.random()*.52,wind:-22-Math.random()*18};
+  }
+  function resize(){
+    const r=rain.getBoundingClientRect();
+    dpr=Math.min(window.devicePixelRatio||1,2);
+    W=r.width;H=r.height;
+    rain.width=W*dpr;rain.height=H*dpr;
+    rc.setTransform(dpr,0,0,dpr,0,0);
+    drops=Array.from({length:Math.max(120,Math.round(W/7))},()=>makeDrop(true));
+  }
+  let last=performance.now();
+  function frame(now){
+    const dt=Math.min((now-last)/1000,.035);last=now;
+    rc.clearRect(0,0,W,H);
+    for(let i=0;i<drops.length;i++){
+      let d=drops[i];
+      d.y+=d.s*dt;d.x+=d.wind*dt;
+      if(d.y>H){drops[i]=makeDrop(false);d=drops[i]}
+      if(d.x<-20)d.x=W+10;
+      const g=rc.createLinearGradient(d.x,d.y-d.len,d.x,d.y);
+      g.addColorStop(0,'rgba(190,225,245,0)');
+      g.addColorStop(.55,`rgba(210,238,255,${d.alpha*.45})`);
+      g.addColorStop(1,`rgba(230,248,255,${d.alpha})`);
+      rc.strokeStyle=g;rc.lineWidth=d.w;rc.lineCap='round';
+      rc.beginPath();rc.moveTo(d.x-d.wind*.012,d.y-d.len);rc.lineTo(d.x,d.y);rc.stroke();
+      rc.fillStyle=`rgba(235,250,255,${Math.min(.8,d.alpha+.18)})`;
+      rc.beginPath();rc.ellipse(d.x,d.y,Math.max(.8,d.w*.75),Math.max(1.2,d.w),0,0,Math.PI*2);rc.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  resize();window.addEventListener('resize',resize);requestAnimationFrame(frame);
+})();
+</script>
 <script>
 document.getElementById("year").textContent=String(new Date().getFullYear());
 const form=document.getElementById("contactForm");

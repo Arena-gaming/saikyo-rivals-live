@@ -10,9 +10,6 @@
 
   if(!stage||!photo||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 
-  const oldCanvas=stage.querySelector('.smoke-canvas');
-  if(oldCanvas)oldCanvas.remove();
-
   const canvas=document.createElement('canvas');
   canvas.className='smoke-canvas';
   canvas.setAttribute('aria-hidden','true');
@@ -22,7 +19,7 @@
   const ctx=canvas.getContext('2d');
   if(!ctx)return;
 
-  // Original approved vent-steam source point.
+  // Anchor to the actual street vent in the approved hero image.
   const SOURCE_X=.868;
   const SOURCE_Y=.821;
 
@@ -44,8 +41,7 @@
   }
 
   function layout(){
-    const r=canvas.getBoundingClientRect();
-    const photoRect=photo.getBoundingClientRect();
+    const r=stage.getBoundingClientRect();
     W=r.width; H=r.height;
     dpr=Math.min(window.devicePixelRatio||1,2);
     canvas.width=Math.max(1,Math.round(W*dpr));
@@ -55,17 +51,15 @@
     const iw=photo.naturalWidth,ih=photo.naturalHeight;
     if(!iw||!ih)return;
 
-    const scale=Math.max(photoRect.width/iw,photoRect.height/ih);
+    const scale=Math.max(W/iw,H/ih);
     const dw=iw*scale,dh=ih*scale;
     const [px,py]=parseObjectPosition();
-    const photoLeft=photoRect.left-r.left;
-    const photoTop=photoRect.top-r.top;
-    const ox=photoLeft+(photoRect.width-dw)*px;
-    const oy=photoTop+(photoRect.height-dh)*py;
+    const ox=(W-dw)*px;
+    const oy=(H-dh)*py;
 
     emitterX=ox+SOURCE_X*dw;
     emitterY=oy+SOURCE_Y*dh;
-    unit=Math.max(24,Math.min(photoRect.width,photoRect.height)*.05);
+    unit=Math.max(24,Math.min(W,H)*.05);
   }
 
   function spawn(){
@@ -77,10 +71,14 @@
     particles.push({
       x:emitterX+(Math.random()-.5)*unit*.22,
       y:emitterY+(Math.random()-.5)*unit*.02,
+
+      // Match the static plume: strong rightward push, modest rise.
       vx:unit*(.11+Math.random()*.12),
       vy:-unit*(.22+Math.random()*.14),
+
       r:unit*(small?.42+Math.random()*.22:.58+Math.random()*.30),
       grow:unit*(small?.95+Math.random()*.50:1.28+Math.random()*.72),
+
       age:0,
       life,
       phase:Math.random()*Math.PI*2,
@@ -119,6 +117,7 @@
     ctx.fill();
     ctx.restore();
 
+    // Broken, wispy edge similar to the static plume.
     if(t>.14&&t<.72){
       ctx.save();
       ctx.globalAlpha=a*.28;
@@ -138,11 +137,11 @@
   }
 
   function frame(now){
-    if(!canvas.isConnected)return;
     const dt=Math.min((now-last)/1000,.04);
     last=now;
     ctx.clearRect(0,0,W,H);
 
+    // Uneven pulses instead of continuous chimney output.
     const pulse=.62+
       Math.sin(now*.00065)*.16+
       Math.sin(now*.0014+1.6)*.10;
@@ -178,6 +177,7 @@
       p.x+=p.vx*dt;
       p.y+=p.vy*dt;
 
+      // Keep the animated plume short, like the one baked into the image.
       if(p.y<emitterY-unit*2.1){
         particles.splice(i,1);
         continue;
@@ -200,9 +200,13 @@
     }
   }
 
-  const start=()=>{layout();seed();requestAnimationFrame(frame);};
-  if(photo.complete&&photo.naturalWidth)start();
-  else photo.addEventListener('load',start,{once:true});
+  if(photo.complete&&photo.naturalWidth){
+    layout();
+    seed();
+  }else{
+    photo.addEventListener('load',()=>{layout();seed();},{once:true});
+  }
 
   window.addEventListener('resize',layout,{passive:true});
+  requestAnimationFrame(frame);
 })();

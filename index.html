@@ -40,7 +40,7 @@
 .lightning-flash.is-double{animation:saikyoLightningDouble .88s ease-out both}
 @keyframes saikyoLightning{0%,100%{opacity:0}7%{opacity:.10}13%{opacity:.22}22%{opacity:.065}34%{opacity:.12}48%{opacity:.025}}
 @keyframes saikyoLightningDouble{0%,100%{opacity:0}6%{opacity:.09}12%{opacity:.20}21%{opacity:.04}33%{opacity:0}45%{opacity:.08}52%{opacity:.16}64%{opacity:.035}76%{opacity:0}}
-@media(prefers-reduced-motion:reduce){.reflection-shimmer,.mist,.drip{animation:none}.rain-canvas,.lightning-flash,.neon-layer{display:none}}
+@media(prefers-reduced-motion:reduce){.reflection-shimmer,.mist,.drip{animation:none}.rain-canvas{opacity:.55}.lightning-flash{opacity:.7}.neon-layer{opacity:.72}}
 .strip{position:relative;background:#050505;overflow:hidden;padding:70px 40px 60px}.strip-glow{position:absolute;left:50%;top:0;width:900px;height:340px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,rgba(255,36,57,.35),rgba(255,36,57,.08) 45%,transparent 75%);pointer-events:none}
 .strip-kanji{position:absolute;top:50%;transform:translateY(-50%);font-family:'Noto Sans JP';writing-mode:vertical-rl;font-weight:900;letter-spacing:.1em;color:rgba(227,27,46,.1);pointer-events:none;user-select:none}.strip-kanji-l{left:14px;font-size:88px;width:1.1em;height:2.2em}.strip-kanji-r{right:14px;font-size:58px;width:1.1em;height:3.2em}
 .strip-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:2}
@@ -114,7 +114,7 @@
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
 const form=document.getElementById('notifyForm'),success=document.getElementById('formSuccess'),emailInput=document.getElementById('emailInput'),notifyBtn=form.querySelector('button');const NOTIFY_URL='https://script.google.com/macros/s/AKfycbyeswUX3bjvkjU8Dl_DephK_klTOfjk7kUVhUxCraN10cBIfr-KHHYQ0Ab0NCW-UrZpbw/exec';form.addEventListener('submit',e=>{e.preventDefault();const email=emailInput.value.trim();if(!email)return;notifyBtn.disabled=true;fetch(NOTIFY_URL,{method:'POST',body:new URLSearchParams({email})}).then(r=>r.json()).then(data=>{if(data.result==='success'){success.textContent="Thanks — you're on the list! We'll email you when Saikyo Rivals launches.";success.classList.add('show');form.reset();}else{success.textContent='Something went wrong — please try again.';success.classList.add('show');}}).catch(()=>{success.textContent='Something went wrong — please check your connection and try again.';success.classList.add('show');}).finally(()=>{notifyBtn.disabled=false;});});
-const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduced=false;
 if(!reduced){
 const rain=document.getElementById('rainCanvas'),rc=rain.getContext('2d');let W=0,H=0,dpr=1,drops=[];
 function resize(){const r=rain.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);W=r.width;H=r.height;rain.width=W*dpr;rain.height=H*dpr;rain.style.width=W+'px';rain.style.height=H+'px';rc.setTransform(dpr,0,0,dpr,0,0);drops=Array.from({length:Math.max(120,Math.round(W/7))},()=>makeDrop(true));}
@@ -127,7 +127,7 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
 </script>
 <script>
 (() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  
   const flash = document.querySelector('.right .lightning-flash');
   if (!flash) return;
   let timer = 0;
@@ -150,7 +150,7 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
 <script>
 (() => {
   const stage=document.querySelector('.right'),photo=document.querySelector('.photo'),layer=document.querySelector('.neon-layer');
-  if(!stage||!photo||!layer||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!stage||!photo||!layer)return;
   const signs=[...layer.querySelectorAll('[data-neon]')];
   const OBJ_POS_X=.56,OBJ_POS_Y=.31,IMG_SCALE=1.004;
   function layoutNeon(){

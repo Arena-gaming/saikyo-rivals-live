@@ -163,8 +163,12 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
       el.style.left=(offsetX+sx*dw)+'px';el.style.top=(offsetY+sy*dh)+'px';el.style.width=(sw*dw)+'px';el.style.height=(sh*dh)+'px';
     });
   }
-  if(photo.complete&&photo.naturalWidth)layoutNeon();else photo.addEventListener('load',layoutNeon,{once:true});
-  window.addEventListener('resize',layoutNeon);
+  const relayoutNeon=()=>requestAnimationFrame(()=>requestAnimationFrame(layoutNeon));
+  if(photo.complete&&photo.naturalWidth)relayoutNeon();else photo.addEventListener('load',relayoutNeon,{once:true});
+  window.addEventListener('resize',relayoutNeon);
+  window.addEventListener('orientationchange',relayoutNeon);
+  window.visualViewport?.addEventListener('resize',relayoutNeon);
+  document.addEventListener('visibilitychange',relayoutNeon);
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
   const random=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
   async function flicker(el){el.classList.add('is-flickering');await wait(340);el.classList.remove('is-flickering');}

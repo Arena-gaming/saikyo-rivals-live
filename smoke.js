@@ -63,7 +63,7 @@
   }
 
   function spawn(){
-    if(particles.length>30)return;
+    if(particles.length>36)return;
 
     const life=3.6+Math.random()*2.6;
     const small=Math.random()<.70;
@@ -83,7 +83,7 @@
       life,
       phase:Math.random()*Math.PI*2,
       wobble:.7+Math.random()*.7,
-      alpha:small?.09+Math.random()*.04:.06+Math.random()*.035,
+      alpha:small?.115+Math.random()*.05:.078+Math.random()*.042,
       squash:.8+Math.random()*.25
     });
   }
@@ -146,12 +146,12 @@
       Math.sin(now*.00065)*.16+
       Math.sin(now*.0014+1.6)*.10;
 
-    spawnCarry+=dt*(2.8*Math.max(.25,pulse));
+    spawnCarry+=dt*(3.4*Math.max(.25,pulse));
 
     while(spawnCarry>=1){
       spawn();
       spawnCarry-=1;
-      if(Math.random()<.10)spawn();
+      if(Math.random()<.14)spawn();
     }
 
     for(let i=particles.length-1;i>=0;i--){
@@ -190,7 +190,7 @@
   }
 
   function seed(){
-    for(let i=0;i<14;i++){
+    for(let i=0;i<17;i++){
       spawn();
       const p=particles[particles.length-1];
       if(!p)continue;

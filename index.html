@@ -25,12 +25,15 @@
 .right{position:relative;overflow:hidden;background:#08090b}@media(min-width:981px){.left{grid-column:1;grid-row:1}.right{grid-column:1/-1;grid-row:1}}.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:56% 31%;transform:scale(1.004)}.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.97) 0%,rgba(5,5,5,.84) 15%,rgba(5,5,5,.5) 30%,rgba(5,5,5,.12) 44%,rgba(5,5,5,0) 56%),linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.05) 62%,rgba(0,0,0,.2));pointer-events:none}.rain-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}.mist{position:absolute;left:8%;right:8%;bottom:3%;height:17%;background:radial-gradient(ellipse at center,rgba(190,205,215,.12),transparent 70%);filter:blur(24px);z-index:3;animation:mist 11s ease-in-out infinite alternate}.reflection-shimmer{position:absolute;left:0;right:0;bottom:0;height:31%;z-index:5;pointer-events:none;background:linear-gradient(90deg,transparent 3%,rgba(255,32,68,.12) 18%,transparent 31%,rgba(67,176,255,.12) 46%,transparent 60%,rgba(255,16,74,.16) 78%,transparent 96%);mix-blend-mode:screen;filter:blur(6px);opacity:.65;animation:shimmer 3.6s ease-in-out infinite alternate}
 .neon-layer{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
 .neon-sign{position:absolute}
-.neon-glow,.neon-off-mask{position:absolute;inset:0;will-change:opacity}
-.neon-glow{opacity:.52;background:radial-gradient(ellipse at 50% 50%,var(--nc) 0%,var(--nc) 30%,transparent 74%);mix-blend-mode:screen;filter:blur(2.5px) brightness(1.24);transition:opacity 40ms linear}
-.neon-off-mask{opacity:0;background:radial-gradient(ellipse at 50% 50%,#02050a 0%,#03070d 58%,rgba(2,5,10,.84) 72%,transparent 88%);mix-blend-mode:multiply;filter:blur(2px) brightness(.38);transition:opacity 140ms ease-out}
-.neon-sign.is-off .neon-glow{opacity:0}.neon-sign.is-off .neon-off-mask{opacity:1}
-.neon-sign.is-flickering .neon-glow{animation:neonElectricalFlicker 340ms steps(1,end)}
-@keyframes neonElectricalFlicker{0%{opacity:.52}10%{opacity:0}18%{opacity:.55}28%{opacity:.04}36%{opacity:.64}47%{opacity:0}54%{opacity:.58}63%{opacity:.08}72%{opacity:.48}100%{opacity:.52}}
+.neon-character{position:absolute;top:0;width:25%;height:100%;overflow:visible}
+.neon-glow,.neon-off-mask{position:absolute;inset:-8% -10%;will-change:opacity}
+.neon-glow{opacity:.48;background:radial-gradient(ellipse at 50% 50%,var(--nc) 0%,var(--nc) 31%,transparent 76%);mix-blend-mode:screen;filter:blur(2px) brightness(1.2);transition:opacity 40ms linear}
+.neon-off-mask{opacity:0;background:rgba(0,255,255,.96);mix-blend-mode:multiply;filter:blur(.35px);transition:opacity 90ms linear}
+.neon-character.is-off .neon-glow{opacity:0}.neon-character.is-off .neon-off-mask{opacity:1}
+.neon-character.is-flickering .neon-glow{animation:neonElectricalFlicker 340ms steps(1,end)}
+.neon-character.is-flickering .neon-off-mask{animation:neonRedDrop 340ms steps(1,end)}
+@keyframes neonElectricalFlicker{0%{opacity:.48}10%{opacity:0}18%{opacity:.52}28%{opacity:.04}36%{opacity:.58}47%{opacity:0}54%{opacity:.54}63%{opacity:.08}72%{opacity:.46}100%{opacity:.48}}
+@keyframes neonRedDrop{0%,18%,36%,54%,72%,100%{opacity:0}10%,28%,47%{opacity:.92}63%{opacity:.72}}
 .hat-drips{position:absolute;z-index:7;left:48%;top:22%;width:28%;height:18%;pointer-events:none}.drip{position:absolute;width:3px;height:13px;border-radius:60% 60% 70% 70%;background:linear-gradient(180deg,rgba(225,244,255,.9),rgba(150,206,235,.22));filter:drop-shadow(0 0 4px rgba(190,230,255,.6));opacity:0}.drip:after{content:"";position:absolute;left:-1px;bottom:-4px;width:5px;height:5px;border-radius:50%;background:rgba(205,238,255,.75)}.d1{left:12%;top:40%;animation:drip 2.7s .2s infinite}.d2{left:32%;top:48%;animation:drip 3.1s 1.1s infinite}.d3{left:53%;top:47%;animation:drip 2.5s 1.8s infinite}.d4{left:75%;top:36%;animation:drip 3.4s .7s infinite}.d5{left:91%;top:25%;animation:drip 2.9s 2s infinite}
 @keyframes shimmer{0%{transform:translateX(-1%) scaleY(.96);opacity:.48}100%{transform:translateX(1.5%) scaleY(1.05);opacity:.78}}@keyframes mist{from{transform:translateX(-2%);opacity:.18}to{transform:translateX(4%);opacity:.3}}@keyframes drip{0%,66%{opacity:0;transform:translateY(0) scaleY(.5)}69%{opacity:.9}86%{opacity:.78;transform:translateY(34px) scaleY(1.2)}100%{opacity:0;transform:translateY(48px) scaleY(.8)}}@keyframes flickerA{0%,3%,6%,8%,53%,55%,100%{opacity:.95}4%,7%,54%{opacity:.25}57%{opacity:.6}}@keyframes flickerB{0%,62%,65%,68%,100%{opacity:.9}63%,67%{opacity:.2}69%{opacity:.55}}@keyframes flickerC{0%,74%,77%,100%{opacity:.55}75%{opacity:.1}78%{opacity:.4}}
 @media(max-width:980px){.topbar{grid-template-columns:1fr;height:66px}.brand-mini{padding-left:22px}.nav-wrap{display:none}.hero{grid-template-columns:1fr;min-height:auto}.left{min-height:58svh;padding:44px 24px 48px}.left:after{display:none}.right{height:58svh}.wordmark{width:min(430px,92vw)}.kanji-side,.kanji-big{display:none}.hat-drips{left:47%;top:22%;width:34%}}
@@ -93,8 +96,12 @@
 <section class="right" aria-label="Rain-soaked Neo-Tokyo street with a lone ronin">
 <img class="photo" src="hero-bg.jpg?v=4571c171" alt="A silhouetted ronin in a rain-soaked neon city street">
 <div class="neon-layer" aria-hidden="true">
-  <div class="neon-sign" data-neon="blue-japanese" data-effect="flicker" data-sx="81.95" data-sy="9.75" data-sw="3.15" data-sh="9.55" style="--nc:#52cfff;--nc-dark:#041421"><div class="neon-off-mask"></div><div class="neon-glow"></div></div>
-  <div class="neon-sign" data-neon="red-men" data-effect="full" data-sx="24.15" data-sy="33.35" data-sw="7.10" data-sh="4.35" style="--nc:#ff3a45;--nc-dark:#260508"><div class="neon-off-mask"></div><div class="neon-glow"></div></div>
+  <div class="neon-sign neon-sign--red" data-neon="red-ramen" data-sx="24.15" data-sy="33.35" data-sw="7.10" data-sh="4.35" style="--nc:#ff3a45">
+    <span class="neon-character" style="left:0%"><span class="neon-off-mask"></span><span class="neon-glow"></span></span>
+    <span class="neon-character" style="left:25%"><span class="neon-off-mask"></span><span class="neon-glow"></span></span>
+    <span class="neon-character" style="left:50%"><span class="neon-off-mask"></span><span class="neon-glow"></span></span>
+    <span class="neon-character" style="left:75%"><span class="neon-off-mask"></span><span class="neon-glow"></span></span>
+  </div>
 </div>
 
 <div class="hat-drips" aria-hidden="true"><i class="drip d1"></i><i class="drip d2"></i><i class="drip d3"></i><i class="drip d4"></i><i class="drip d5"></i></div>
@@ -171,29 +178,50 @@ requestAnimationFrame(frame)}resize();window.addEventListener('resize',resize);r
   document.addEventListener('visibilitychange',relayoutNeon);
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
   const random=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
-  async function flicker(el){
-    window.saikyoAmbient?.neon?.('flicker');
-    el.classList.add('is-flickering');
-    await wait(340);
-    el.classList.remove('is-flickering');
+  function pickCharacters(el,count){
+    const pool=[...el.querySelectorAll('.neon-character')],picked=[];
+    while(pool.length&&picked.length<count)picked.push(pool.splice(random(0,pool.length-1),1)[0]);
+    return picked;
   }
-  async function fullFailure(el){
+  async function characterFailure(el,count){
+    const targets=pickCharacters(el,count);
+    if(!targets.length)return;
     window.saikyoAmbient?.neon?.('flicker');
-    el.classList.add('is-flickering');await wait(300);el.classList.remove('is-flickering');
+    targets.forEach(char=>char.classList.add('is-flickering'));
+    await wait(340);
+    targets.forEach(char=>char.classList.remove('is-flickering'));
     window.saikyoAmbient?.neon?.('off');
-    el.classList.add('is-off');await wait(random(600,2000));
+    targets.forEach(char=>char.classList.add('is-off'));
+    await wait(random(500,1450));
     window.saikyoAmbient?.neon?.('ignite');
-    el.classList.remove('is-off');await wait(60);el.classList.add('is-off');await wait(80);
-    el.classList.remove('is-off');await wait(90);el.classList.add('is-off');await wait(45);el.classList.remove('is-off');
+    targets.forEach(char=>char.classList.remove('is-off'));
+  }
+  async function wholeFailure(el){
+    const targets=[...el.querySelectorAll('.neon-character')];
+    window.saikyoAmbient?.neon?.('flicker');
+    targets.forEach(char=>char.classList.add('is-flickering'));
+    await wait(320);
+    targets.forEach(char=>char.classList.remove('is-flickering'));
+    window.saikyoAmbient?.neon?.('off');
+    targets.forEach(char=>char.classList.add('is-off'));
+    await wait(random(750,1850));
+    window.saikyoAmbient?.neon?.('ignite');
+    targets.forEach(char=>char.classList.remove('is-off'));
+    await wait(90);
+    targets.forEach(char=>char.classList.add('is-off'));
+    await wait(70);
+    targets.forEach(char=>char.classList.remove('is-off'));
   }
   function schedule(el){
-    const effect=el.dataset.effect;
     let firstRun=true;
     const run=async()=>{
-      await wait(firstRun?(effect==='full'?random(4200,6500):random(1400,2800)):(effect==='full'?random(20000,45000):random(8000,20000)));
+      await wait(firstRun?random(2200,4200):random(9000,24000));
       firstRun=false;
       if(document.hidden)return run();
-      if(effect==='full')await fullFailure(el);else await flicker(el);
+      const roll=Math.random();
+      if(roll<.65)await characterFailure(el,1);
+      else if(roll<.90)await characterFailure(el,2);
+      else await wholeFailure(el);
       run();
     };
     run();
